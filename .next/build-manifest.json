@@ -29,10 +29,10 @@
       "static/chunks/main.js",
       "static/chunks/pages/_error.js"
     ],
-    "/workout": [
+    "/routine": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
-      "static/chunks/pages/workout.js"
+      "static/chunks/pages/routine.js"
     ]
   },
   "ampFirstPages": []

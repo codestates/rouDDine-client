@@ -1,18 +1,33 @@
 import React from 'react'
 import styled from 'styled-components'
 import WorkoutLists from '../components/WorkoutLists'
+import HeadInfo from '../components/HeadInfo'
+import Nav from '../components/Nav'
 
 
 const WorkoutContainer = styled.ul`
   margin: 10px;
-  padding : 10% 20%;
+  padding : 0 20%;
+`;
+
+const PageTitle = styled.h1`
+  text-align: center;
+  margin: 40px;
+`;
+
+const RoutineTitle = styled.h2`
+  text-align: center;
+  /* margin: 40px; */
 `;
 
 
 export default function workout() {
   return (
     <>
-    <h1>workout page</h1>
+    <HeadInfo/>
+    <Nav/>
+    <PageTitle>workout page</PageTitle>
+    <RoutineTitle>Routine Title</RoutineTitle>
     <WorkoutContainer>
       <WorkoutLists />
       <WorkoutLists />

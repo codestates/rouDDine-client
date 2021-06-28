@@ -1,18 +1,23 @@
-import Head from 'next/head'
-import Image from 'next/image'
-import styles from '../styles/Home.module.css'
 import styled from 'styled-components'
+import Link from 'next/link'
+import HeadInfo from '../components/HeadInfo'
+import Nav from '../components/Nav'
 
 const MainContainaer = styled.div`
-  margin: 5px;
-  height: 100px;
-  width: 100px;
-  background-color: black;
+  /* margin: 5px; */
+  height: 100%;
+  width: 100%;
+  /* background-color: black; */
 `;
 
 export default function Home() {
   return (
-    <MainContainaer>
-    </MainContainaer>
+    <>
+      <HeadInfo />
+      <MainContainaer>
+        <Nav/>
+        <div>아무것도 없지만 메인페이지입니다.</div>
+      </MainContainaer>
+    </>
   )
 }
