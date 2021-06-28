@@ -20,6 +20,13 @@ const RoutineTitle = styled.h2`
   /* margin: 40px; */
 `;
 
+const AddButton = styled.button`
+  background-color: black;
+  color: white;
+  font-size: large;
+  margin: 0 45%;
+  cursor: pointer;
+`;
 
 export default function workout() {
   return (
@@ -28,6 +35,7 @@ export default function workout() {
     <Nav/>
     <PageTitle>workout page</PageTitle>
     <RoutineTitle>Routine Title</RoutineTitle>
+    <AddButton>운동 추가</AddButton>
     <WorkoutContainer>
       <WorkoutLists />
       <WorkoutLists />
