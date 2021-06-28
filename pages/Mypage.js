@@ -1,5 +1,7 @@
 import styled from "styled-components";
 import Link from "next/link";
+import HeadInfo from '../components/HeadInfo'
+import Nav from '../components/Nav'
 
 let Body = styled.div`
   width: 100vw;
@@ -42,19 +44,23 @@ let Container = styled.div`
 
 export default function Mypage() {
   return (
-    <Body>
-      <Profile>프로필 사진</Profile>
-      <Container>
-        <div>이름</div>
-        <div>성별</div>
-        <div>나이</div>
-        <div>키 / 몸무게</div>
-        <div>
-          <Link href="/statistics">
-            <a>루틴 달성 횟수(통계자료?)</a>
-          </Link>
-        </div>
-      </Container>
-    </Body>
+    <>
+      <HeadInfo/>
+      <Nav/>
+      <Body>
+        <Profile>프로필 사진</Profile>
+        <Container>
+          <div>이름</div>
+          <div>성별</div>
+          <div>나이</div>
+          <div>키 / 몸무게</div>
+          <div>
+            <Link href="/statistics">
+              <a>루틴 달성 횟수(통계자료?)</a>
+            </Link>
+          </div>
+        </Container>
+      </Body>
+    </>
   );
 }

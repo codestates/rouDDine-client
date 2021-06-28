@@ -2,7 +2,10 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
+  "/Mypage": "pages/Mypage.js",
+  "/statistics": "pages/statistics.js",
+  "/next/dist/pages/_error": "pages/next/dist/pages/_error.js",
+  "/timerpage": "pages/timerpage.js",
   "/workout": "pages/workout.js",
-  "/add": "pages/add.js",
-  "/next/dist/pages/_error": "pages/next/dist/pages/_error.js"
+  "/": "pages/index.js"
 }

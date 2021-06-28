@@ -27,6 +27,18 @@ export default function Nav() {
       <Link href="/workout">
       <Linked>workoutPage로 이동</Linked>
       </Link>
+      <Link href="/add">
+      <Linked>addPage로 이동</Linked>
+      </Link>
+      <Link href="/Mypage">
+      <Linked>Mypage로 이동</Linked>
+      </Link>
+      <Link href="/timerpage">
+      <Linked>timer로 이동</Linked>
+      </Link>
+      <Link href="/statistics">
+      <Linked>statistics로 이동</Linked>
+      </Link>
     </NavContainer>
   )
 }

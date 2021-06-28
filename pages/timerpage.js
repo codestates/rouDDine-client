@@ -1,4 +1,6 @@
 import styled from "styled-components";
+import HeadInfo from '../components/HeadInfo'
+import Nav from '../components/Nav'
 
 let Body = styled.div`
   display: flex;
@@ -25,6 +27,9 @@ let Time = styled.div`
 
 export default function timerpage() {
   return (
+    <>
+    <HeadInfo/>
+    <Nav/>
     <Body>
       <Info>
         <div>루틴이름</div>
@@ -33,5 +38,6 @@ export default function timerpage() {
       </Info>
       <Time>00:00</Time>
     </Body>
+    </>
   );
 }
