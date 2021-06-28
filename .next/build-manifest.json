@@ -14,6 +14,16 @@
     "static/development/_ssgManifest.js"
   ],
   "pages": {
+    "/": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/chunks/pages/index.js"
+    ],
+    "/Mypage": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/chunks/pages/Mypage.js"
+    ],
     "/_app": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
@@ -24,15 +34,20 @@
       "static/chunks/main.js",
       "static/chunks/pages/_error.js"
     ],
-    "/add": [
-      "static/chunks/webpack.js",
-      "static/chunks/main.js",
-      "static/chunks/pages/add.js"
-    ],
     "/next/dist/pages/_error": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
       "static/chunks/pages/next/dist/pages/_error.js"
+    ],
+    "/statistics": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/chunks/pages/statistics.js"
+    ],
+    "/timerpage": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/chunks/pages/timerpage.js"
     ],
     "/workout": [
       "static/chunks/webpack.js",
