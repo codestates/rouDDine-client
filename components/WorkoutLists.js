@@ -2,6 +2,7 @@ import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import styled from 'styled-components'
+import data from '../data/data'
 
 const WorkoutList = styled.li`
   border: 1px solid red;
@@ -48,28 +49,32 @@ const WorkoutButton = styled.button`
 `;
 
 export default function WorkoutLists() {
+  // console.log(data.exercises)
+  const { exercise } = data;
   return (
     <WorkoutList>
-      <Link href="/">
-        <WorkoutItem>
-          <Image
-          src={'/'}
-          width={80}
-          height={80}
-          alt="아이콘"
-          />
-          <WorkoutTitle>
-          운동 이름
-          </WorkoutTitle>
-          <WorkoutTime>
-            시간
-          </WorkoutTime>
-          <ButtonContainer>
-            <WorkoutButton>삭제</WorkoutButton>
-            <WorkoutButton>드래그</WorkoutButton>
-          </ButtonContainer>
-        </WorkoutItem>
-      </Link>
+      {data.exercises.map((exercise) => (
+        <Link href="/">
+          <WorkoutItem>
+            <Image
+            src={`/`}
+            width={80}
+            height={80}
+            alt="아이콘"
+            />
+            <WorkoutTitle>
+            {exercise.name}
+            </WorkoutTitle>
+            <WorkoutTime>
+            {exercise.set * (exercise.set_time + exercise.rest) + `분`}
+            </WorkoutTime>
+            <ButtonContainer>
+              <WorkoutButton>삭제</WorkoutButton>
+              <WorkoutButton>드래그</WorkoutButton>
+            </ButtonContainer>
+          </WorkoutItem>
+        </Link>
+      ))}
     </WorkoutList>
   )
 }

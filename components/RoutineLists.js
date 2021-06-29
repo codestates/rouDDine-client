@@ -2,6 +2,7 @@ import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import styled from 'styled-components'
+import data from '../data/data'
 
 const RoutineList = styled.li`
   border: 1px solid red;
@@ -50,7 +51,8 @@ const RoutineButton = styled.button`
 export default function RoutineLists() {
   return (
     <RoutineList>
-      <Link href="/">
+      {data.routines.map((routine) => (
+        <Link key={routine.id} href="/">
         <RoutineItem>
           <Image
           src={'/'}
@@ -59,10 +61,10 @@ export default function RoutineLists() {
           alt="아이콘"
           />
           <RoutineTitle>
-          루틴 이름
+          {routine.routine_name}
           </RoutineTitle>
           <RoutineTime>
-            총 시간
+            {routine.time}분
           </RoutineTime>
           <ButtonContainer>
             <RoutineButton>삭제</RoutineButton>
@@ -70,6 +72,7 @@ export default function RoutineLists() {
           </ButtonContainer>
         </RoutineItem>
       </Link>
+          ))}
     </RoutineList>
   )
 }

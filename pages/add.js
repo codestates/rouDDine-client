@@ -35,6 +35,7 @@ export default function add() {
       <AddContainer>
         <AddInput placeholder="세트 수"></AddInput>
         <AddInput placeholder="운동 시간"></AddInput>
+        <AddInput placeholder="휴식 시간"></AddInput>
         <AddInput2 placeholder="피드백(메모)"></AddInput2>
       </AddContainer>
     </>
