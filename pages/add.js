@@ -26,6 +26,15 @@ const AddInput2 = styled.input`
   height: 150px;
 `;
 
+const AddButton = styled.button`
+  background-color: black;
+  color: white;
+  width: 80px;
+  font-size: 0.8rem;
+  margin: 0 45%;
+  cursor: pointer;
+`;
+
 export default function add() {
   return (
     <>
@@ -38,6 +47,7 @@ export default function add() {
         <AddInput placeholder="휴식 시간"></AddInput>
         <AddInput2 placeholder="피드백(메모)"></AddInput2>
       </AddContainer>
+      <AddButton>운동 추가</AddButton>    
     </>
     )
 }

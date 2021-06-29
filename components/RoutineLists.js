@@ -3,16 +3,17 @@ import Image from 'next/image'
 import Link from 'next/link'
 import styled from 'styled-components'
 import data from '../data/data'
+import icon from '../public/icon.jpg'
 
 const RoutineList = styled.li`
-  border: 1px solid red;
+  border: 3px outset black;
   display: flex;
   flex-direction: column;
 `;
 
 const RoutineItem = styled.a`
   padding: 0 20px;
-  border: 1px solid blue;
+  border: 2px solid black;
   list-style: none;
   margin: 20px;
   border-radius: 20px;
@@ -41,7 +42,6 @@ const ButtonContainer = styled.div`
   justify-content: space-evenly;
   vertical-align: middle;
   padding: 40px 0;
-  border: solid 1px green;
 `;
 
 const RoutineButton = styled.button`
@@ -49,13 +49,15 @@ const RoutineButton = styled.button`
 `;
 
 export default function RoutineLists() {
+
+
   return (
     <RoutineList>
       {data.routines.map((routine) => (
-        <Link key={routine.id} href="/">
+        <Link key={routine.id} href="/workout">
         <RoutineItem>
           <Image
-          src={'/'}
+          src={icon}
           width={80}
           height={80}
           alt="아이콘"

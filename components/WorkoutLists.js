@@ -1,80 +1,40 @@
 import React from 'react'
-import Image from 'next/image'
-import Link from 'next/link'
 import styled from 'styled-components'
-import data from '../data/data'
 
-const WorkoutList = styled.li`
-  border: 1px solid red;
-  display: flex;
-  flex-direction: column;
-`;
-
-const WorkoutItem = styled.a`
-  padding: 0 20px;
-  border: 1px solid blue;
-  list-style: none;
-  margin: 20px;
-  border-radius: 20px;
-  background-color: white;
-  font-size: 1rem;
-  padding: 20px;
-  vertical-align: middle;
+const WorkoutContainer = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: space-around;
+  justify-content: space-evenly;
 `;
 
-const WorkoutTitle = styled.h2`
-  /* margin-left: 20px; */
-  padding: 40px 0;
+const WorkoutName = styled.span`
+  
 `;
 
-const WorkoutTime = styled.h4`
-  /* margin-left: 20px; */
-  padding: 30px 0;
+const WorkoutTime = styled.span`
+
 `;
 
-const ButtonContainer = styled.div`
+const WorkoutButtonBox = styled.span`
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly;
-  vertical-align: middle;
-  padding: 40px 0;
-  border: solid 1px green;
+  flex-wrap: wrap;
 `;
 
 const WorkoutButton = styled.button`
-  flex: 1 1 auto;
+  font-size: 0.5rem;
 `;
 
-export default function WorkoutLists() {
-  // console.log(data.exercises)
-  const { exercise } = data;
+export default function WorkoutLists({item}) {
+  // const [name, set, set_time, rest] = item;
+  console.log(item)
   return (
-    <WorkoutList>
-      {data.exercises.map((exercise) => (
-        <Link href="/">
-          <WorkoutItem>
-            <Image
-            src={`/`}
-            width={80}
-            height={80}
-            alt="아이콘"
-            />
-            <WorkoutTitle>
-            {exercise.name}
-            </WorkoutTitle>
-            <WorkoutTime>
-            {exercise.set * (exercise.set_time + exercise.rest) + `분`}
-            </WorkoutTime>
-            <ButtonContainer>
-              <WorkoutButton>삭제</WorkoutButton>
-              <WorkoutButton>드래그</WorkoutButton>
-            </ButtonContainer>
-          </WorkoutItem>
-        </Link>
-      ))}
-    </WorkoutList>
+    <WorkoutContainer>
+      <WorkoutName>{item.name}</WorkoutName>
+      <WorkoutTime>{(item.set_time + item.rest) * item.set}</WorkoutTime>
+      <WorkoutButtonBox>
+        <WorkoutButton>삭제</WorkoutButton>
+      </WorkoutButtonBox>
+    </WorkoutContainer>
   )
 }
