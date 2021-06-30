@@ -24,15 +24,10 @@
       "static/chunks/main.js",
       "static/chunks/pages/_error.js"
     ],
-    "/routine": [
+    "/timerpage": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
-      "static/chunks/pages/routine.js"
-    ],
-    "/workout/[id]": [
-      "static/chunks/webpack.js",
-      "static/chunks/main.js",
-      "static/chunks/pages/workout/[id].js"
+      "static/chunks/pages/timerpage.js"
     ]
   },
   "ampFirstPages": []

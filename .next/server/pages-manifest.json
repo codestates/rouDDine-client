@@ -2,6 +2,5 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
-  "/workout/[id]": "pages/workout/[id].js",
-  "/routine": "pages/routine.js"
+  "/timerpage": "pages/timerpage.js"
 }

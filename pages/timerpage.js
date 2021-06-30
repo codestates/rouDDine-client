@@ -65,7 +65,6 @@ export default function timerpage() {
     setHours(0);
     setMinutes(9);
     setSeconds(0);
-    console.log("안녕하세요")
   }
 
   return (
