@@ -8,7 +8,6 @@ const AddContainer = styled.div`
   display: flex;
   flex-direction: column;
   margin: 0 20%;
-
 `;
 
 const AddTitle = styled.h1`
