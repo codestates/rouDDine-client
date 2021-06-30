@@ -1,7 +1,7 @@
-import styled from 'styled-components'
-import Link from 'next/link'
-import HeadInfo from '../components/HeadInfo'
-import Nav from '../components/Nav'
+import styled from "styled-components";
+import Link from "next/link";
+import HeadInfo from "../components/HeadInfo";
+import Nav from "../components/Nav";
 
 const MainContainaer = styled.div`
   /* margin: 5px; */
@@ -15,9 +15,9 @@ export default function Home() {
     <>
       <HeadInfo />
       <MainContainaer>
-        <Nav/>
+        <Nav />
         <div>아무것도 없지만 메인페이지입니다.</div>
       </MainContainaer>
     </>
-  )
+  );
 }
