@@ -24,7 +24,7 @@ export default function Nav() {
       <Link href="/routine">
         <Linked>RoutinePage로 이동</Linked>
       </Link>
-      <Link href="/workout">
+      <Link href="/workout/1">
         <Linked>workoutPage로 이동</Linked>
       </Link>
       <Link href="/add">

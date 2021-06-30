@@ -27,7 +27,7 @@ const WorkoutButton = styled.button`
 
 export default function WorkoutLists({item}) {
   // const [name, set, set_time, rest] = item;
-  console.log(item)
+  // console.log(item)
   return (
     <WorkoutContainer>
       <WorkoutName>{item.name}</WorkoutName>

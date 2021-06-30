@@ -54,7 +54,7 @@ export default function RoutineLists() {
   return (
     <RoutineList>
       {data.routines.map((routine) => (
-        <Link key={routine.id} href="/workout">
+        <Link key={routine.id} href={`/workout/${routine.id}`}>
         <RoutineItem>
           <Image
           src={icon}
