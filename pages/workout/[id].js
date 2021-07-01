@@ -2,13 +2,10 @@ import React, {useState, useEffect} from 'react'
 import styled from 'styled-components'
 import HeadInfo from '../../components/HeadInfo'
 import Nav from '../../components/Nav'
-import data from '../../data/data'
 import {resetServerContext, DragDropContext, Droppable, Draggable} from 'react-beautiful-dnd'
 import WorkoutLists from '../../components/WorkoutLists'
 import axios from 'axios'
-import localStorage from '../../utils/useLocalStorage'
-
-
+import { useDispatch, useSelector } from 'react-redux';
 
 resetServerContext();
 const grid = 8;
@@ -54,26 +51,24 @@ const WorkoutListContainer = styled.div`
 
 
 export default function Workout() {
-  
-  const [items, setItems] = localStorage("items", data.exercises)
-  const [routines, setRoutines] = localStorage("routines", data.routines)
-  const [curWorkout, setCurWorkout] = localStorage("curWorkout", null)
+  const login = useSelector(state => state.login);
 
-  useEffect(() => {
-    const getWorkout = () => {
-      const oneWorkout =
-      items &&
-      items
-      .filter((item) => item.routine_id === Number(routines.id))
-      .reduce((acc, cur) => {
-        Object.assign(acc, cur);
-        return acc;
-      }, {})
-      setCurWorkout(oneWorkout)
-      console.log(curWorkout)
-    };
-    getWorkout();
-  }, [items])
+  const [workouts, setWorkouts] = useState(null)
+
+  const getWorkout = async () => {
+    const url = `http://localhost:8000/exercise?userid=1`
+    await axios.get(url)
+    .then((res) => {
+      // console.log(res.data.result)
+      setWorkouts(res.data.result)
+      // setWorkouts(res.data.result)
+    })
+  }
+
+    useEffect(() => {
+      getWorkout()
+    }, [])
+    // console.log(workouts)
 
   return (
     <WorkoutContainer>
@@ -90,8 +85,8 @@ export default function Workout() {
             ref={provided.innerRef}
             style={getListStyle(snapshot.isDraggingOver)}
             >
-              {items.map((item, index) => (
-                <Draggable key={item.id} draggableId={item.id} index={index}>
+              {workouts && workouts.map((workout, index) => (
+                <Draggable key={workout.id} draggableId={workout.id.toString()} index={index}>
                   {(provided, snapshot) => (
                     <div
                     ref={provided.innerRef}
@@ -102,7 +97,7 @@ export default function Workout() {
                       provided.draggableProps.style
                       )}
                       >
-                      <WorkoutLists item={item}></WorkoutLists>
+                      <WorkoutLists workout={workout}></WorkoutLists>
                     </div>
                   )}
                 </Draggable>
