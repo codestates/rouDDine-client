@@ -23,4 +23,5 @@ const configureStore = (initialState, options) => {
 }
 
 
+
 export default withRedux(configureStore)(MyApp);
