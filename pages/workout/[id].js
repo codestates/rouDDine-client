@@ -8,8 +8,6 @@ import WorkoutLists from '../../components/WorkoutLists'
 import axios from 'axios'
 import useLocalStorage from '../../utils/useLocalStorage'
 
-
-
 resetServerContext();
 const grid = 8;
 

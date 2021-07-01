@@ -1,7 +1,9 @@
 import styled from 'styled-components'
-import HeadInfo from '../components/HeadInfo';
-import RoutineLists from '../components/RoutineLists'
-import Nav from '../components/Nav'
+import RoutineLists from '../../components/RoutineLists'
+import HeadInfo from '../../components/HeadInfo';
+import Nav from '../../components/Nav'
+import axios from 'axios';
+import {useState, useEffect} from 'react'
 
 const RoutineContainer = styled.ul`
   margin: 10px;
@@ -24,7 +26,28 @@ const AddButton = styled.button`
   margin: 0 45%;
   cursor: pointer;
 `;
+
 export default function Routine() {
+  const [routine, setRoutine] = useState(null)
+
+  const getRoutine = async () => {
+    const body = {
+      routine_name: "루틴1",
+      userid: "1",
+    }
+    const url = `http://localhost:8000/routine/`
+    await axios.get(url, body)
+    .then((res) => {
+      console.log(res)
+    })
+  }
+
+  console.log(routine)
+
+  useEffect(() => {
+    getRoutine()
+  }, [])
+
   return (
     <>
     <HeadInfo/>

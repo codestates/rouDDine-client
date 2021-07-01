@@ -1,6 +1,5 @@
 import '../styles/globals.css'
 import React from "react";
-import App from 'next/app'
 import withRedux from 'next-redux-wrapper';
 import { createStore, compose, applyMiddleware } from 'redux'
 import reducer from '../reducers'
@@ -25,14 +24,3 @@ const configureStore = (initialState, options) => {
 
 
 export default withRedux(configureStore)(MyApp);
-
-// class MyApp extends App {
-//   render() {
-//     const {Component, pageProps} = this.props
-//     return (
-//         <Component {...pageProps}></Component>      
-//     );        
-//   }
-// }
-
-// export default MyApp
