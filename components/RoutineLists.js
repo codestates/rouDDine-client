@@ -1,9 +1,9 @@
 import React from 'react'
 import Image from 'next/image'
-import Link from 'next/link'
 import styled from 'styled-components'
-import data from '../data/data'
 import icon from '../public/icon.jpg'
+import { useDispatch, useSelector } from 'react-redux';
+import axios from 'axios';
 
 const RoutineList = styled.li`
   border: 3px outset black;
@@ -48,33 +48,42 @@ const RoutineButton = styled.button`
   flex: 1 1 auto;
 `;
 
-export default function RoutineLists() {
+export default function RoutineLists({routine, getRoutine}) {
+  const login = useSelector(state => state.login);
+  const deleteRoutine = async (id) => {
+    const url = `http://localhost:8000/routine?userid=${login.id}&id=${id}`
+    await axios.delete(url)
+    .then((res)=> {
+      getRoutine();
+    })
+  }
 
+  console.log(login.id)
+  const getRoutineName = (e) => {
+    const id = e.target.id
+    // console.log(e.target.id)
+    deleteRoutine(id)
+  }
 
   return (
     <RoutineList>
-      {data.routines.map((routine) => (
-        <Link key={routine.id} href={`/workout/${routine.id}`}>
-        <RoutineItem>
-          <Image
-          src={icon}
-          width={80}
-          height={80}
-          alt="아이콘"
-          />
-          <RoutineTitle>
-          {routine.routine_name}
-          </RoutineTitle>
-          <RoutineTime>
-            {routine.time}분
-          </RoutineTime>
-          <ButtonContainer>
-            <RoutineButton>삭제</RoutineButton>
-            <RoutineButton>드래그</RoutineButton>
-          </ButtonContainer>
-        </RoutineItem>
-      </Link>
-          ))}
+      <RoutineItem>
+        <Image
+        src={icon}
+        width={80}
+        height={80}
+        alt="아이콘"
+        />
+        <RoutineTitle>
+          {routine.name}
+        </RoutineTitle>
+        <RoutineTime>
+          {routine.finished_time}분
+        </RoutineTime>
+        <ButtonContainer>
+          <RoutineButton id={routine.id} onClick={getRoutineName}>삭제</RoutineButton>
+        </ButtonContainer>
+      </RoutineItem>
     </RoutineList>
   )
 }
