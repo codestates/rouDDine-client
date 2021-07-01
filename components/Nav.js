@@ -19,25 +19,31 @@ export default function Nav() {
   return (
     <NavContainer>
       <Link href="/">
-        <Linked>Home로 이동</Linked>
+        <Linked>Home</Linked>
       </Link>
-      <Link href="/routine">
-        <Linked>RoutinePage로 이동</Linked>
+      <Link href="/routine/1">
+        <Linked>Routine</Linked>
       </Link>
       <Link href="/workout/1">
-        <Linked>workoutPage로 이동</Linked>
+        <Linked>workout</Linked>
       </Link>
       <Link href="/add">
-        <Linked>addPage로 이동</Linked>
+        <Linked>addPage</Linked>
       </Link>
       <Link href="/Mypage">
-        <Linked>Mypage로 이동</Linked>
+        <Linked>Mypage</Linked>
       </Link>
       <Link href="/timerpage">
-        <Linked>timer로 이동</Linked>
+        <Linked>timer</Linked>
       </Link>
       <Link href="/statistics">
-        <Linked>statistics로 이동</Linked>
+        <Linked>statistics</Linked>
+      </Link>
+      <Link href="/login">
+        <Linked>login</Linked>
+      </Link>
+      <Link href="/signup">
+        <Linked>signup</Linked>
       </Link>
     </NavContainer>
   )

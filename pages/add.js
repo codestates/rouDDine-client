@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
-import HeadInfo from '../components/HeadInfo';
 import RoutineLists from '../components/RoutineLists'
+import HeadInfo from '../components/HeadInfo';
 import Nav from '../components/Nav'
 
 const AddContainer = styled.div`

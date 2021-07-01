@@ -4,7 +4,7 @@ import Nav from '../components/Nav'
 import React, { useCallback } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { countPlusAction, countMinusAction } from '../reducers/count';
-import { toggleTrue, toggleFalse } from '../reducers/toggle'
+import { toggleModal } from '../reducers/toggle'
 
 const MainContainaer = styled.div`
   height: 100%;
@@ -29,7 +29,7 @@ export default function Home() {
 
   const onClickToggle = useCallback(() => { // useCallback은 최적화를 위한 hook이다 이 앱에선 굳이 사용 안 해도 되는데 습관이 들면 좋기에 사용.
     dispatch( 
-      toggle ? toggleFalse() : toggleTrue()
+      toggleModal()
     )}, []);
 
 
