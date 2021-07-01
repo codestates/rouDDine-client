@@ -6,7 +6,7 @@ import data from '../../data/data'
 import {resetServerContext, DragDropContext, Droppable, Draggable} from 'react-beautiful-dnd'
 import WorkoutLists from '../../components/WorkoutLists'
 import axios from 'axios'
-import localStorage from '../../utils/useLocalStorage'
+import useLocalStorage from '../../utils/useLocalStorage'
 
 
 
@@ -55,9 +55,9 @@ const WorkoutListContainer = styled.div`
 
 export default function Workout() {
   
-  const [items, setItems] = localStorage("items", data.exercises)
-  const [routines, setRoutines] = localStorage("routines", data.routines)
-  const [curWorkout, setCurWorkout] = localStorage("curWorkout", null)
+  const [items, setItems] = useState(data.exercises)
+  const [routines, setRoutines] = useState(data.routines)
+  const [curWorkout, setCurWorkout] = useState(null)
 
   useEffect(() => {
     const getWorkout = () => {
