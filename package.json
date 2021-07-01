@@ -25,14 +25,9 @@
     "react-redux": "^7.2.4",
     "redux": "^4.1.0",
     "redux-devtools-extension": "^2.13.9",
-<<<<<<< HEAD
-    "redux-thunk": "^2.3.0",
-    "styled-components": "^5.3.0"
-=======
     "redux-logger": "^3.0.6",
     "styled-components": "^5.3.0",
     "typesafe-actions": "^5.1.0"
->>>>>>> 3432a32f840845f293dd08c57be8dc732de2656d
   },
   "devDependencies": {
     "@types/react": "17.0.11",
