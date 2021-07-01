@@ -22,6 +22,7 @@ let Info = styled.div`
 `;
 
 let Time = styled.div`
+  font-family: "digital";
   align-self: center;
   font-size: 15rem;
   margin: 5%;
@@ -39,34 +40,42 @@ export default function timerpage() {
   // 내려받은 총합 시간? 을 useState에 세팅
   const [hours, setHours] = useLocalStorage("hours", 0);
   const [minutes, setMinutes] = useLocalStorage("minutes", 10);
-  const [seconds, setSeconds] = useLocalStorage("seconds", 0);
+  const [seconds, setSeconds] = useLocalStorage("seconds", 10);
   const [isRunning, setIsRunning] = useLocalStorage("isRunning", false);
 
   useEffect(() => {
     if (isRunning) {
       const timer = setInterval(() => {
-        if (seconds > 0) {
+        if (hours && hours > 0) {
+          if (minutes === 0 && seconds === 0) {
+            setHours(hours - 1);
+            setMinutes(59);
+            setSeconds(59);
+          }
+        }
+        if (seconds && seconds > 0) {
           setSeconds(seconds - 1);
         }
         if (seconds === 0) {
           if (minutes === 0) {
             clearInterval(timer);
           } else {
-            setMinutes(minutes - 1);
-            setSeconds(59);
+            if (minutes) {
+              setMinutes(minutes - 1);
+              setSeconds(59);
+            }
           }
         }
       }, 1000);
       return () => clearInterval(timer);
     }
-  }, [isRunning, minutes, seconds]);
+  }, [isRunning, hours, minutes, seconds]);
 
   function reset() {
     setHours(0);
-    setMinutes(9);
+    setMinutes(0);
     setSeconds(0);
   }
-
   return (
     <>
       <HeadInfo />
@@ -80,8 +89,8 @@ export default function timerpage() {
 
         <Time>
           {hours ? `${hours}:` : null}
-          {minutes < 10 ? `0${minutes}` : minutes}:
-          {seconds < 10 ? `0${seconds}` : seconds}
+          {minutes && minutes < 10 ? `0${minutes}` : minutes}
+          {seconds && seconds < 10 ? `0${seconds}` : seconds}
         </Time>
         <Button onClick={() => setIsRunning(!isRunning)}>
           {isRunning ? "정지" : "시작"}
