@@ -27,13 +27,13 @@ const SubTitle = styled.h3`
 `;
 
 export default function Routine() {
-  const login = useSelector(state => state.login);
-  const [routines, setRoutines] = useState(null)
+  const userId = useSelector(state => state.login.userId);
+  const [routines, setRoutines] = useState(null);
+  console.log(userId)
 
-  const getRoutine = async () => {
-    // const url = `http://localhost:8000/routine?userid=${login.id}`
-    const url = `http://localhost:8000/routine?userid=1`
-    console.log(url)
+  const getRoutine = async () => {    
+    const url = `http://localhost:8000/routine?userid=${userId}`
+    // console.log(url)
 
     await axios.get(url)
     .then((res) => {
@@ -46,13 +46,13 @@ export default function Routine() {
     const body = {
       share: "false",
       routine_name: `새 루틴`,
-      userid: "1",
+      userid: `${userId}`,
     }
     
     await axios.post(url, body)
     .then((res) => {
       getRoutine()
-      // console.log(res)
+      console.log('루틴을 추가합니다')
     })
   }
 
@@ -60,7 +60,7 @@ export default function Routine() {
 
   useEffect(() => {
     getRoutine()
-  }, [])
+  }, [userId])
 
   return (
     <>
@@ -71,7 +71,7 @@ export default function Routine() {
       <RoutineContainer>
         <button onClick={addRoutine}>루틴추가</button>
         {routines && routines.map((routine) => (
-          <RoutineLists key={routine.id} routine={routine} getRoutine={getRoutine}/>
+          <RoutineLists userId={userId} key={routine.id} routine={routine} getRoutine={getRoutine}/>
           ))}
       </RoutineContainer>
     </>

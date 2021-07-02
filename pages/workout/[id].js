@@ -51,23 +51,25 @@ const WorkoutListContainer = styled.div`
 
 
 export default function Workout() {
-  const login = useSelector(state => state.login);
-
+  const userId = useSelector(state => state.login.userId);
   const [workouts, setWorkouts] = useState(null)
-
+  // console.log(userId)
   const getWorkout = async () => {
-    const url = `http://localhost:8000/exercise?userid=1`
+    const url = `http://localhost:8000/exercise?userid=${userId}`
     await axios.get(url)
     .then((res) => {
-      // console.log(res.data.result)
+      // console.log(`${userId}`)
       setWorkouts(res.data.result)
       // setWorkouts(res.data.result)
     })
   }
+    useEffect(() => {
+      
+    }, [userId])
 
     useEffect(() => {
       getWorkout()
-    }, [])
+    }, [userId])
     // console.log(workouts)
 
   return (

@@ -8,11 +8,12 @@ import axios from 'axios';
 const RoutineList = styled.li`
   border: 3px outset black;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
 `;
 
 const RoutineItem = styled.a`
   padding: 0 20px;
+  flex: 3 0 auto;
   border: 2px solid black;
   list-style: none;
   margin: 20px;
@@ -44,30 +45,27 @@ const ButtonContainer = styled.div`
   padding: 40px 0;
 `;
 
-const RoutineButton = styled.button`
+const DeleteButton = styled.button`
   flex: 1 1 auto;
 `;
 
 export default function RoutineLists({routine, getRoutine}) {
-  const login = useSelector(state => state.login);
+  const userId = useSelector(state => state.login.userId);
+
   const deleteRoutine = async (id) => {
-    const url = `http://localhost:8000/routine?userid=${login.id}&id=${id}`
+    const url = `http://localhost:8000/routine?userid=${userId}&id=${id}`
     await axios.delete(url)
     .then((res)=> {
       getRoutine();
+      console.log(`${userId}의 루틴을 삭제했습니다`)
     })
   }
 
-  console.log(login.id)
-  const getRoutineName = (e) => {
-    const id = e.target.id
-    // console.log(e.target.id)
-    deleteRoutine(id)
-  }
+  console.log(userId)
 
   return (
     <RoutineList>
-      <RoutineItem>
+      <RoutineItem href={`/workout/${routine.id}`}>
         <Image
         src={icon}
         width={80}
@@ -80,10 +78,12 @@ export default function RoutineLists({routine, getRoutine}) {
         <RoutineTime>
           {routine.finished_time}분
         </RoutineTime>
-        <ButtonContainer>
-          <RoutineButton id={routine.id} onClick={getRoutineName}>삭제</RoutineButton>
-        </ButtonContainer>
       </RoutineItem>
+      <ButtonContainer>
+        <DeleteButton id={routine.id} 
+        onClick={(e)=>deleteRoutine(e.target.id)}
+        >삭제</DeleteButton>
+      </ButtonContainer>
     </RoutineList>
   )
 }
