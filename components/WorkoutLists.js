@@ -34,6 +34,7 @@ export default function WorkoutLists({workout}) {
         <WorkoutName>{workout.name}</WorkoutName>
         <WorkoutTime>{workout.finished_time}</WorkoutTime>
       </div>
+      <workoutCard/>
       <WorkoutButton>삭제</WorkoutButton>
     </WorkoutContainer>
   )

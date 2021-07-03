@@ -8,18 +8,25 @@ import React, { useCallback } from 'react'
 const NavContainer = styled.div`
   background-color: black;
   display: flex;
-  justify-content: column;
+  justify-content: start;
   width: 100%;
+  flex-wrap: wrap;
 `;
 
 const Linked = styled.a`
-  margin: 20px 10px;
+  margin: 25px 20px;
   color: white;
   cursor: pointer;
 `;
 
 const LoginContainer = styled.div`
   display: flex;
+  margin: 5px;
+  button {
+    margin: 5px;
+    cursor: pointer;
+  }
+
 `;
 
 
@@ -55,6 +62,7 @@ export default function Nav() {
 
 
   return (
+    <>
     <NavContainer>
       <Link href="/">
         <Linked>Home</Linked>
@@ -83,12 +91,13 @@ export default function Nav() {
       <Link href="/signup">
         <Linked>signup</Linked>
       </Link>
+    </NavContainer>
       <LoginContainer> 
         <button onClick={onClickLogin1}>유저1</button>
         <button onClick={onClickLogin2}>유저2</button>
         <button onClick={onClickLogin3}>유저3</button>
         <button onClick={onClickLogout}>로그아웃</button>
       </LoginContainer>
-    </NavContainer>
+      </>
   )
 }
