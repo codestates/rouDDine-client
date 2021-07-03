@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import Link from "next/link";
-import HeadInfo from '../components/HeadInfo'
-import Nav from '../components/Nav'
+import HeadInfo from "../components/HeadInfo";
+import Nav from "../components/Nav";
 
 let Body = styled.div`
   width: 100vw;
@@ -37,6 +37,7 @@ let Container = styled.div`
     :nth-child(5) {
       :hover {
         background-color: grey;
+        cursor: pointer;
       }
     }
   }
@@ -45,8 +46,8 @@ let Container = styled.div`
 export default function Mypage() {
   return (
     <>
-      <HeadInfo/>
-      <Nav/>
+      <HeadInfo />
+      <Nav />
       <Body>
         <Profile>프로필 사진</Profile>
         <Container>

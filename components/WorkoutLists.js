@@ -22,19 +22,20 @@ const WorkoutButtonBox = styled.span`
 `;
 
 const WorkoutButton = styled.button`
-  font-size: 0.5rem;
+  font-size: 0.8rem;
 `;
 
-export default function WorkoutLists({item}) {
-  // const [name, set, set_time, rest] = item;
-  console.log(item)
+export default function WorkoutLists({workout}) {
+  // const [name, set, set_time, rest] = workout;
+  // console.log(workout)
   return (
     <WorkoutContainer>
-      <WorkoutName>{item.name}</WorkoutName>
-      <WorkoutTime>{(item.set_time + item.rest) * item.set}</WorkoutTime>
-      <WorkoutButtonBox>
-        <WorkoutButton>삭제</WorkoutButton>
-      </WorkoutButtonBox>
+      <div>
+        <WorkoutName>{workout.name}</WorkoutName>
+        <WorkoutTime>{workout.finished_time}</WorkoutTime>
+      </div>
+      <workoutCard/>
+      <WorkoutButton>삭제</WorkoutButton>
     </WorkoutContainer>
   )
 }
