@@ -1,8 +1,8 @@
-import React, { useEffect } from "react";
-import styled from "styled-components";
-import HeadInfo from "../components/HeadInfo";
-import Nav from "../components/Nav";
-import useLocalStorage from "../utils/useLocalStorage";
+import React, { useEffect } from 'react';
+import styled from 'styled-components';
+import HeadInfo from '../components/HeadInfo';
+import Nav from '../components/Nav';
+import useLocalStorage from '../utils/useLocalStorage';
 
 let Body = styled.div`
   display: flex;
@@ -22,7 +22,7 @@ let Info = styled.div`
 `;
 
 let Time = styled.div`
-  font-family: "digital";
+  font-family: 'digital';
   align-self: center;
   font-size: 15rem;
   margin: 5%;
@@ -38,22 +38,22 @@ let Button = styled.div`
 
 export default function timerpage() {
   // 내려받은 총합 시간? 을 useState에 세팅
-  const [hours, setHours] = useLocalStorage("hours", 0);
-  const [minutes, setMinutes] = useLocalStorage("minutes", 10);
-  const [seconds, setSeconds] = useLocalStorage("seconds", 10);
-  const [isRunning, setIsRunning] = useLocalStorage("isRunning", false);
+  const [hours, setHours] = useLocalStorage('hours', 1);
+  const [minutes, setMinutes] = useLocalStorage('minutes', 1);
+  const [seconds, setSeconds] = useLocalStorage('seconds', 0);
+  const [isRunning, setIsRunning] = useLocalStorage('isRunning', false);
 
   useEffect(() => {
     if (isRunning) {
       const timer = setInterval(() => {
-        if (hours && hours > 0) {
+        if (hours > 0) {
           if (minutes === 0 && seconds === 0) {
             setHours(hours - 1);
             setMinutes(59);
             setSeconds(59);
           }
         }
-        if (seconds && seconds > 0) {
+        if (seconds > 0) {
           setSeconds(seconds - 1);
         }
         if (seconds === 0) {
@@ -89,11 +89,11 @@ export default function timerpage() {
 
         <Time>
           {hours ? `${hours}:` : null}
-          {minutes && minutes < 10 ? `0${minutes}` : minutes}
-          {seconds && seconds < 10 ? `0${seconds}` : seconds}
+          {minutes < 10 ? `0${minutes}` : minutes}:
+          {seconds < 10 ? `0${seconds}` : seconds}
         </Time>
         <Button onClick={() => setIsRunning(!isRunning)}>
-          {isRunning ? "정지" : "시작"}
+          {isRunning ? '정지' : '시작'}
         </Button>
         {!isRunning && <Button onClick={() => reset()}>재시작</Button>}
       </Body>
