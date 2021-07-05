@@ -1,12 +1,12 @@
 import styled from 'styled-components'
-import RoutineLists from '../../components/RoutineLists'
-import HeadInfo from '../../components/HeadInfo';
-import Nav from '../../components/Nav'
+import RoutineLists from '../../src/components/RoutineLists'
+import HeadInfo from '../../src/components/HeadInfo';
+import Nav from '../../src/components/Nav'
 import axios from 'axios';
 import {useState, useEffect} from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import initialData from '../workout/initData'
-import {getRoutineId} from '../../reducers/routine_id'
+import {getRoutineId} from '../../redux/reducers/routine_id'
 
 const RoutineContainer = styled.ul`
   margin: 10px;

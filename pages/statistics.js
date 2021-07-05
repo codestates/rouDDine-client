@@ -1,5 +1,7 @@
+
 import styled from 'styled-components';
 import Link from 'next/link';
+
 import HeadInfo from '../src/components/HeadInfo';
 import Nav from '../src/components/Nav';
 
