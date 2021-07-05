@@ -6,11 +6,12 @@ import Nav from '../../components/Nav'
 import {useSelector} from 'react-redux'
 import initialData from "./initData";
 import axios from 'axios'
+import { Container, Button, Link, lightColors, darkColors } from 'react-floating-action-button';
 
 
 resetServerContext();
 
-const Container = styled.div`
+const WorkoutContainer = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -119,7 +120,7 @@ function MultiColumn () {
     };
 
     setWorkouts(newState);
-  };
+   };
 
 
     return (
@@ -132,7 +133,7 @@ function MultiColumn () {
           type="column"
           >
           {(provided, snapshot) => (
-            <Container {...provided.droppableProps} ref={provided.innerRef}>
+            <WorkoutContainer {...provided.droppableProps} ref={provided.innerRef}>
               {workouts.columnOrder.map((columnId, index) => {
                 const column = workouts.columns[columnId];
                 const tasks = column.taskIds.map(
@@ -149,12 +150,26 @@ function MultiColumn () {
                     );
                   })}
               {provided.placeholder}
-            </Container>
+            </WorkoutContainer>
           )}
         </Droppable>
       </DragDropContext>
+      <Container>
+      <Link 
+        href="/add"
+        tooltip="나만의 운동 만들기!"
+        styles={{backgroundColor: darkColors.lightBlue, color: lightColors.white}}
+        >
+          +
+        </Link>
+        <Button
+          // tooltip="The big plus button!"
+          icon="fas fa-plus"
+          styles={{backgroundColor: darkColors.lightBlue, color: lightColors.white}}
+        >+</Button>
+      </Container>
           </>
     );
   }
-
+  
 export default MultiColumn;

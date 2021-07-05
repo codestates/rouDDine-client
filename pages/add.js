@@ -1,8 +1,10 @@
-import React from 'react'
+import React, {useState} from 'react'
 import styled from 'styled-components'
 import RoutineLists from '../components/RoutineLists'
 import HeadInfo from '../components/HeadInfo';
 import Nav from '../components/Nav'
+import axios from 'axios'
+import { useRouter } from 'next/router'
 
 const AddContainer = styled.div`
   display: flex;
@@ -30,11 +32,30 @@ const AddButton = styled.button`
   color: white;
   width: 80px;
   font-size: 0.8rem;
-  margin: 0 45%;
+  margin: 30px 45%;
   cursor: pointer;
 `;
 
 export default function add() {
+  const router = useRouter();
+  const [routine, setRoutine] = useState(null)
+
+  const addWorkout = async() => {
+    const url = `http://localhost:8000/exercise`
+    const body = {
+      userid : 1,
+      name: "추가된 workout",
+      set_time: 50,
+      rest_time : 20,
+      memo: "메모입니다" 
+    }
+    await axios.post(url, body)
+    .then((res) => {
+      console.log(res)
+    })
+  }
+
+
   return (
     <>
       <HeadInfo/>
@@ -46,7 +67,10 @@ export default function add() {
         <AddInput placeholder="휴식 시간"></AddInput>
         <AddInput2 placeholder="피드백(메모)"></AddInput2>
       </AddContainer>
-      <AddButton>운동 추가</AddButton>    
+      <AddButton 
+      onClick={addWorkout}
+      onClick={() => router.push(`/workout/${routine.id}`)}    
+      >운동 추가</AddButton>    
     </>
     )
 }

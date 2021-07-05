@@ -27,6 +27,8 @@ const TaskList = styled.div`
 `;
 
 class Column extends Component {
+
+  const 
   render() {
     // console.log(this.props);
     return (
@@ -39,13 +41,13 @@ class Column extends Component {
             <Droppable droppableId={this.props.column.id} type="task">
               {(provided, snapshot) => (
                 <TaskList
-                  {...provided.droppableProps}
-                  ref={provided.innerRef}
-                  isDraggingOver={snapshot.isDraggingOver}
+                {...provided.droppableProps}
+                ref={provided.innerRef}
+                isDraggingOver={snapshot.isDraggingOver}
                 >
                   {this.props.tasks.map((task, index) => (
                     <Task key={task.id} task={task} index={index} />
-                  ))}
+                    ))}
                   {provided.placeholder}
                 </TaskList>
               )}
