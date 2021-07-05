@@ -5,8 +5,9 @@ import {
   loginUser2Action,
   loginUser3Action,
   logoutAction,
-} from '../reducers/login';
+} from '../../redux/reducers/login';
 import { useDispatch, useSelector } from 'react-redux';
+import { useCallback } from 'react';
 
 const NavContainer = styled.div`
   background-color: black;
@@ -60,12 +61,6 @@ export default function Nav() {
     dispatch(logoutAction());
   }, []);
   // console.log(login.id)
-
-  const onClickLogout = () => {
-    // useCallback은 최적화를 위한 hook이다 이 앱에선 굳이 사용 안 해도 되는데 습관이 들면 좋기에 사용.
-    dispatch(logoutAction());
-  };
-  // console.log(login);
 
   return (
     <>

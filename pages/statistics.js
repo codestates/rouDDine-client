@@ -1,7 +1,7 @@
-import styled from "styled-components";
-import Link from "next/link";
-import HeadInfo from "../components/HeadInfo";
-import Nav from "../components/Nav";
+import styled from 'styled-components';
+import Link from 'next/link';
+import HeadInfo from '../src/components/HeadInfo';
+import Nav from '../src/components/Nav';
 
 export default function statistics() {
   return (
@@ -14,7 +14,7 @@ export default function statistics() {
           <div>통계자료</div>
         </Data>
         <Button>
-          <Link href="/Mypage">
+          <Link href='/Mypage'>
             <a>나가기</a>
           </Link>
         </Button>

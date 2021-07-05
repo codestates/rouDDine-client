@@ -1,8 +1,8 @@
-import React from 'react'
-import styled from 'styled-components'
-import RoutineLists from '../components/RoutineLists'
-import HeadInfo from '../components/HeadInfo';
-import Nav from '../components/Nav'
+import React from 'react';
+import styled from 'styled-components';
+import RoutineLists from '../src/components/RoutineLists';
+import HeadInfo from '../src/components/HeadInfo';
+import Nav from '../src/components/Nav';
 
 const AddContainer = styled.div`
   display: flex;
@@ -16,12 +16,12 @@ const AddTitle = styled.h1`
 
 const AddInput = styled.input`
   margin: 40px;
-  padding : 5px;
+  padding: 5px;
 `;
 
 const AddInput2 = styled.input`
   margin: 40px;
-  padding : 5px;
+  padding: 5px;
   height: 150px;
 `;
 
@@ -37,16 +37,16 @@ const AddButton = styled.button`
 export default function add() {
   return (
     <>
-      <HeadInfo/>
-      <Nav/>
+      <HeadInfo />
+      <Nav />
       <AddTitle>운동 이름</AddTitle>
       <AddContainer>
-        <AddInput placeholder="세트 수"></AddInput>
-        <AddInput placeholder="운동 시간"></AddInput>
-        <AddInput placeholder="휴식 시간"></AddInput>
-        <AddInput2 placeholder="피드백(메모)"></AddInput2>
+        <AddInput placeholder='세트 수'></AddInput>
+        <AddInput placeholder='운동 시간'></AddInput>
+        <AddInput placeholder='휴식 시간'></AddInput>
+        <AddInput2 placeholder='피드백(메모)'></AddInput2>
       </AddContainer>
-      <AddButton>운동 추가</AddButton>    
+      <AddButton>운동 추가</AddButton>
     </>
-    )
+  );
 }
