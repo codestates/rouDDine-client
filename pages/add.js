@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import RoutineLists from '../src/components/RoutineLists'
 import HeadInfo from '../src/components/HeadInfo';
 import Nav from '../src/components/Nav'
+
 import axios from 'axios'
 import { useRouter } from 'next/router'
 
