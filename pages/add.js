@@ -1,11 +1,12 @@
-import React, {useState} from 'react'
-import styled from 'styled-components'
-import RoutineLists from '../src/components/RoutineLists'
-import HeadInfo from '../src/components/HeadInfo';
-import Nav from '../src/components/Nav'
 
-import axios from 'axios'
-import { useRouter } from 'next/router'
+import React, { useState } from 'react';
+import styled from 'styled-components';
+import RoutineLists from '../src/components/RoutineLists';
+import HeadInfo from '../src/components/HeadInfo';
+import Nav from '../src/components/Nav';
+import axios from 'axios';
+import { useRouter } from 'next/router';
+
 
 const AddContainer = styled.div`
   display: flex;
@@ -19,12 +20,12 @@ const AddTitle = styled.h1`
 
 const AddInput = styled.input`
   margin: 40px;
-  padding : 5px;
+  padding: 5px;
 `;
 
 const AddInput2 = styled.input`
   margin: 40px;
-  padding : 5px;
+  padding: 5px;
   height: 150px;
 `;
 
@@ -39,39 +40,39 @@ const AddButton = styled.button`
 
 export default function add() {
   const router = useRouter();
-  const [routine, setRoutine] = useState(null)
+  const [routine, setRoutine] = useState(null);
 
-  const addWorkout = async() => {
-    const url = `http://localhost:8000/exercise`
+  const addWorkout = async () => {
+    const url = `http://localhost:8000/exercise`;
     const body = {
-      userid : 1,
-      name: "추가된 workout",
+      userid: 1,
+      name: '추가된 workout',
       set_time: 50,
-      rest_time : 20,
-      memo: "메모입니다" 
-    }
-    await axios.post(url, body)
-    .then((res) => {
-      console.log(res)
-    })
-  }
-
+      rest_time: 20,
+      memo: '메모입니다',
+    };
+    await axios.post(url, body).then((res) => {
+      console.log(res);
+    });
+  };
 
   return (
     <>
-      <HeadInfo/>
-      <Nav/>
+      <HeadInfo />
+      <Nav />
       <AddTitle>운동 이름</AddTitle>
       <AddContainer>
-        <AddInput placeholder="세트 수"></AddInput>
-        <AddInput placeholder="운동 시간"></AddInput>
-        <AddInput placeholder="휴식 시간"></AddInput>
-        <AddInput2 placeholder="피드백(메모)"></AddInput2>
+        <AddInput placeholder='세트 수'></AddInput>
+        <AddInput placeholder='운동 시간'></AddInput>
+        <AddInput placeholder='휴식 시간'></AddInput>
+        <AddInput2 placeholder='피드백(메모)'></AddInput2>
       </AddContainer>
-      <AddButton 
-      onClick={addWorkout}
-      onClick={() => router.push(`/workout/${routine.id}`)}    
-      >운동 추가</AddButton>    
+      <AddButton
+        onClick={addWorkout}
+        onClick={() => router.push(`/workout/${routine.id}`)}
+      >
+        운동 추가
+      </AddButton>
     </>
-    )
+  );
 }

@@ -1,3 +1,4 @@
+
 import React from 'react'
 import Image from 'next/image'
 import styled from 'styled-components'
@@ -5,6 +6,7 @@ import icon from '../../public/icon.jpg'
 import { useRouter } from 'next/router'
 import { useSelector, useDispatch, useCallback } from 'react-redux';
 import {useState, useEffect} from 'react'
+
 // import useLocalStorage from '../utils/useLocalStorage'
 
 import axios from 'axios';
@@ -54,47 +56,38 @@ const DeleteButton = styled.button`
   flex: 1 1 auto;
 `;
 
-export default function RoutineLists({routine, getRoutine}) {
-  const dispatch = useDispatch()
+export default function RoutineLists({ routine, getRoutine }) {
+  const dispatch = useDispatch();
   const router = useRouter();
-  const userId = useSelector(state => state.login.userId);
+  const userId = useSelector((state) => state.login.userId);
 
   const deleteRoutine = async (id) => {
-    const url = `http://localhost:8000/routine?routine_id=${id}`
-    await axios.delete(url)
-    .then((res)=> {
+    const url = `http://localhost:8000/routine?routine_id=${id}`;
+    await axios.delete(url).then((res) => {
       getRoutine();
-      console.log(`${userId}의 루틴을 삭제했습니다`)
-    })
-  }
-  
-return (
-  <RoutineList>
-    <RoutineItem    
-    id={routine.id}
-    onClick={() => router.push(`/workout/${routine.id}`)}
-    // onClick={(e) => getRoutineEvent(e)}
-    >
-      <Image
-        src={icon}
-        width={80}
-        height={80}
-        alt="아이콘"
-      />
-      <RoutineTitle>
-        {routine.name}
-      </RoutineTitle>
-      <RoutineTime>
-        {routine.finished_time}분
-      </RoutineTime>
-    </RoutineItem>
-    <ButtonContainer>
-      <DeleteButton 
-      id={routine.id} 
-      onClick={(e)=>deleteRoutine(e.target.id)}
-      >삭제</DeleteButton>
-    </ButtonContainer>
-  </RoutineList>
-  )
+      console.log(`${userId}의 루틴을 삭제했습니다`);
+    });
+  };
+
+  return (
+    <RoutineList>
+      <RoutineItem
+        id={routine.id}
+        onClick={() => router.push(`/workout/${routine.id}`)}
+        // onClick={(e) => getRoutineEvent(e)}
+      >
+        <Image src={icon} width={80} height={80} alt='아이콘' />
+        <RoutineTitle>{routine.name}</RoutineTitle>
+        <RoutineTime>{routine.finished_time}분</RoutineTime>
+      </RoutineItem>
+      <ButtonContainer>
+        <DeleteButton
+          id={routine.id}
+          onClick={(e) => deleteRoutine(e.target.id)}
+        >
+          삭제
+        </DeleteButton>
+      </ButtonContainer>
+    </RoutineList>
+  );
 }
-  

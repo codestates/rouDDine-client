@@ -7,7 +7,8 @@ import {
   logoutAction,
 } from '../../redux/reducers/login';
 import { useDispatch, useSelector } from 'react-redux';
-import { useCallback } from 'react'
+import { useCallback } from 'react';
+
 const NavContainer = styled.div`
   background-color: black;
   display: flex;
@@ -60,7 +61,7 @@ export default function Nav() {
     dispatch(logoutAction());
   }, []);
   // console.log(login.id)
-  // console.log(login);
+
 
   return (
     <>

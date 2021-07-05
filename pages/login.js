@@ -1,7 +1,8 @@
-import React from "react";
-import styled from "styled-components";
-import HeadInfo from "../src/components/HeadInfo";
-import Nav from "../src/components/Nav";
+import React from 'react';
+import styled from 'styled-components';
+import HeadInfo from '../src/components/HeadInfo';
+import Nav from '../src/components/Nav';
+
 
 const LoginContainer = styled.div`
   display: flex;
@@ -35,8 +36,8 @@ export default function login() {
       <HeadInfo />
       <Nav />
       <LoginContainer>
-        <LoginInput placeholder="email" />
-        <LoginInput placeholder="password" />
+        <LoginInput placeholder='email' />
+        <LoginInput placeholder='password' />
         <LoginButton>로그인</LoginButton>
       </LoginContainer>
     </>
