@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import HeadInfo from '../src/components/HeadInfo';
 import Nav from '../src/components/Nav';
-import useLocalStorage from '../utils/useLocalStorage';
+import useLocalStorage from '../util/useLocalStorage';
 
 let Body = styled.div`
   display: flex;
