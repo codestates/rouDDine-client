@@ -15,7 +15,7 @@ a {
   box-sizing: border-box;
 }
 
-/* @font-face {
-  font-family: "digital";
-  src: url("../src/fonts/DS-DIGIB.TTF");
-} */
+@font-face {
+  font-family: 'digital';
+  src: url('../src/font/DS-DIGIB.TTF');
+}
