@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
-import HeadInfo from "../components/HeadInfo";
-import Nav from "../components/Nav";
+import HeadInfo from "../src/components/HeadInfo";
+import Nav from "../src/components/Nav";
 
 const LoginContainer = styled.div`
   display: flex;

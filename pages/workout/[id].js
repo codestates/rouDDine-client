@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Column from "./Column";
 import { resetServerContext, DragDropContext, Droppable } from "react-beautiful-dnd";
 import styled from "styled-components";
-import Nav from '../../components/Nav'
+import Nav from '../../src/components/Nav'
 import {useSelector} from 'react-redux'
 import initialData from "./initData";
 import axios from 'axios'

@@ -1,11 +1,10 @@
 import React from 'react'
 import Image from 'next/image'
 import styled from 'styled-components'
-import icon from '../public/icon.jpg'
+import icon from '../../public/icon.jpg'
 import { useRouter } from 'next/router'
 import { useSelector, useDispatch, useCallback } from 'react-redux';
 import {useState, useEffect} from 'react'
-import {getRoutineId} from '../reducers/routine_id'
 // import useLocalStorage from '../utils/useLocalStorage'
 
 import axios from 'axios';
