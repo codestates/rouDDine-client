@@ -12,8 +12,8 @@ const MainContainaer = styled.div`
 
 export default function Home() {
   const dispatch = useDispatch(); // dispatch를 사용하기 쉽게 하는 hook
-  const count = useSelector(state => state.count); 
-  const toggle = useSelector(state => state.toggle); 
+  // const count = useSelector(state => state.count); 
+  // const toggle = useSelector(state => state.toggle); 
 
   // store의 state를 불러오는 hook   
   // store의 state 중에서 count의 state를 불러온다.

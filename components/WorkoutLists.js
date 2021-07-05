@@ -22,7 +22,7 @@ const WorkoutButtonBox = styled.span`
 `;
 
 const WorkoutButton = styled.button`
-  font-size: 0.5rem;
+  font-size: 0.8rem;
 `;
 
 export default function WorkoutLists({workout}) {
@@ -30,11 +30,12 @@ export default function WorkoutLists({workout}) {
   // console.log(workout)
   return (
     <WorkoutContainer>
-      <WorkoutName>{workout.name}</WorkoutName>
-      <WorkoutTime>{workout.finished_time}</WorkoutTime>
-      <WorkoutButtonBox>
-        <WorkoutButton>삭제</WorkoutButton>
-      </WorkoutButtonBox>
+      <div>
+        <WorkoutName>{workout.name}</WorkoutName>
+        <WorkoutTime>{workout.finished_time}</WorkoutTime>
+      </div>
+      <workoutCard/>
+      <WorkoutButton>삭제</WorkoutButton>
     </WorkoutContainer>
   )
 }

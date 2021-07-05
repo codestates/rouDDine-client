@@ -1,9 +1,10 @@
 import "../styles/globals.css";
 import React from "react";
-import withRedux from "next-redux-wrapper";
+import withRedux, { createWrapper } from "next-redux-wrapper";
 import { createStore, compose, applyMiddleware } from "redux";
 import reducer from "../reducers";
 import { composeWithDevTools } from "redux-devtools-extension";
+
 
 const MyApp = ({ Component, store }) => {
   return <Component></Component>;
@@ -18,5 +19,5 @@ const configureStore = (initialState, options) => {
   const store = createStore(reducer, initialState, enhancer);
   return store;
 };
-
+// const wrapper = createWrapper(makeStore);
 export default withRedux(configureStore)(MyApp);
