@@ -6,10 +6,19 @@ import Nav from '../../src/components/Nav'
 import {useSelector} from 'react-redux'
 import initialData from "./initData";
 import axios from 'axios'
+import {useRouter} from 'next/router'
+import link from 'next/link'
 import { Container, Button, Link, lightColors, darkColors } from 'react-floating-action-button';
 
 
 resetServerContext();
+
+const subLink = styled(link)`
+  cursor: pointer;
+  width: 80px;
+  height: 80px;
+  padding: 10px;
+`;
 
 const WorkoutContainer = styled.div`
   display: flex;
@@ -17,37 +26,25 @@ const WorkoutContainer = styled.div`
   justify-content: center;
   margin: 8px auto;
 `;
-// console.log(window.location.pathname.split('/'))
-
-
-// console.log(arrCurrentPath)
 
 function MultiColumn () {
-  const userId = useSelector(state => state.login.userId);
-  const routineId = useSelector(state => state.routine_id)
-  // console.log(currentRoutineId)
-  // console.log(routineId)
-  // console.log(userId)
-  
+  const userId = useSelector(state => state.id_reducer.userId);
+  const routineId = useSelector(state => state.id_reducer.curRoutineId)
   const [workouts, setWorkouts] = useState(initialData[0])
+  const router = useRouter()
+
 
   const getWorkout = async () => { 
-    const url = `http://localhost:8000/routine?userid=${userId}&routine_id=${currentRoutineId}`
+    const url = `http://localhost:8000/routine?userid=${userId}&routine_id=${routineId}`
     await axios.get(url)
     .then(res => {
       console.log(res.data)
       setWorkouts(res.data)
     })
   }
-  console.log(workouts)
-
-  let arrCurrentPath;
-  let currentRoutineId;
-  
+  // console.log(workouts)
   useEffect(() => {
-    arrCurrentPath = window.location.pathname.split('/')
-    currentRoutineId = arrCurrentPath[arrCurrentPath.length-1]
-    getWorkout()
+    window && getWorkout()
   }, [userId])
 
   const onDragEnd = result => {
@@ -142,6 +139,7 @@ function MultiColumn () {
                   //
                   return (
                     <Column
+                    getWorkout={getWorkout}
                     key={column.id}
                     column={column}
                     tasks={tasks}
@@ -155,18 +153,20 @@ function MultiColumn () {
         </Droppable>
       </DragDropContext>
       <Container>
-      <Link 
+      {/* <Link 
         href="/add"
-        tooltip="나만의 운동 만들기!"
         styles={{backgroundColor: darkColors.lightBlue, color: lightColors.white}}
         >
           +
-        </Link>
+        </Link> */}
         <Button
-          // tooltip="The big plus button!"
+          onClick={() => router.push(`/add`)}
+          tooltip="나만의 운동 만들기!"
           icon="fas fa-plus"
+          rotate={true}
           styles={{backgroundColor: darkColors.lightBlue, color: lightColors.white}}
-        >+</Button>
+        >
+          +</Button>
       </Container>
           </>
     );

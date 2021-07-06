@@ -1,14 +1,11 @@
-
-import React from 'react'
+import React, {useEffect} from 'react'
 import Image from 'next/image'
 import styled from 'styled-components'
 import icon from '../../public/icon.jpg'
 import { useRouter } from 'next/router'
-import { useSelector, useDispatch, useCallback } from 'react-redux';
-import {useState, useEffect} from 'react'
-
-// import useLocalStorage from '../utils/useLocalStorage'
-
+import { useSelector, useDispatch } from 'react-redux';
+import { getCurRoutine } from '../../redux/reducers/id_reducer'
+import useLocalStorage from '../../util/useLocalStorage'
 import axios from 'axios';
 
 const RoutineList = styled.li`
@@ -16,6 +13,7 @@ const RoutineList = styled.li`
   display: flex;
   flex-direction: row;
   cursor: pointer;
+  justify-content: space-between;
 `;
 
 const RoutineItem = styled.div`
@@ -32,6 +30,14 @@ const RoutineItem = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-around;
+`;
+
+const ItemContainer = styled.div`
+    display: flex;
+    flex-wrap: wrap;
+    flex-wrap: row;
+    justify-content: space-between;
+    flex : 1 0 auto;
 `;
 
 const RoutineTitle = styled.h2`
@@ -57,9 +63,12 @@ const DeleteButton = styled.button`
 `;
 
 export default function RoutineLists({ routine, getRoutine }) {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
   const router = useRouter();
-  const userId = useSelector((state) => state.login.userId);
+  const userId = useSelector((state) => state.id_reducer.userId);
+  console.log(userId)
+
+  const [routineId, setRoutineId] = useLocalStorage('routineId', null)
 
   const deleteRoutine = async (id) => {
     const url = `http://localhost:8000/routine?routine_id=${id}`;
@@ -69,16 +78,22 @@ export default function RoutineLists({ routine, getRoutine }) {
     });
   };
 
+  const routineIdHandler = () => {
+    dispatch(getCurRoutine(routine.id))
+    router.push(`/workout/${userId}`)
+  }
+
+
   return (
     <RoutineList>
       <RoutineItem
-        id={routine.id}
-        onClick={() => router.push(`/workout/${routine.id}`)}
-        // onClick={(e) => getRoutineEvent(e)}
-      >
-        <Image src={icon} width={80} height={80} alt='아이콘' />
-        <RoutineTitle>{routine.name}</RoutineTitle>
-        <RoutineTime>{routine.finished_time}분</RoutineTime>
+        onClick={routineIdHandler}
+        id={routine.id}>
+          <ItemContainer>
+          <Image src={icon} width={80} height={80} alt='아이콘' />
+          <RoutineTitle>{routine.name}</RoutineTitle>
+          <RoutineTime>{routine.finished_time}분</RoutineTime>
+          </ItemContainer>
       </RoutineItem>
       <ButtonContainer>
         <DeleteButton

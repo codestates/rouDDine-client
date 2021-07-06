@@ -5,7 +5,7 @@ import {
   loginUser2Action,
   loginUser3Action,
   logoutAction,
-} from '../../redux/reducers/login';
+} from '../../redux/reducers/id_reducer';
 import { useDispatch, useSelector } from 'react-redux';
 import { useCallback } from 'react';
 
@@ -45,13 +45,13 @@ export default function Nav() {
 
   const onClickLogin2 = useCallback(() => {
     // useCallback은 최적화를 위한 hook이다 이 앱에선 굳이 사용 안 해도 되는데 습관이 들면 좋기에 사용.
-    console.log(`유저2 로그인`);
+    console.log(`유저5 로그인`);
     dispatch(loginUser2Action());
   }, []);
 
   const onClickLogin3 = useCallback(() => {
     // useCallback은 최적화를 위한 hook이다 이 앱에선 굳이 사용 안 해도 되는데 습관이 들면 좋기에 사용.
-    console.log(`유저3 로그인`);
+    console.log(`유저6 로그인`);
     dispatch(loginUser3Action());
   }, []);
 
@@ -96,8 +96,8 @@ export default function Nav() {
       </NavContainer>
       <LoginContainer>
         <button onClick={onClickLogin1}>유저1</button>
-        <button onClick={onClickLogin2}>유저2</button>
-        <button onClick={onClickLogin3}>유저3</button>
+        <button onClick={onClickLogin2}>유저5</button>
+        <button onClick={onClickLogin3}>유저6</button>
         <button onClick={onClickLogout}>로그아웃</button>
       </LoginContainer>
     </>

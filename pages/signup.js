@@ -29,7 +29,7 @@ export default function SignUp() {
       }
       axios
         .post(
-          'http://localhost:3000/user',
+          'http://localhost:8000/user',
           { username, email, password } /*,{withCredentials:true}*/
         )
         .then((res) => router.push('/login'))
