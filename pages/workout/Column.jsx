@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, use } from "react";
 import styled from "styled-components";
 import Task from "./Task";
 // import Task from './Task';
@@ -26,27 +26,33 @@ const TaskList = styled.div`
   min-height: 100px;
 `;
 
-class Column extends Component {
 
-  const 
-  render() {
-    // console.log(this.props);
-    return (
-      <Draggable draggableId={this.props.column.id} index={this.props.index}>
+
+export default function Column({column, index, tasks, getWorkout}) {
+  // const [workouts, setWorkouts] = useState(tasks)
+  // console.log(workouts)
+  return (
+      <Draggable id={column.id} draggableId={column.id} index={index}>
         {(provided) => (
           <Container {...provided.draggableProps} ref={provided.innerRef}>
             <Title {...provided.dragHandleProps}>
-              {this.props.column.title}
+              {column.title}
             </Title>
-            <Droppable droppableId={this.props.column.id} type="task">
+            <Droppable droppableId={column.id} type="task">
               {(provided, snapshot) => (
                 <TaskList
+                id={column.id}
                 {...provided.droppableProps}
                 ref={provided.innerRef}
                 isDraggingOver={snapshot.isDraggingOver}
                 >
-                  {this.props.tasks.map((task, index) => (
-                    <Task key={task.id} task={task} index={index} />
+                  {tasks.map((task, index) => (
+                    <Task 
+                      getWorkout={getWorkout} 
+                      id={column.id} 
+                      key={task.id} 
+                      task={task} 
+                      index={index} />
                     ))}
                   {provided.placeholder}
                 </TaskList>
@@ -55,8 +61,46 @@ class Column extends Component {
           </Container>
         )}
       </Draggable>
-    );
-  }
+  )
 }
 
-export default Column;
+// class Column extends Component {
+//   render() {
+//     console.log(this.props.tasks)
+//     // console.log(this.props.getWorkout);
+//     // console.log(this.props);
+//     return (
+//       <Draggable id={this.props.column.id} draggableId={this.props.column.id} index={this.props.index}>
+//         {(provided) => (
+//           <Container {...provided.draggableProps} ref={provided.innerRef}>
+//             <Title {...provided.dragHandleProps}>
+//               {this.props.column.title}
+//             </Title>
+//             <Droppable droppableId={this.props.column.id} type="task">
+//               {(provided, snapshot) => (
+//                 <TaskList
+//                 id={this.props.column.id}
+//                 {...provided.droppableProps}
+//                 ref={provided.innerRef}
+//                 isDraggingOver={snapshot.isDraggingOver}
+//                 >
+//                   {this.props.tasks.map((task, index) => (
+//                     <Task 
+//                       getWorkout={this.props.getWorkout} 
+//                       id={this.props.column.id} 
+//                       key={task.id} 
+//                       task={task} 
+//                       index={index} />
+//                     ))}
+//                   {provided.placeholder}
+//                 </TaskList>
+//               )}
+//             </Droppable>
+//           </Container>
+//         )}
+//       </Draggable>
+//     );
+//   }
+// }
+
+// export default Column;
