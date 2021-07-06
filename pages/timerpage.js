@@ -1,8 +1,10 @@
 import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import HeadInfo from '../src/components/HeadInfo';
 import Nav from '../src/components/Nav';
-import useLocalStorage from '../util/useLocalStorage';
+import { routineStart, timerStart } from '../redux/reducers/timer';
+import axios from 'axios';
 
 let Body = styled.div`
   display: flex;
@@ -10,12 +12,13 @@ let Body = styled.div`
   height: 100vh;
   flex-direction: column;
   padding: 7%;
-  /* justify-content: space-between; */
+  /* border: 3px solid green; */
 `;
 
 let Info = styled.div`
   display: flex;
   justify-content: space-around;
+  /* border: 3px solid blue; */
   div {
     font-size: 3rem;
   }
@@ -26,6 +29,9 @@ let Time = styled.div`
   align-self: center;
   font-size: 15rem;
   margin: 5%;
+  width: 100%;
+  text-align: center;
+  /* border: 3px solid red; */
 `;
 
 let Button = styled.div`
@@ -37,32 +43,29 @@ let Button = styled.div`
 `;
 
 export default function timerpage() {
-  // 내려받은 총합 시간? 을 useState에 세팅
-  const [hours, setHours] = useLocalStorage('hours', 1);
-  const [minutes, setMinutes] = useLocalStorage('minutes', 1);
-  const [seconds, setSeconds] = useLocalStorage('seconds', 0);
-  const [isRunning, setIsRunning] = useLocalStorage('isRunning', false);
+  const dispatch = useDispatch();
+  const isRunning = useSelector((state) => state.timer.isRunning);
+  const hours = useSelector((state) => state.timer.hours);
+  const minutes = useSelector((state) => state.timer.minutes);
+  const seconds = useSelector((state) => state.timer.seconds);
 
   useEffect(() => {
     if (isRunning) {
       const timer = setInterval(() => {
         if (hours > 0) {
           if (minutes === 0 && seconds === 0) {
-            setHours(hours - 1);
-            setMinutes(59);
-            setSeconds(59);
+            dispatch(routineStart(59, 59, hours - 1));
           }
         }
         if (seconds > 0) {
-          setSeconds(seconds - 1);
+          dispatch(routineStart(seconds - 1, minutes, hours));
         }
         if (seconds === 0) {
           if (minutes === 0) {
             clearInterval(timer);
           } else {
-            if (minutes) {
-              setMinutes(minutes - 1);
-              setSeconds(59);
+            if (minutes > 0) {
+              dispatch(routineStart(59, minutes - 1, hours));
             }
           }
         }
@@ -72,9 +75,9 @@ export default function timerpage() {
   }, [isRunning, hours, minutes, seconds]);
 
   function reset() {
-    setHours(0);
-    setMinutes(0);
-    setSeconds(0);
+    console.log(seconds);
+    dispatch(routineStart(seconds, minutes, hours));
+    dispatch(timerStart());
   }
   return (
     <>
@@ -92,7 +95,7 @@ export default function timerpage() {
           {minutes < 10 ? `0${minutes}` : minutes}:
           {seconds < 10 ? `0${seconds}` : seconds}
         </Time>
-        <Button onClick={() => setIsRunning(!isRunning)}>
+        <Button onClick={() => dispatch(timerStart())}>
           {isRunning ? '정지' : '시작'}
         </Button>
         {!isRunning && <Button onClick={() => reset()}>재시작</Button>}

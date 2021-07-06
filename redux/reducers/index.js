@@ -4,7 +4,8 @@ import count from './count';
 import toggle from './toggle';
 import id_reducer from './id_reducer';
 import user_reducer from './user_reducer'
-
+import timer from './timer';
+//리듀서들을 import
 
 //리듀서들을 import
 const rootReducer = combineReducers({
@@ -22,6 +23,7 @@ const rootReducer = combineReducers({
   toggle,
   id_reducer,
   user_reducer,
+  timer,
 });
 
 export default rootReducer;
