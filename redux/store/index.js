@@ -11,7 +11,7 @@ const configureStore = () => {
 
   const store = createStore(rootReducer, enhancer);
   return store;
-};ㅌ
+};
 
 const wrapper = createWrapper(configureStore, { debug: true });
 
