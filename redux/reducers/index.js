@@ -3,6 +3,8 @@ import { HYDRATE } from 'next-redux-wrapper';
 import count from './count';
 import toggle from './toggle';
 import login from './login';
+import routine_id from './routine_id';
+import timer from './timer';
 //리듀서들을 import
 
 const rootReducer = combineReducers({
@@ -19,6 +21,8 @@ const rootReducer = combineReducers({
   count,
   toggle,
   login,
+  routine_id,
+  timer,
 });
 
 export default rootReducer;

@@ -13,9 +13,9 @@ export default function SignUp() {
 
   const OnChange = (e) => {
     const { value, name } = e.target;
+    //input값 저장
     setUserInfo({ ...userInfo, [name]: value });
   };
-  //input값 저장
 
   const OnClickSignUp = (userInfo) => {
     if (userInfo) {
@@ -27,12 +27,14 @@ export default function SignUp() {
       if (password !== pwdConfirm) {
         return setMsg('두 비밀번호가 일치하는지 확인하세요');
       }
+      // console.log(userInfo);
+      // console.log(username, email, password);
       axios
         .post(
           'http://localhost:3000/user',
           { username, email, password } /*,{withCredentials:true}*/
         )
-        .then((res) => router.push('/login'))
+        .then(() => router.push('/login'))
         .catch(() => setMsg('이미 존재하는 이메일입니다'));
     }
   };
@@ -105,3 +107,10 @@ const SignUpButton = styled.div`
     cursor: pointer;
   }
 `;
+
+export const getServerSideProps = (context) => {
+  console.log('CONTEXT@@@@@@@@', context);
+  return {
+    props: {},
+  };
+};

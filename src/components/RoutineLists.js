@@ -1,11 +1,11 @@
-
-import React from 'react'
-import Image from 'next/image'
-import styled from 'styled-components'
-import icon from '../../public/icon.jpg'
-import { useRouter } from 'next/router'
+import React from 'react';
+import Image from 'next/image';
+import styled from 'styled-components';
+import icon from '../../public/icon.jpg';
+import { useRouter } from 'next/router';
 import { useSelector, useDispatch, useCallback } from 'react-redux';
-import {useState, useEffect} from 'react'
+import { useState, useEffect } from 'react';
+import { getRoutineId } from '../../redux/reducers/routine_id';
 
 // import useLocalStorage from '../utils/useLocalStorage'
 
@@ -73,7 +73,10 @@ export default function RoutineLists({ routine, getRoutine }) {
     <RoutineList>
       <RoutineItem
         id={routine.id}
-        onClick={() => router.push(`/workout/${routine.id}`)}
+        onClick={() => {
+          dispatch(getRoutineId(routine.id));
+          router.push(`/workout/${routine.id}`);
+        }}
         // onClick={(e) => getRoutineEvent(e)}
       >
         <Image src={icon} width={80} height={80} alt='아이콘' />
