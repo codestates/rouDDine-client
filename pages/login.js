@@ -1,12 +1,11 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import HeadInfo from '../src/components/HeadInfo';
-import Nav from '../src/components/Nav';
 import GoogleLogin from 'react-google-login';
-import axios from "axios";
-import {useDispatch} from 'react-redux';
-import {loginUserAction} from '../redux/reducers/user_reducer'
-import useLocalStorage from '../util/useLocalStorage'
+import axios from 'axios';
+import { useDispatch } from 'react-redux';
+import { loginUserAction } from '../redux/reducers/user_reducer';
+
 
 const LoginContainer = styled.div`
   display: flex;
@@ -81,17 +80,16 @@ export default function login() {
       alert("오류나써요")
     }
   };
-  
   const googlelogin = (result) => {
-    console.log(result)
-  }
-  
+    console.log(result);
+  };
+
   // useEffect(() => {
-    //   dispatch(loginUserAction())
-    // })
-    const handlegoogleLogin = async (result) => {
-      try {
-        await axios
+  //   dispatch(loginUserAction())
+  // })
+  const handlegoogleLogin = async (result) => {
+    try {
+      await axios
         .post(
           `http://localhost:3000/login`,
           {
@@ -99,30 +97,25 @@ export default function login() {
             username: result.profileObj.name,
             social: 'google',
             socialid: result.profileObj.googleId,
-            profileimage: result.profileObj.imageUrl
+            profileimage: result.profileObj.imageUrl,
           },
           {
-            withCredentials: true
+            withCredentials: true,
           }
-          )
-          .then(res => {
-            console.log(res.data.userinfo)
-            if (res.status === 200) {
-              alert("로그인에 성공했습니다.");
-              setUser(res.data.userinfo)
-              // dispatch(loginUserAction(res.data.userinfo))
-              //handleClickClose();
-              //localStorage.setItem("tech_auth", res.data.result.access_token); //받은 토큰 localStorage에 저장
-              //localStorage.setItem("username", res.data.response.username); // 로그인한 유저 localStorage에 저장
-              window.location.reload(); //화면 재렌더링
-            }
-            else if(res.status === 201){
-              alert("회원가입에 성공했습니다.");
-              window.location.reload(); //화면 재렌더링
-            }
-          });
+        )
+        .then((res) => {
+          console.log(res.data.userinfo);
+          if (res.status === 200) {
+            alert('로그인에 성공했습니다.');
+            setUser(res.data.userinfo);
+            window.location.reload(); //화면 재렌더링
+          } else if (res.status === 201) {
+            alert('회원가입에 성공했습니다.');
+            window.location.reload(); //화면 재렌더링
+          }
+        });
     } catch {
-      alert("이메일 또는 비밀번호를 잘못 입력하셨습니다.\n 다시 시도해주세요");
+      alert('이메일 또는 비밀번호를 잘못 입력하셨습니다.\n 다시 시도해주세요');
     }
   };
   const handleClickClose = () => {
@@ -132,18 +125,16 @@ export default function login() {
   return (
     <>
       <HeadInfo />
-      <Nav />
       <LoginContainer>
         <LoginInput value={values.email} type="email" name="email" placeholder='email' onChange={inputHandler}/>
         <LoginInput type="password" name="password" placeholder='password' input type="password" onChange={inputHandler}/>
         <LoginButton onClick={loginHandler}>로그인</LoginButton>
         <GoogleLogin
-          clientId = {`982420892016-vr0bn99ieuuaoucnhc5e2qiarg50mh2e.apps.googleusercontent.com`}
-          
-          onSuccess={result => handlegoogleLogin(result)}
-          onFailure={result => console.log(result)}
-          cookiePolicy = 'single_host_origin'
-          />
+          clientId={`982420892016-vr0bn99ieuuaoucnhc5e2qiarg50mh2e.apps.googleusercontent.com`}
+          onSuccess={(result) => handlegoogleLogin(result)}
+          onFailure={(result) => console.log(result)}
+          cookiePolicy='single_host_origin'
+        />
       </LoginContainer>
     </>
   );

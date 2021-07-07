@@ -30,8 +30,8 @@ export default function SignUp() {
       if (password !== pwdConfirm) {
         return setMsg('두 비밀번호가 일치하는지 확인하세요');
       }
-      // console.log(userInfo);
-      // console.log(username, email, password);
+      console.log(userInfo);
+      console.log(username, email, password);
       axios
         .post(
           'http://localhost:3000/user',
@@ -45,7 +45,6 @@ export default function SignUp() {
   return (
     <>
       <HeadInfo />
-      <Nav />
       <SignUpContainer>
         <SignUpInput
           placeholder='name'
