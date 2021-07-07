@@ -52,7 +52,7 @@ export default function login() {
   
   const loginHandler = async () => {
     const {email, password} =values;
-    const url = 'http://localhost:8000/login'
+    const url = 'http://localhost:3000/login'
     const body = {
       email : email,
       password : password,
@@ -93,7 +93,7 @@ export default function login() {
       try {
         await axios
         .post(
-          `http://localhost:8000/login`,
+          `http://localhost:3000/login`,
           {
             email: result.profileObj.email,
             username: result.profileObj.name,
@@ -135,7 +135,7 @@ export default function login() {
       <Nav />
       <LoginContainer>
         <LoginInput value={values.email} type="email" name="email" placeholder='email' onChange={inputHandler}/>
-        <LoginInput type="password" name="password" placeholder='password' onChange={inputHandler}/>
+        <LoginInput type="password" name="password" placeholder='password' input type="password" onChange={inputHandler}/>
         <LoginButton onClick={loginHandler}>로그인</LoginButton>
         <GoogleLogin
           clientId = {`982420892016-vr0bn99ieuuaoucnhc5e2qiarg50mh2e.apps.googleusercontent.com`}
