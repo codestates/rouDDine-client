@@ -2,11 +2,10 @@ import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import HeadInfo from '../src/components/HeadInfo';
-import Nav from '../src/components/Nav';
 import axios from 'axios';
 import { useRouter } from 'next/router';
 import { route } from 'next/dist/next-server/server/router';
-import { getCurWorkout } from '../redux/reducers/id_reducer'
+import { getCurWorkout } from '../redux/reducers/id_reducer';
 
 const AddContainer = styled.div`
   display: flex;
@@ -41,8 +40,8 @@ const AddButton = styled.button`
 export default function add() {
   const router = useRouter();
   const [routine, setRoutine] = useState(null);
-  const routineId = useSelector(state => state.id_reducer.curRoutineId)
-  const userId = useSelector(state => state.id_reducer.userId);
+  const routineId = useSelector((state) => state.id_reducer.curRoutineId);
+  const userId = useSelector((state) => state.id_reducer.userId);
   const [workoutInfo, setWorkoutInfo] = useState({});
   // console.log(routineId.curRoutineId)
 
@@ -51,7 +50,7 @@ export default function add() {
     setWorkoutInfo({ ...workoutInfo, [name]: value });
   };
 
-  console.log(workoutInfo)
+  console.log(workoutInfo);
 
   const addWorkout = async () => {
     const url = `http://localhost:8000/exercise`;
@@ -64,44 +63,36 @@ export default function add() {
     };
     await axios.post(url, body).then((res) => {
       console.log(res);
-      router.push(`/workout/${routineId}`)
+      router.push(`/workout/${routineId}`);
     });
   };
 
   return (
     <>
       <HeadInfo />
-      <Nav />
       <AddContainer>
-      <AddInput 
-        placeholder='이름'
-        name='name'
-        onChange={(e)=> onChange(e)}
-        >
-        </AddInput>
-        <AddInput 
-        placeholder='운동 시간'
-        name='time'
-        onChange={(e)=> onChange(e)}
+        <AddInput
+          placeholder='이름'
+          name='name'
+          onChange={(e) => onChange(e)}
         ></AddInput>
-        <AddInput 
-        name='rest'
-        placeholder='휴식 시간'
-        onChange={(e)=> onChange(e)}
+        <AddInput
+          placeholder='운동 시간'
+          name='time'
+          onChange={(e) => onChange(e)}
         ></AddInput>
-        <AddInput2 
-        name='memo'
-        placeholder='피드백(메모)'
-        onChange={(e)=> onChange(e)}
+        <AddInput
+          name='rest'
+          placeholder='휴식 시간'
+          onChange={(e) => onChange(e)}
+        ></AddInput>
+        <AddInput2
+          name='memo'
+          placeholder='피드백(메모)'
+          onChange={(e) => onChange(e)}
         ></AddInput2>
       </AddContainer>
-      <AddButton
-        onClick={
-          addWorkout
-        }
-      >
-        운동 추가
-      </AddButton>
+      <AddButton onClick={addWorkout}>운동 추가</AddButton>
     </>
   );
 }

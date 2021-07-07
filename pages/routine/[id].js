@@ -30,37 +30,33 @@ const SubTitle = styled.h3`
 
 export default function Routine() {
   const userId = useSelector((state) => state.id_reducer.userId);
-  console.log(userId)
-  const [routines, setRoutines] = useState(null) 
+  console.log(userId);
+  const [routines, setRoutines] = useState(null);
 
   useEffect(() => {
-    getRoutine()
-  }, [userId])
+    getRoutine();
+  }, [userId]);
 
-  const getRoutine = async() => { 
-    const url = `http://localhost:8000/routine?userid=${userId}`
-    await axios.get(url)
-    .then(res => {
-      setRoutines(res.data.result)
-    })
-  }
+  const getRoutine = async () => {
+    const url = `http://localhost:8000/routine?userid=${userId}`;
+    await axios.get(url).then((res) => {
+      setRoutines(res.data.result);
+    });
+  };
 
   const addRoutine = async () => {
     const url = `http://localhost:8000/routine`;
     const body = {
-      userid : userId,
-      routine_name : "새 루틴",
-      share : "false",
-    }
-    await axios.post(url, body)
-    .then(res => {
-        console.log(res)
-        console.log(`유저${userId}의 루틴을 생성했습니다.`)
-        getRoutine()
-      })
-    }
-    
-
+      userid: userId,
+      routine_name: '새 루틴',
+      share: 'false',
+    };
+    await axios.post(url, body).then((res) => {
+      console.log(res);
+      console.log(`유저${userId}의 루틴을 생성했습니다.`);
+      getRoutine();
+    });
+  };
 
   return (
     <>

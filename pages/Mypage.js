@@ -1,7 +1,26 @@
 import styled from 'styled-components';
 import Link from 'next/link';
 import HeadInfo from '../src/components/HeadInfo';
-import Nav from '../src/components/Nav';
+
+export default function Mypage() {
+  return (
+    <>
+      <HeadInfo />
+      <Body>
+        <Profile>프로필 사진</Profile>
+        <Container>
+          <div>이름</div>
+          <div>성별</div>
+          <div>나이</div>
+          <div>키 / 몸무게</div>
+          <LinkDiv href='/statistics'>
+            <div>통계</div>
+          </LinkDiv>
+        </Container>
+      </Body>
+    </>
+  );
+}
 
 let Body = styled.div`
   width: 100vw;
@@ -46,24 +65,3 @@ let Container = styled.div`
 const LinkDiv = styled(Link)`
   border: 3px solid red;
 `;
-
-export default function Mypage() {
-  return (
-    <>
-      <HeadInfo />
-      <Nav />
-      <Body>
-        <Profile>프로필 사진</Profile>
-        <Container>
-          <div>이름</div>
-          <div>성별</div>
-          <div>나이</div>
-          <div>키 / 몸무게</div>
-          <LinkDiv href='/statistics'>
-            <div>통계</div>
-          </LinkDiv>
-        </Container>
-      </Body>
-    </>
-  );
-}
