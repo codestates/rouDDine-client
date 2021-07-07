@@ -6,6 +6,7 @@ import GoogleLogin from 'react-google-login';
 import axios from "axios";
 import {useDispatch} from 'react-redux';
 import {loginUserAction} from '../redux/reducers/user_reducer'
+import useLocalStorage from '../util/useLocalStorage'
 
 const LoginContainer = styled.div`
   display: flex;
@@ -38,8 +39,48 @@ export default function login() {
   const [user, setUser] = useState(null)
   console.log(user)
   dispatch(loginUserAction(user))
+  const [values, setValues] = useState({ email: "", password: "" });
+  const [isLogin, setIsLogin] = useLocalStorage("isLogin", false);
+  const [userInfo, setUserInfo] = useLocalStorage("userInfo", null)
+  const inputHandler = (e) => {
+    console.log(e.target.name)
+    console.log(e.target.value)
+    const {name, value} = e.target;
+    setValues({ ...values, [name]:value })
+  }
+  console.log(values)
   
-  
+  const loginHandler = async () => {
+    const {email, password} =values;
+    const url = 'http://localhost:8000/login'
+    const body = {
+      email : email,
+      password : password,
+      social : null //필수
+    }
+    try {
+      await axios.post(url, body)
+      .then((res) => {
+        const {data, userinfo, message} = res.data;
+        const token = data.accessToken
+        console.log(userinfo)
+        if(message) {
+          console.log(message)
+          setIsLogin(true)
+          setUserInfo(userinfo)
+          console.log(isLogin)
+          return;
+        }
+        console.log(token)
+        console.log(userInfo)
+        
+        handleSign(token, data, true);
+        // window.location.href=`http://localhost:4000/routine/1`
+      });
+    } catch (e) {
+      alert("오류나써요")
+    }
+  };
   
   const googlelogin = (result) => {
     console.log(result)
@@ -93,9 +134,9 @@ export default function login() {
       <HeadInfo />
       <Nav />
       <LoginContainer>
-        <LoginInput placeholder='email' />
-        <LoginInput placeholder='password' />
-        <LoginButton>로그인</LoginButton>
+        <LoginInput value={values.email} type="email" name="email" placeholder='email' onChange={inputHandler}/>
+        <LoginInput type="password" name="password" placeholder='password' onChange={inputHandler}/>
+        <LoginButton onClick={loginHandler}>로그인</LoginButton>
         <GoogleLogin
           clientId = {`982420892016-vr0bn99ieuuaoucnhc5e2qiarg50mh2e.apps.googleusercontent.com`}
           

@@ -41,12 +41,10 @@ const ItemContainer = styled.div`
 `;
 
 const RoutineTitle = styled.h2`
-  /* margin-left: 20px; */
   padding: 40px 0;
 `;
 
 const RoutineTime = styled.h4`
-  /* margin-left: 20px; */
   padding: 30px 0;
 `;
 
@@ -62,14 +60,12 @@ const DeleteButton = styled.button`
   flex: 1 1 auto;
 `;
 
-export default function RoutineLists({ routine, getRoutine }) {
+export default function RoutineLists({ routine, getRoutine, userId }) {
   const dispatch = useDispatch()
   const router = useRouter();
-  const userId = useSelector((state) => state.id_reducer.userId);
-  console.log(userId)
 
-  const [routineId, setRoutineId] = useLocalStorage('routineId', null)
-
+  const [routineInfo, setRoutineInfo] = useLocalStorage('routineInfo', null)
+  // const [routineName, setRoutineName] = useLocalStorage('routineName', null)
   const deleteRoutine = async (id) => {
     const url = `http://localhost:8000/routine?routine_id=${id}`;
     await axios.delete(url).then((res) => {
@@ -79,7 +75,7 @@ export default function RoutineLists({ routine, getRoutine }) {
   };
 
   const routineIdHandler = () => {
-    dispatch(getCurRoutine(routine.id))
+    setRoutineInfo(routine)
     router.push(`/workout/${userId}`)
   }
 

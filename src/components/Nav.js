@@ -61,8 +61,7 @@ export default function Nav() {
     dispatch(logoutAction());
   }, []);
   // console.log(login.id)
-
-
+  
   return (
     <>
       <NavContainer>
