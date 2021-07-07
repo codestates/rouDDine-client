@@ -1,6 +1,9 @@
 export const initialState = {
   userId: null,
-  curRoutineId: null,
+  curRoutine: { 
+    id: null,
+    name: null
+  },
   curWorkout: null,
 }; // 처음 state값으로 count 0을 주었다. state값은 객체, 배열로도 사용할 수 있다.
 
@@ -27,10 +30,10 @@ export const logoutAction = () => ({
   // 액션 생성 함수
   type: LOGOUT,
 });
-export const getCurRoutine = (id) => ({
+export const getCurRoutine = (id, name) => ({
   type: CUR_ROUTINE,
   payload: {
-      curRoutineId : id
+      curRoutine: {id: id, name: name}
   }
 })
 export const getCurWorkout = (id) => ({

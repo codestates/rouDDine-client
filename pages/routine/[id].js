@@ -7,6 +7,8 @@ import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import initialData from '../workout/initData';
 import { getRoutineId } from '../../redux/reducers/routine_id';
+import useLocalStorage from '../../util/useLocalStorage';
+import dynamic from 'next/dynamic'
 
 const RoutineContainer = styled.ul`
   margin: 10px;
@@ -28,35 +30,47 @@ const SubTitle = styled.h3`
   text-align: center;
 `;
 
+
 export default function Routine() {
-  const userId = useSelector((state) => state.id_reducer.userId);
-  console.log(userId);
-  const [routines, setRoutines] = useState(null);
+  const [routines, setRoutines] = useState(null) 
+  const [info, setInfo] = useLocalStorage('info', null)
+  // console.log(info)
 
   useEffect(() => {
-    getRoutine();
-  }, [userId]);
-
-  const getRoutine = async () => {
-    const url = `http://localhost:8000/routine?userid=${userId}`;
-    await axios.get(url).then((res) => {
-      setRoutines(res.data.result);
-    });
-  };
+    console.log(localStorage)
+    const userInfo = localStorage.getItem('userInfo')
+    console.log(JSON.parse(userInfo))
+    setInfo(JSON.parse(userInfo))
+  },[])
+  // alert('안녕하세요')
+  useEffect(() => {
+    getRoutine()
+  }, [])
+  
+  const getRoutine = async() => { 
+    const url = `http://localhost:8000/routine?userid=${info.id}`
+    await axios.get(url)
+    .then(res => {
+      setRoutines(res.data.result)
+    })
+  }
 
   const addRoutine = async () => {
     const url = `http://localhost:8000/routine`;
     const body = {
-      userid: userId,
-      routine_name: '새 루틴',
-      share: 'false',
-    };
-    await axios.post(url, body).then((res) => {
-      console.log(res);
-      console.log(`유저${userId}의 루틴을 생성했습니다.`);
-      getRoutine();
-    });
-  };
+      userid : info.id,
+      routine_name : "새 루틴",
+      share : "false",
+    }
+    await axios.post(url, body)
+    .then(res => {
+        console.log(res)
+        console.log(`유저${info.name}의 루틴을 생성했습니다.`)
+        getRoutine()
+      })
+    }
+    
+
 
   return (
     <>
@@ -69,13 +83,13 @@ export default function Routine() {
         {routines &&
           routines.map((routine) => (
             <RoutineLists
-              userId={userId}
-              routines={routines}
-              key={routine.id}
-              routine={routine}
-              getRoutine={getRoutine}
+            userId={info.id}
+            routines={routines}
+            key={routine.id}
+            routine={routine}
+            getRoutine={getRoutine}
             />
-          ))}
+            ))}
       </RoutineContainer>
     </>
   );

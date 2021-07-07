@@ -24,8 +24,8 @@ export default function SignUp() {
       if (!username || !email || !password || !pwdConfirm) {
         return setMsg('정보를 모두 입력하세요');
       }
-      if (!email.includes('@')) {
-        return setMsg('이메일 주소에 `@`가 있는지 확인해주세요');
+      if(!email.includes('@')){
+        return setMsg('이메일 주소에 `@`가 있는지 확인해주세요')
       }
       if (password !== pwdConfirm) {
         return setMsg('두 비밀번호가 일치하는지 확인하세요');
@@ -59,11 +59,13 @@ export default function SignUp() {
         <SignUpInput
           placeholder='password'
           name='password'
+          input type="password"
           onChange={(e) => OnChange(e)}
         />
         <SignUpInput
           placeholder='confirm password'
           name='pwdConfirm'
+          input type="password"
           onChange={(e) => OnChange(e)}
         />
         {msg ? <Message>{msg}</Message> : <div />}
