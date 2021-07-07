@@ -11,8 +11,7 @@ const MainContainaer = styled.div`
 `;
 
 export default function Home() {
-  const dispatch = useDispatch();
-
+  const dispatch = useDispatch();  
   const onClickToggle = useCallback(() => {
     dispatch(toggleModal());
   }, []);
