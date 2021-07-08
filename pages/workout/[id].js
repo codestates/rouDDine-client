@@ -1,160 +1,109 @@
-import React, { useState, useEffect } from "react";
-import Column from "./Column";
-import { resetServerContext, DragDropContext, Droppable } from "react-beautiful-dnd";
-import styled from "styled-components";
-import Nav from '../../components/Nav'
-import {useSelector} from 'react-redux'
-import initialData from "./initData";
-import axios from 'axios'
+import React, { useState, useEffect } from 'react';
+import Dnd from './Dnd.jsx'
+import styled from 'styled-components';
+import Nav from '../../src/components/Nav';
+import initialData from './initData';
+import axios from 'axios';
 
-
-resetServerContext();
-
-const Container = styled.div`
+const TitleContainer = styled.div`
   display: flex;
-  flex-direction: row;
   justify-content: center;
-  margin: 8px auto;
+  flex-direction: row;
 `;
-// console.log(window.location.pathname.split('/'))
+const RoutineTitle = styled.div`
+  font-size: 2rem;
+  text-align: center;
+`;
+const InputTitle = styled.input`
 
-
-// console.log(arrCurrentPath)
-
-function MultiColumn () {
-  const userId = useSelector(state => state.login.userId);
-  const routineId = useSelector(state => state.routine_id)
-  // console.log(currentRoutineId)
-  // console.log(routineId)
-  // console.log(userId)
+`;
+const TitleButton = styled.button`
   
-  const [workouts, setWorkouts] = useState(initialData[0])
+`;
+const SaveButton = styled.button`
+  
+`;
 
-  const getWorkout = async () => { 
-    const url = `http://localhost:8000/routine?userid=${userId}&routine_id=${currentRoutineId}`
-    await axios.get(url)
-    .then(res => {
-      console.log(res.data)
-      setWorkouts(res.data)
-    })
-  }
-  console.log(workouts)
+function Workout () {
+  const [routineId, setRoutineId] = useState(null)
 
-  let arrCurrentPath;
-  let currentRoutineId;
+  const [isClick, setIsClick] = useState(false)
+  const [title, setTitle] = useState(null)
+  console.log(routineId)
+  
+  const titleHandler = () => {
+    if (!isClick) {
+      setIsClick(true)
+    } else {
+      setIsClick(false)
+    }  
+  };  
+
+  const onChange = (e) => {
+    const { value } = e.target;
+    setTitle(value);
+    console.log(value)
+  };  
+
+  const saveHandler = () => {
+    updateWorkout();
+    titleHandler();
+  };  
   
   useEffect(() => {
-    arrCurrentPath = window.location.pathname.split('/')
-    currentRoutineId = arrCurrentPath[arrCurrentPath.length-1]
-    getWorkout()
-  }, [userId])
+    const routineInfo = JSON.parse(localStorage.getItem('routineInfo'))
+    setRoutineId(routineInfo.id)
+  })
 
-  const onDragEnd = result => {
-    document.body.style.color = "inherit";
-    document.body.style.backgroundColor = "inherit";
-    const { destination, source, draggableId, type } = result;
-    if (!destination) {
-      console.log("onDragEnd no destination");
-      return;
-    }
-    if (
-      destination.droppableId === source.droppableId &&
-      destination.index === source.index
-    ) {
-      console.log("onDragEnd not move");
-      return;
-    }
 
-    if (type === "column") {
-      const newColumnOrder = Array.from(workouts.columnOrder);
-      newColumnOrder.splice(source.index, 1);
-      newColumnOrder.splice(destination.index, 0, draggableId);
-
-      const newState = {
-        ...workouts,
-        columnOrder: newColumnOrder
-      };
-      setWorkouts(newState);
-      return;
-    }
-
-    const start = workouts.columns[source.droppableId];
-    const finish = workouts.columns[destination.droppableId];
-    
-    if (start === finish) {
-      const newTaskIds = Array.from(start.taskIds);
-      newTaskIds.splice(source.index, 1);
-      newTaskIds.splice(destination.index, 0, draggableId);
-      const newColumn = {
-        ...start,
-        taskIds: newTaskIds
-      };
-
-      const newState = {
-        ...workouts,
-        columns: {
-          ...workouts.columns,
-          [newColumn.id]: newColumn
-        }
-      };
-      setWorkouts(newState);
-      return;
-    }
-    //move to different column
-    const startTaskIds = Array.from(start.taskIds);
-    startTaskIds.splice(source.index, 1);
-    const newStart = { ...start, taskIds: startTaskIds };
-
-    const finishTaskIds = Array.from(finish.taskIds);
-    finishTaskIds.splice(destination.index, 0, draggableId);
-    const newFinish = { ...finish, taskIds: finishTaskIds };
-
-    const newState = {
-      ...workouts,
-      columns: {
-        ...workouts.columns,
-        [newStart.id]: newStart,
-        [newFinish.id]: newFinish
+  const updateWorkout = async () => {
+    const url = `http://localhost:8000/routine`
+    const body = {
+      routine_id: routineId,
+      routine_name: title,
+      // exercise_array: exArr
+    }  
+    console.log(exArr)
+    await axios.patch(url, body)
+    .then((res) => {
+      console.log(res)
+      getWorkout(userId, routineId) 
+    })  
+  }  
+  
+  return (
+    <>
+      <Nav></Nav>
+        {isClick? 
+        <TitleContainer>
+          <RoutineTitle>{title}</RoutineTitle>
+          <TitleButton onClick={titleHandler}>제목 수정</TitleButton>
+        </TitleContainer>
+        :
+        <TitleContainer>
+          <InputTitle placeholder="변경할 이름을 입력하세요" onChange={onChange}></InputTitle>
+          <SaveButton onClick={saveHandler}>저장</SaveButton>
+        </TitleContainer>
       }
-    };
+      <Dnd></Dnd>
+      {/* <Container> */}
+      {/* <Link 
+        href="/add"
+        styles={{backgroundColor: darkColors.lightBlue, color: lightColors.white}}
+        >
+          +
+        </Link> */}
+        {/* <Button
+          onClick={() => router.push(`/add`)}
+          tooltip="나만의 운동 만들기!"
+          icon="fas fa-plus"
+          rotate={true}
+          styles={{backgroundColor: darkColors.lightBlue, color: lightColors.white}}
+        >
+          +</Button>
+      </Container> */}
+    </>
+  );
+}
 
-    setWorkouts(newState);
-  };
-
-
-    return (
-      <>
-        <Nav></Nav>
-      <DragDropContext onDragEnd={onDragEnd}>
-        <Droppable
-          droppableId="all-columns"
-          direction="horizontal"
-          type="column"
-          >
-          {(provided, snapshot) => (
-            <Container {...provided.droppableProps} ref={provided.innerRef}>
-              {workouts.columnOrder.map((columnId, index) => {
-                const column = workouts.columns[columnId];
-                const tasks = column.taskIds.map(
-                  taskId => workouts.tasks[taskId]
-                  );
-                  //
-                  return (
-                    <Column
-                    key={column.id}
-                    column={column}
-                    tasks={tasks}
-                    index={index}
-                    />
-                    );
-                  })}
-              {provided.placeholder}
-            </Container>
-          )}
-        </Droppable>
-      </DragDropContext>
-          </>
-    );
-  }
-
-export default MultiColumn;
+export default Workout;

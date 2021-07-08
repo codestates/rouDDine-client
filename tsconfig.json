@@ -26,7 +26,8 @@
     "redux/reducers/reducer.js",
     "utils/useLocalStorage.tsxx",
     "utils/useLocalStorage.tsxx",
-    "utils/useLocalStorage.tsx"
+    "utils/useLocalStorage.tsx",
+    "pages/timerpage.js"
   ],
   "exclude": ["node_modules"]
 }

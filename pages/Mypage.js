@@ -1,7 +1,7 @@
-import styled from "styled-components";
-import Link from "next/link";
-import HeadInfo from "../components/HeadInfo";
-import Nav from "../components/Nav";
+import styled from 'styled-components';
+import Link from 'next/link';
+import HeadInfo from '../src/components/HeadInfo';
+import Nav from '../src/components/Nav';
 
 let Body = styled.div`
   width: 100vw;
@@ -43,6 +43,10 @@ let Container = styled.div`
   }
 `;
 
+const LinkDiv = styled(Link)`
+  border: 3px solid red;
+`;
+
 export default function Mypage() {
   return (
     <>
@@ -55,11 +59,9 @@ export default function Mypage() {
           <div>성별</div>
           <div>나이</div>
           <div>키 / 몸무게</div>
-          <div>
-            <Link href="/statistics">
-              <a>루틴 달성 횟수(통계자료?)</a>
-            </Link>
-          </div>
+          <LinkDiv href='/statistics'>
+            <div>통계</div>
+          </LinkDiv>
         </Container>
       </Body>
     </>

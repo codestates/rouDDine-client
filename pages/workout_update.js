@@ -1,12 +1,11 @@
-import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import HeadInfo from '../src/components/HeadInfo';
 import Nav from '../src/components/Nav';
 import axios from 'axios';
 import { useRouter } from 'next/router';
 import { route } from 'next/dist/next-server/server/router';
-import { getCurWorkout } from '../redux/reducers/id_reducer'
+import { useSelector, useDispatch } from 'react-redux';
 
 const AddContainer = styled.div`
   display: flex;
@@ -38,69 +37,96 @@ const AddButton = styled.button`
   cursor: pointer;
 `;
 
-export default function add() {
+export default function Update() {
   const router = useRouter();
-  const [routine, setRoutine] = useState(null);
   const routineId = useSelector(state => state.id_reducer.curRoutineId)
+  const workoutId = useSelector(state => state.id_reducer.curWorkoutId)
   const userId = useSelector(state => state.id_reducer.userId);
+  const [curWorkout, setCurWorkout] = useState(null)
   const [workoutInfo, setWorkoutInfo] = useState({});
-  // console.log(routineId.curRoutineId)
+
+
+  const getUserInfo = async() => {
+    const url = `http://localhost:8000/user?user_id=${userId}`
+  }
+
 
   const onChange = (e) => {
     const { value, name } = e.target;
     setWorkoutInfo({ ...workoutInfo, [name]: value });
   };
-
   console.log(workoutInfo)
+  useEffect(() => {
+    getCurWorkout()
+  }, [])
 
-  const addWorkout = async () => {
+  const getCurWorkout = async () => {
+    const url = `http://localhost:8000/exercise?userid=${userId}`
+    await axios.get(url)
+    .then((res) => {
+      // console.log(res)
+      const results = res.data.result;
+      const curWorkouts = results.filter((result) => (
+        result.id === workoutId
+        ))
+        setCurWorkout(curWorkouts[0])
+    })
+  }
+
+  const updateWorkout = async () => {
+    console.log('클릭')
     const url = `http://localhost:8000/exercise`;
     const body = {
-      userid: userId,
+      workoutid: workoutId,
       name: workoutInfo.name,
       set_time: workoutInfo.time,
       rest_time: workoutInfo.rest,
       memo: workoutInfo.memo,
     };
-    await axios.post(url, body).then((res) => {
+    await axios.patch(url, body)
+    .then((res) => {
       console.log(res);
       router.push(`/workout/${routineId}`)
     });
   };
-
+  // console.log(curWorkout.name)
   return (
     <>
       <HeadInfo />
       <Nav />
       <AddContainer>
+        {/* <div>{curWorkout.name}</div> */}
       <AddInput 
-        placeholder='이름'
+        placeholder={curWorkout && curWorkout.name}
         name='name'
         onChange={(e)=> onChange(e)}
         >
         </AddInput>
         <AddInput 
-        placeholder='운동 시간'
+        placeholder={curWorkout && curWorkout.set_time}
+        // placeholder='운동 시간'
         name='time'
         onChange={(e)=> onChange(e)}
         ></AddInput>
         <AddInput 
         name='rest'
-        placeholder='휴식 시간'
+        placeholder={curWorkout && curWorkout.rest_time}
+        // placeholder='휴식 시간'
         onChange={(e)=> onChange(e)}
         ></AddInput>
         <AddInput2 
         name='memo'
-        placeholder='피드백(메모)'
+        placeholder={curWorkout && curWorkout.memo}
+        // placeholder='피드백(메모)'
         onChange={(e)=> onChange(e)}
         ></AddInput2>
       </AddContainer>
       <AddButton
         onClick={
-          addWorkout
+          updateWorkout
         }
       >
-        운동 추가
+        운동 수정
       </AddButton>
     </>
   );

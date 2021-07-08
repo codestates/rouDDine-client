@@ -1,8 +1,8 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect } from 'react';
 
 function useLocalStorage(key, initialState) {
   const [state, setState] = useState(
-    typeof window !== "undefined"
+    typeof window !== 'undefined'
       ? () => JSON.parse(window.localStorage.getItem(key)) || initialState
       : null
   );

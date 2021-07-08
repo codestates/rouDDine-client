@@ -4,16 +4,37 @@ import { Draggable } from "react-beautiful-dnd";
 import axios from 'axios';
 import {useRouter} from 'next/router'
 import { useSelector, useDispatch } from 'react-redux';
-import { getCurWorkout } from "../../redux/reducers/id_reducer";
+// import { getCurWorkout } from "../../redux/reducers/id_reducer";
 
 const Container = styled.div`
   border: 1px solid lightgray;
-  border-radius: 2px;
-  padding: 8px;
-  margin-bottom: 8px;
-  background-color: ${(props) => (props.isDraggin ? "green" : "#f3f5f7")};
+  border-radius: 20px;
+  margin: 10px;
+  padding: 20px;
+  display: flex;
+  justify-content: space-around;
+  background-color: ${(props) => (props.isDragging ? "green" : "#f3f5f7")};
 `;
 
+
+const WorkoutContainer = styled.div`
+  
+`;
+
+const WorkoutInfoContainer = styled.div`
+
+`;
+
+const WorkoutInfo = styled.div`
+
+`;
+const WorkoutButtonContainer = styled.div`
+
+`;
+
+const WorkoutButton = styled.button`
+
+`;
 
 export default function Task({getWorkout, id, index, task,}) {
   const router = useRouter();
@@ -38,7 +59,7 @@ export default function Task({getWorkout, id, index, task,}) {
   const getWorkoutId2 = (e) => {
     const workoutId = e.target.parentElement.id;
     console.log(workoutId);
-    dispatch(getCurWorkout(workoutId))
+    // dispatch(getCurWorkout(workoutId))
     router.push(`/workout_update`)
   }
 
@@ -53,16 +74,20 @@ export default function Task({getWorkout, id, index, task,}) {
         {...provided.draggableProps}
         {...provided.dragHandleProps}
         ref={provided.innerRef}
-        isDraggin={snapshot.isDragging}
+        isDragging={snapshot.isDragging}
         id={task.id}
         >
-        <button onClick={getWorkoutId}>삭제</button>
-        <button onClick={getWorkoutId2}>수정</button>
-        <div>
-          <div>{task.name}</div>
-          <div>운동 시간{task.set_time}</div>
-          <div>쉬는 시간{task.rest_time}</div>
-        </div>
+        <WorkoutContainer>
+          <WorkoutInfoContainer>
+            <WorkoutInfo>{task.name}</WorkoutInfo>
+            <WorkoutInfo>운동 시간{task.set_time}</WorkoutInfo>
+            <WorkoutInfo>쉬는 시간{task.rest_time}</WorkoutInfo>
+          </WorkoutInfoContainer>
+          <WorkoutButtonContainer>
+            <WorkoutButton onClick={getWorkoutId}>삭제</WorkoutButton>
+            <WorkoutButton onClick={getWorkoutId2}>수정</WorkoutButton>
+          </WorkoutButtonContainer>
+        </WorkoutContainer>
       </Container>
     )}
   </Draggable>
