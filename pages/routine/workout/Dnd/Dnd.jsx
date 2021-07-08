@@ -8,7 +8,9 @@ import styled from 'styled-components';
 import initData from './initData';
 import Column from './Column';
 import axios from 'axios';
-
+import {useSelector, useDispatch} from 'react-redux'
+import { workoutDnd } from '../../../../redux/reducers/workout';
+import {currentWorkout} from '../../../../redux/reducers/workout'
 
 resetServerContext();
 
@@ -17,17 +19,23 @@ const WorkoutContainer = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
-  /* max-height: 30%; */
 `;
 
+export default function Dnd({curWorkouts}) {
+  const [workouts, setWorkouts] = useState(curWorkouts)
+  console.log(workouts)
+  const dispatch = useDispatch();
 
-export default function Dnd({workouts, setWorkouts, routineId, userId, getWorkout}) {
-  const [exArr, setExArr] = useState([])
+  useEffect(() => {
+    console.log('디앤디페이지@@@@@@@@@')
+    dispatch(currentWorkout(workouts))
+  }, [])
 
   // 여기부터 드래그앤 드롭
-  const onDragEnd = result => {
+  const onDragEnd = (result) => {
     document.body.style.color = "inherit";
     document.body.style.backgroundColor = "inherit";
+    console.log(result)
     const { destination, source, draggableId, type } = result;
     if (!destination) {
       console.log('onDragEnd no destination');
@@ -38,19 +46,6 @@ export default function Dnd({workouts, setWorkouts, routineId, userId, getWorkou
       destination.index === source.index
     ) {
       console.log('onDragEnd not move');
-      return;
-    }  
-
-    if (type === 'column') {
-      const newColumnOrder = Array.from(workouts.columnOrder);
-      newColumnOrder.splice(source.index, 1);
-      newColumnOrder.splice(destination.index, 0, draggableId);
-
-      const newState = {
-        ...workouts,
-        columnOrder: newColumnOrder,
-      };  
-      setWorkouts(newState);
       return;
     }  
 
@@ -72,8 +67,9 @@ export default function Dnd({workouts, setWorkouts, routineId, userId, getWorkou
           ...workouts.columns,
           [newColumn.id]: newColumn,
         },  
-      };  
-      setWorkouts(newState);
+      }; 
+      setWorkouts(newState)
+      // dispatch(workoutDnd(newState))
       return;
     }  
     //move to different column
@@ -93,27 +89,9 @@ export default function Dnd({workouts, setWorkouts, routineId, userId, getWorkou
         [newFinish.id]: newFinish,
       },  
     };  
-    
-    setWorkouts(newState);
-    setExArr(newState.columns['column-2'].taskIds)
-    updateWorkout(routineId, exArr)
+    setWorkouts(newState)
+    // dispatch(workoutDnd(newState))
   };  
-
-
-  const updateWorkout = async (routineId, exArr, userId) => {
-    const url = `http://localhost:8000/routine`
-    const body = {
-      routine_id: routineId,
-      exercise_array: exArr
-    }  
-    await axios.patch(url, body)
-    .then((res) => {
-      console.log(res)
-      // getWorkout(userId, routineId) 
-    })  
-  }  
-
-
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
@@ -152,17 +130,14 @@ export default function Dnd({workouts, setWorkouts, routineId, userId, getWorkou
 }
 
 
-// export async function getStaticProps() {
-//   const routineInfo = JSON.parse(localStorage.getItem('routineInfo'))
-//   const routineId = routineInfo.id
-//   const routineUserId = routineInfo.userid
-//   const url = `http://localhost:8000/routine?userid=${routineUserId}&routine_id=${routineId}`
+// export const getServerSideProps = async (context) => {
+//   const url = `http://localhost:8000/routine?userid=1&routine_id=1`
 //   const res = await axios.get(url)
-//   const data = res.data
-
+//   console.log(context.store)
+//   // context.store.dispatch(currentWorkout(res.data.data))
 //   return {
-//     props: {
-//       curWorkouts : data,
-//     },
-//   };
-// }
+//     props : {
+//       data: res.data,
+//     }
+//   }
+//   }

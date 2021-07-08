@@ -6,7 +6,7 @@ import Nav from '../src/components/Nav';
 import axios from 'axios';
 import { useRouter } from 'next/router';
 import { route } from 'next/dist/next-server/server/router';
-import { getCurWorkout } from '../redux/reducers/id_reducer'
+import workout from '../redux/reducers/workout'
 
 const AddContainer = styled.div`
   display: flex;
@@ -38,14 +38,13 @@ const AddButton = styled.button`
   cursor: pointer;
 `;
 
-export default function add() {
+export default function add(context) {
   const router = useRouter();
-  const [routine, setRoutine] = useState(null);
-  const routineId = useSelector(state => state.id_reducer.curRoutineId)
-  const userId = useSelector(state => state.id_reducer.userId);
-  const [workoutInfo, setWorkoutInfo] = useState({});
-  // console.log(routineId.curRoutineId)
-
+  const userId = 1;
+  const workouts = context.data;
+  // const workoutInfo = useSelector(state=> state.workout.data)
+  // console.log(workoutInfo);
+  const [workoutInfo, setWorkoutInfo] = useState({})
   const onChange = (e) => {
     const { value, name } = e.target;
     setWorkoutInfo({ ...workoutInfo, [name]: value });
@@ -53,7 +52,7 @@ export default function add() {
 
   console.log(workoutInfo)
 
-  const addWorkout = async () => {
+  const addWorkout = async (userId, workoutInfo) => {
     const url = `http://localhost:8000/exercise`;
     const body = {
       userid: userId,
@@ -62,10 +61,9 @@ export default function add() {
       rest_time: workoutInfo.rest,
       memo: workoutInfo.memo,
     };
-    await axios.post(url, body).then((res) => {
-      console.log(res);
-      router.push(`/workout/${routineId}`)
-    });
+    const res = await axios.post(url, body)
+    console.log(res)
+    router.push(`/routine/workout/1`)
   };
 
   return (
@@ -96,8 +94,8 @@ export default function add() {
         ></AddInput2>
       </AddContainer>
       <AddButton
-        onClick={
-          addWorkout
+        onClick={()=>
+          addWorkout(userId, workoutInfo)
         }
       >
         운동 추가
@@ -105,3 +103,16 @@ export default function add() {
     </>
   );
 }
+
+
+export const getServerSideProps = async (context) => {
+  const url = `http://localhost:8000/routine?userid=1&routine_id=1`
+  const res = await axios.get(url)
+  console.log(context.store)
+  return {
+    props : {
+      data: res.data,
+    }
+  }
+  }
+

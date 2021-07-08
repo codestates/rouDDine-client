@@ -4,6 +4,8 @@ import { Draggable } from "react-beautiful-dnd";
 import axios from 'axios';
 import {useRouter} from 'next/router'
 import { useSelector, useDispatch } from 'react-redux';
+import {currentWorkout} from '../../../../redux/reducers/workout'
+
 // import { getCurWorkout } from "../../redux/reducers/id_reducer";
 
 const Container = styled.div`
@@ -12,60 +14,65 @@ const Container = styled.div`
   margin: 10px;
   padding: 20px;
   display: flex;
-  justify-content: space-around;
+  flex-direction: column;
   background-color: ${(props) => (props.isDragging ? "green" : "#f3f5f7")};
 `;
 
 
 const WorkoutContainer = styled.div`
-  
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+
+`;
+
+const WorkoutTitle = styled.h2`
+  color: ${(props) => (props.isDelete ? "red": "black")};
 `;
 
 const WorkoutInfoContainer = styled.div`
-
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 `;
 
 const WorkoutInfo = styled.div`
-
+  /* margin: 20px; */
 `;
 const WorkoutButtonContainer = styled.div`
-
+    display: flex;
+  flex-direction: column;
+  justify-content: center;
 `;
 
 const WorkoutButton = styled.button`
 
+
 `;
 
-export default function Task({getWorkout, id, index, task,}) {
+export default function Task({index, task,}) {
   const router = useRouter();
+  const workouts = useSelector(state=>state.workout.data)
   const dispatch = useDispatch();
-  const [workouts, setWorkouts] = useState([task]);
-  // console.log(workouts);
+  // console.log(workouts)
   const deleteWorkout = async (workoutId) => {
     const url = `http://localhost:8000/exercise?id=${workoutId}`
-    await axios.delete(url)
-    .then((res) => {
-      getWorkout()
+    const res = await axios.delete(url)
       console.log(res);
-    })
-  }
+      dispatch(currentWorkout(workouts))
+      // window.location.reload
+    }
   
   const getWorkoutId = (e) => {
-    const workoutId = e.target.parentElement.id;
-    console.log(workoutId);
+    const workoutId = e.target.parentElement.parentElement.parentElement.id;
     deleteWorkout(workoutId)
   }
 
   const getWorkoutId2 = (e) => {
     const workoutId = e.target.parentElement.id;
     console.log(workoutId);
-    // dispatch(getCurWorkout(workoutId))
     router.push(`/workout_update`)
   }
-
-  useEffect(() => {
-    // getWorkout()
-  }, [])
 
   return (
     <Draggable draggableId={task.id} index={index}>
@@ -78,14 +85,19 @@ export default function Task({getWorkout, id, index, task,}) {
         id={task.id}
         >
         <WorkoutContainer>
+          <WorkoutTitle
+          >{task.name}</WorkoutTitle>
           <WorkoutInfoContainer>
-            <WorkoutInfo>{task.name}</WorkoutInfo>
-            <WorkoutInfo>운동 시간{task.set_time}</WorkoutInfo>
-            <WorkoutInfo>쉬는 시간{task.rest_time}</WorkoutInfo>
+            <WorkoutInfo>운동{task.set_time}</WorkoutInfo>
+            <WorkoutInfo>휴식{task.rest_time}</WorkoutInfo>
           </WorkoutInfoContainer>
           <WorkoutButtonContainer>
-            <WorkoutButton onClick={getWorkoutId}>삭제</WorkoutButton>
-            <WorkoutButton onClick={getWorkoutId2}>수정</WorkoutButton>
+            <WorkoutButton 
+            onClick={(e)=> getWorkoutId(e)}
+            >
+              삭제            
+            </WorkoutButton>
+            <WorkoutButton onClick={(e)=>getWorkoutId2(e)}>수정</WorkoutButton>
           </WorkoutButtonContainer>
         </WorkoutContainer>
       </Container>

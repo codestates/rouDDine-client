@@ -33,36 +33,34 @@ const TaskList = styled.div`
 `;
 
 
-export default function Column({column, index, tasks, getWorkout}) {
+export default function Column({column, index, tasks, getWorkout, routineId, userId}) {
   return (
-      <Draggable id={column.id} draggableId={column.id} index={index}>
-        {(provided) => (
-          <Container {...provided.draggableProps} ref={provided.innerRef}>
-            <Title {...provided.dragHandleProps}>
-              {column.title}
-            </Title>
-            <Droppable droppableId={column.id} type="task">
-              {(provided, snapshot) => (
-                <TaskList
-                id={column.id}
-                {...provided.droppableProps}
-                ref={provided.innerRef}
-                isDraggingOver={snapshot.isDraggingOver}
-                >
-                  {tasks.map((task, index) => (
-                    <Task 
-                      getWorkout={getWorkout} 
-                      id={column.id} 
-                      key={task.id} 
-                      task={task} 
-                      index={index} />
-                    ))}
-                  {provided.placeholder}
-                </TaskList>
-              )}
-            </Droppable>
-          </Container>
+    <Container>
+      <Title>
+        {column.title}
+      </Title>
+      <Droppable droppableId={column.id} type="task">
+        {(provided, snapshot) => (
+          <TaskList
+          id={column.id}
+          {...provided.droppableProps}
+          ref={provided.innerRef}
+          isDraggingOver={snapshot.isDraggingOver}
+          >
+            {tasks.map((task, index) => (
+              <Task 
+                getWorkout={getWorkout} 
+                id={column.id} 
+                routineId={routineId}
+                userId={userId}
+                key={task.id} 
+                task={task} 
+                index={index} />
+              ))}
+            {provided.placeholder}
+          </TaskList>
         )}
-      </Draggable>
+      </Droppable>
+    </Container>
   )
 }

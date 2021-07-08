@@ -4,9 +4,11 @@ import HeadInfo from '../../src/components/HeadInfo';
 import Nav from '../../src/components/Nav';
 import axios from 'axios';
 import { useState, useEffect } from 'react';
-import useLocalStorage from '../../util/useLocalStorage';
-import Workout from './workout/[id]'
-import initData from './workout/Dnd/initData'
+// import Workout from './workout/[id]'
+// import initData from '../workout/Dnd/initData'
+import nookies from 'nookies'
+import {currentRoutine} from '../../redux/reducers/routine'
+import { useDispatch, useSelector } from 'react-redux'
 
 const RoutineContainer = styled.ul`
   margin: 10px;
@@ -33,19 +35,15 @@ const SubTitle = styled.h3`
 
 
 export default function Routine() {
-  const [routines, setRoutines] = useState(null);
-  const [info, setInfo] = useLocalStorage('info', null);
+  const routines = useSelector(state => state.routine.result)
   const [isOpen, setIsOpen] =useState(false);
   const [routineId, setRoutineId] = useState(null);
-  const [workouts, setWorkouts] = useState(initData[0]);
+  const [workouts, setWorkouts] = useState(null);
   const [title, setTitle] = useState(null);
-  const userId = info.id
-
-  console.log(info);
-  console.log(title);
-  console.log(routines);
-  console.log(workouts);
-  console.log(routineId);
+  const dispatch = useDispatch();
+  // const userid = nookies.get();
+  const userId = 1
+  console.log(userId)
 
   const toggle = (e) => {
     setIsOpen(!isOpen)
@@ -53,64 +51,53 @@ export default function Routine() {
   }
 
   useEffect(() => {
-    const userInfo = localStorage.getItem('userInfo')
-    setInfo(JSON.parse(userInfo))
     getRoutine(userId)
-  },[])
+  },[]);
 
   const getRoutine = async(userId) => { 
     const url = `http://localhost:8000/routine?userid=${userId}`
-    await axios.get(url)
-    .then(res => {
-      setRoutines(res.data.result)
-    })
+    const res = await axios.get(url)
+    dispatch(currentRoutine(res.data.result))
+    // setRoutines(res.data.result)
+    console.log(res)
   }
 
-  const getWorkout = async(userId, routineId) => {
-    const url = `http://localhost:8000/routine?userid=${userId}&routine_id=${routineId}`
-    console.log(url);
-    await axios.get(url)
-    .then((res) => {
-      setWorkouts(res.data);
-      console.log(res.data);
-    })
-  }
-
-  const addRoutine = async () => {
+  const addRoutine = async (userId) => {
     const url = `http://localhost:8000/routine`;
     const body = {
-      userid : info.id,
+      userid : userId,
       routine_name : "새 루틴",
       share : "false",
     }
-    await axios.post(url, body)
-    .then(res => {
-        console.log(res)
-        console.log(`유저${info.name}의 루틴을 생성했습니다.`)
-        getRoutine(userId, routineId)
-      })
-    }
+    const res = await axios.post(url, body)
+    console.log(res);
+    await getRoutine(userId)
+  }
+
+    // useEffect(() => {
+    //   getRoutine(userId)
+    // }, [routines])
 
   return (
     <>
       <HeadInfo />
       <Nav />
-      <Workout 
+      {/* <Workout
+        getRoutine={getRoutine}
         title={title}
         setTitle={setTitle}
         routineId={routineId}
         userId={userId}
         toggle={toggle} 
         setWorkouts={setWorkouts}
-        getWorkout={getWorkout}
         workouts={workouts}
         isOpen={isOpen}
         routines={routines}
-        />
+        /> */}
       <PageTitle>Routine page</PageTitle>
       <SubTitle>오늘 걷지 않으면 내일은 뛰어야 된다</SubTitle>
       <RoutineContainer>
-        <AddButton onClick={addRoutine}>루틴추가</AddButton>
+        <AddButton onClick={()=>addRoutine(userId)}>루틴추가</AddButton>
         {routines &&
           routines.map((routine) => (
             <RoutineLists
@@ -124,9 +111,7 @@ export default function Routine() {
             routines={routines}
             routine={routine}
             routineId={routine.id}
-            getWorkout={getWorkout}
             getRoutine={getRoutine}
-            setRoutineId={setRoutineId}
             />
             ))}
       </RoutineContainer>
