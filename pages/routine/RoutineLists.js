@@ -3,7 +3,8 @@ import Image from 'next/image'
 import styled from 'styled-components'
 import icon from '../../public/icon.jpg'
 import axios from 'axios';
-import Workout from './workout/[id]'
+import router from 'next/router';
+// import Workout from '../api/workout/[id]'
 
 const RoutineList = styled.li`
   border: 3px outset black;
@@ -33,16 +34,18 @@ const ItemContainer = styled.div`
     display: flex;
     flex-wrap: wrap;
     flex-wrap: row;
-    justify-content: space-between;
+    justify-content: space-around;
     flex : 1 0 auto;
 `;
 
-const RoutineTitle = styled.h2`
+const RoutineTitle = styled.h1`
   padding: 40px 0;
 `;
 
-const RoutineTime = styled.h4`
-  padding: 30px 0;
+const RoutineTime = styled.h3`
+  text-align: center;
+  vertical-align: middle;
+  padding: 50px 0;
 `;
 
 const ButtonContainer = styled.div`
@@ -50,7 +53,7 @@ const ButtonContainer = styled.div`
   flex-direction: column;
   justify-content: space-evenly;
   vertical-align: middle;
-  padding: 40px 0;
+  padding: 50px 0;
 `;
 
 const DeleteButton = styled.button`
@@ -73,25 +76,24 @@ export default function RoutineLists({ routines, workouts, title, setTitle, rout
     });
   };
 
-  const routineIdHandler = (id) => {
-    setRoutineId(id)
-    getWorkout(userId, routineId)
-  }
-  console.log(routines);
+  // const routineIdHandler = (id) => {
+  //   // setRoutineId(id)
+  //   getWorkout(userId, routineId)
+  // }
+
   return (
     <>
         <RoutineList>
           <RoutineItem
-            onClick={(e)=>routineIdHandler(e.target.id)}      
-            onClick={(e) => {toggle(e)}}
+            // onClick={(e)=>routineIdHandler(e.target.id)}      
+            // onClick={(e) => {toggle(e)}}
+            onClick={()=>router.push(`/routine/workout/${userId}`)}
             id={routine.id}>
               <ItemContainer
                 id={routine.id}
-                onClick={(e)=>routineIdHandler(e.target.id)}>
-              <Image src={icon} width={80} height={80} alt='아이콘' />
-              {/* {routines.map(routine => ( */}
+                // onClick={(e)=>routineIdHandler(e.target.id)}
+                >
                 <RoutineTitle>{routine.name}</RoutineTitle>
-              {/* ))} */}
               <RoutineTime>{routine.finished_time}분</RoutineTime>
               </ItemContainer>
           </RoutineItem>
