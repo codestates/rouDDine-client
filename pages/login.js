@@ -38,7 +38,6 @@ export default function login() {
   const dispatch = useDispatch();
   const [user, setUser] = useState(null)
   console.log(user)
-  dispatch(loginUserAction(user))
   const [values, setValues] = useState({ email: "", password: "" });
   const [isLogin, setIsLogin] = useLocalStorage("isLogin", false);
   const [userInfo, setUserInfo] = useLocalStorage("userInfo", null)
@@ -64,18 +63,12 @@ export default function login() {
         const {data, userinfo, message} = res.data;
         const token = data.accessToken
         console.log(userinfo)
+        dispatch(loginUserAction(userinfo))
         if(message) {
-          console.log(message)
-          setIsLogin(true)
-          setUserInfo(userinfo)
-          console.log(isLogin)
           return;
         }
-        console.log(token)
-        console.log(userInfo)
-        
         handleSign(token, data, true);
-        // window.location.href=`http://localhost:4000/routine/1`
+        // router를 사용해서 라우팅
       });
     } catch (e) {
       alert("오류나써요")
@@ -85,10 +78,7 @@ export default function login() {
   const googlelogin = (result) => {
     console.log(result)
   }
-  
-  // useEffect(() => {
-    //   dispatch(loginUserAction())
-    // })
+
     const handlegoogleLogin = async (result) => {
       try {
         await axios
@@ -110,10 +100,6 @@ export default function login() {
             if (res.status === 200) {
               alert("로그인에 성공했습니다.");
               setUser(res.data.userinfo)
-              // dispatch(loginUserAction(res.data.userinfo))
-              //handleClickClose();
-              //localStorage.setItem("tech_auth", res.data.result.access_token); //받은 토큰 localStorage에 저장
-              //localStorage.setItem("username", res.data.response.username); // 로그인한 유저 localStorage에 저장
               window.location.reload(); //화면 재렌더링
             }
             else if(res.status === 201){
@@ -138,8 +124,7 @@ export default function login() {
         <LoginInput type="password" name="password" placeholder='password' onChange={inputHandler}/>
         <LoginButton onClick={loginHandler}>로그인</LoginButton>
         <GoogleLogin
-          clientId = {`982420892016-vr0bn99ieuuaoucnhc5e2qiarg50mh2e.apps.googleusercontent.com`}
-          
+          clientId = {`982420892016-vr0bn99ieuuaoucnhc5e2qiarg50mh2e.apps.googleusercontent.com`}         
           onSuccess={result => handlegoogleLogin(result)}
           onFailure={result => console.log(result)}
           cookiePolicy = 'single_host_origin'
