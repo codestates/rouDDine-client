@@ -3,6 +3,8 @@ import { HYDRATE } from 'next-redux-wrapper';
 import id_reducer from './id_reducer';
 import user_reducer from './user_reducer';
 import timer from './timer';
+import routine from './routine'
+import workout from './workout'
 //리듀서들을 import
 
 //리듀서들을 import
@@ -20,6 +22,8 @@ const rootReducer = combineReducers({
   id_reducer,
   user_reducer,
   timer,
+  routine,
+  workout,
 });
 
 export default rootReducer;

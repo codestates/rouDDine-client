@@ -1,261 +1,73 @@
 import React, { useState, useEffect } from 'react';
-import Column from './Column';
-import {useRouter} from 'next/router'
-import {
-  resetServerContext,
-  DragDropContext,
-  Droppable,
-} from 'react-beautiful-dnd';
 import styled from 'styled-components';
-import Nav from '../../src/components/Nav';
-import initialData from './initData';
 import axios from 'axios';
-// import {
-//   Container,
-//   Button,
-//   Link,
-//   lightColors,
-//   darkColors,
-// } from 'react-floating-action-button';
-import useLocalStorage from '../../util/useLocalStorage';
+import Dnd from './Dnd/Dnd';
+import router from 'next/router';
+import { useSelector, useDispatch } from 'react-redux';
+import { currentWorkout } from '../../redux/reducers/workout';
+import initData from './Dnd/initData';
+import cookies from 'next-cookies';
 
-
-resetServerContext();
-
-const WorkoutContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  margin: 8px auto;
-`;
-
-const TitleContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  flex-direction: row;
-`;
-const RoutineTitle = styled.div`
-  font-size: 2rem;
-  text-align: center;
-`;
-const InputTitle = styled.input`
-
-`;
-const TitleButton = styled.button`
-  
-`;
-const SaveButton = styled.button`
-  
-`;
-
-function MultiColumn () {
-  useEffect(() => {
-    const routineInfo = JSON.parse(localStorage.getItem('routineInfo'))
-    setRoutineId(routineInfo.id)
-    setRoutineUserId(routineInfo.userid)
-  }, [])  
-  
-  const [workouts, setWorkouts] = useState(initialData[0])
-  const [isClick, setIsClick] = useState(false)
-  const [exArr, setExArr] = useState([])
-  const router = useRouter()
-  const [routineId, setRoutineId] = useState(null)
-  const [routineUserId, setRoutineUserId] = useState(null)
-  const [title, setTitle] = useState(null)
-  console.log(routineId)
-  console.log(routineUserId)
-  
-  useEffect(() => {
-    getWorkout()
-  }, [routineId])  
+function Workout({ data }, context) {
+  console.log(data);
+  console.log(context);
+  const allCookies = cookies(context);
+  const token = allCookies.accessToken;
+  console.log(token);
+  const [workouts, setWorkouts] = useState(null);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    updateWorkout()
-  }, [exArr])
-  console.log(exArr)
-  
-  
-  
-  const titleHandler = () => {
-    if (!isClick) {
-      setIsClick(true)
-    } else {
-      setIsClick(false)
-    }  
-  };  
-  
-  const onChange = (e) => {
-    const { value } = e.target;
-    setTitle(value);
-    console.log(value)
-  };  
+    axios({
+      method: 'get',
+      url: `http://localhost:3000/routine?routine_id=1`, //동적으로 받기
+      withCredentials: true,
+    }).then((res) => setWorkouts(res.data));
+  }, []);
 
-  const saveHandler = () => {
-    updateWorkout();
-    titleHandler();
-  };  
+  console.log('워크아웃!!!!!!!!!!!!', workouts);
 
-  const updateWorkout = async () => {
-    const url = `http://localhost:8000/routine`
-    const body = {
-      routine_id: routineId,
-      routine_name: title,
-      exercise_array: exArr
-    }  
-    console.log(exArr)
-    await axios.patch(url, body)
-    .then((res) => {
-      console.log(res)
-    })  
-  }  
-  
-
-  const getWorkout = async () => { 
-    const url = `http://localhost:8000/routine?userid=${routineUserId}&routine_id=${routineId}`
-    await axios.get(url)
-    .then(res => {
-      setWorkouts(res.data)
-    })  
-  }  
-  // console.log(workouts)
-  
-  // 여기부터 드래그앤 드롭
-  const onDragEnd = result => {
-    document.body.style.color = "inherit";
-    document.body.style.backgroundColor = "inherit";
-    const { destination, source, draggableId, type } = result;
-    if (!destination) {
-      console.log('onDragEnd no destination');
-      return;
-    }  
-    if (
-      destination.droppableId === source.droppableId &&
-      destination.index === source.index
-    ) {
-      console.log('onDragEnd not move');
-      return;
-    }  
-
-    if (type === 'column') {
-      const newColumnOrder = Array.from(workouts.columnOrder);
-      newColumnOrder.splice(source.index, 1);
-      newColumnOrder.splice(destination.index, 0, draggableId);
-
-      const newState = {
-        ...workouts,
-        columnOrder: newColumnOrder,
-      };  
-      setWorkouts(newState);
-      return;
-    }  
-
-    const start = workouts.columns[source.droppableId];
-    const finish = workouts.columns[destination.droppableId];
-
-    if (start === finish) {
-      const newTaskIds = Array.from(start.taskIds);
-      newTaskIds.splice(source.index, 1);
-      newTaskIds.splice(destination.index, 0, draggableId);
-      const newColumn = {
-        ...start,
-        taskIds: newTaskIds,
-      };  
-
-      const newState = {
-        ...workouts,
-        columns: {
-          ...workouts.columns,
-          [newColumn.id]: newColumn,
-        },  
-      };  
-      setWorkouts(newState);
-      return;
-    }  
-    //move to different column
-    const startTaskIds = Array.from(start.taskIds);
-    startTaskIds.splice(source.index, 1);
-    const newStart = { ...start, taskIds: startTaskIds };
-
-    const finishTaskIds = Array.from(finish.taskIds);
-    finishTaskIds.splice(destination.index, 0, draggableId);
-    const newFinish = { ...finish, taskIds: finishTaskIds };
-
-    const newState = {
-      ...workouts,
-      columns: {
-        ...workouts.columns,
-        [newStart.id]: newStart,
-        [newFinish.id]: newFinish,
-      },  
-    };  
-    
-    setWorkouts(newState);
-    setExArr(newState.columns['column-2'].taskIds)
-  };  
   return (
     <>
-      <Nav></Nav>
-        {isClick? 
-        <TitleContainer>
-          <RoutineTitle>{title}</RoutineTitle>
-          <TitleButton onClick={titleHandler}>제목 수정</TitleButton>
-        </TitleContainer>
-        :
-        <TitleContainer>
-          <InputTitle placeholder="변경할 이름을 입력하세요" onChange={onChange}></InputTitle>
-          <SaveButton onClick={saveHandler}>저장</SaveButton>
-        </TitleContainer>
-      }
-      <DragDropContext onDragEnd={onDragEnd}>
-        <Droppable
-          droppableId='all-columns'
-          direction='horizontal'
-          type='column'
-        >
-          {(provided, snapshot) => (
-            <WorkoutContainer
-              {...provided.droppableProps}
-              ref={provided.innerRef}
-            >
-              {workouts.columnOrder.map((columnId, index) => {
-                const column = workouts.columns[columnId];
-                const tasks = column.taskIds.map(
-                  taskId => workouts.tasks[taskId]
-                  );
-                  //
-                  return (
-                    <Column
-                    getWorkout={getWorkout}
-                    key={column.id}
-                    column={column}
-                    tasks={tasks}
-                    index={index}
-                  />
-                );
-              })}
-              {provided.placeholder}
-            </WorkoutContainer>
-          )}
-        </Droppable>
-      </DragDropContext>
-      {/* <Container> */}
-      {/* <Link 
-        href="/add"
-        styles={{backgroundColor: darkColors.lightBlue, color: lightColors.white}}
-        >
-          +
-        </Link> */}
-        {/* <Button
-          onClick={() => router.push(`/add`)}
-          tooltip="나만의 운동 만들기!"
-          icon="fas fa-plus"
-          rotate={true}
-          styles={{backgroundColor: darkColors.lightBlue, color: lightColors.white}}
-        >
-          +</Button>
-      </Container> */}
+      <button onClick={() => router.push(`/add`)}>운동 추가하기</button>
+      {workouts && <Dnd curWorkouts={workouts}></Dnd>}
     </>
   );
 }
+export default Workout;
 
-export default MultiColumn;
+export const getServerSideProps = async (context) => {
+  let temp = { props: {} };
+  const allCookies = cookies(context);
+  const token = allCookies.accessToken;
+
+  try {
+    await axios({
+      method: 'get',
+      url: `http://localhost:3000/routine?routine_id=${context.params.id}`, // 루틴아이디를 동적으로 받아야됨
+      headers: {
+        Cookie: `accessToken=${token}`,
+        withCredentials: true,
+      },
+    })
+      .then((res) => {
+        if (res.status === 200) {
+          console.log('200', res);
+          temp = {
+            props: {
+              data: res.data,
+            },
+          };
+        } else {
+          console.log('not 200', res);
+        }
+      })
+      .catch((err) => {
+        console.log('catcherr', err);
+        alert('예상치 못한 오류가 발생했습니다. \n 잠시 후 다시 시도해주세요.');
+      });
+  } catch (err) {
+    console.log('catcherr', err);
+  }
+  return temp;
+};

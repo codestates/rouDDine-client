@@ -5,7 +5,91 @@ import GoogleLogin from 'react-google-login';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { loginUserAction } from '../redux/reducers/user_reducer';
+import useLocalStorage from '../util/useLocalStorage';
+import router from 'next/router';
+import cookies from 'next-cookies';
 
+export default function login() {
+  const dispatch = useDispatch();
+  const [user, setUser] = useState(null);
+  const [values, setValues] = useState({ email: '', password: '' });
+  const [isLogin, setIsLogin] = useState('isLogin', false);
+  const [userInfo, setUserInfo] = useState('userInfo', null);
+
+  const inputHandler = (e) => {
+    const { name, value } = e.target;
+    setValues({ ...values, [name]: value });
+  };
+
+  const loginHandler = (values) => {
+    const { email, password } = values;
+    if (email && password) {
+      axios
+        .post(
+          'http://localhost:3000/login',
+          {
+            email: email,
+            password: password,
+            social: null,
+          },
+          { withCredentials: true }
+        )
+        .then((res) => {
+          const { data, userinfo } = res.data;
+          res.cookies;
+          console.log('로그인성공');
+        })
+        .catch((e) => console.log('로그인 실패', e));
+    }
+  };
+
+  const handlegoogleLogin = (result) => {
+    axios
+      .post(`http://localhost:3000/login`, {
+        email: result.profileObj.email,
+        username: result.profileObj.name,
+        social: 'google',
+        socialid: result.profileObj.googleId,
+        profileimage: result.profileObj.imageUrl,
+      })
+      .then((res) => {
+        if (res.status === 200) {
+          alert('로그인에 성공했습니다.');
+          setUser(res.data.userinfo);
+        } else if (res.status === 201) {
+          alert('회원가입에 성공했습니다.');
+        }
+      })
+      .catch(() =>
+        alert('이메일 또는 비밀번호를 잘못 입력하셨습니다.\n 다시 시도해주세요')
+      );
+  };
+
+  return (
+    <>
+      <HeadInfo />
+      <LoginContainer>
+        <LoginInput
+          name='email'
+          placeholder='email'
+          onChange={(e) => inputHandler(e)}
+        />
+        <LoginInput
+          name='password'
+          placeholder='password'
+          onChange={(e) => inputHandler(e)}
+        />
+        <LoginButton onClick={() => loginHandler(values)}>로그인</LoginButton>
+        <GoogleLogin
+          clientId={`982420892016-vr0bn99ieuuaoucnhc5e2qiarg50mh2e.apps.googleusercontent.com`}
+          onSuccess={(result) => handlegoogleLogin(result)}
+          onFailure={(result) => console.log(result)}
+          cookiePolicy='single_host_origin'
+        />
+      </LoginContainer>
+    </>
+  );
+}
 
 const LoginContainer = styled.div`
   display: flex;
@@ -32,110 +116,3 @@ const LoginButton = styled.button`
   height: 5em;
   width: 8em;
 `;
-
-export default function login() {
-  const dispatch = useDispatch();
-  const [user, setUser] = useState(null)
-  console.log(user)
-  dispatch(loginUserAction(user))
-  const [values, setValues] = useState({ email: "", password: "" });
-  const [isLogin, setIsLogin] = useLocalStorage("isLogin", false);
-  const [userInfo, setUserInfo] = useLocalStorage("userInfo", null)
-  const inputHandler = (e) => {
-    console.log(e.target.name)
-    console.log(e.target.value)
-    const {name, value} = e.target;
-    setValues({ ...values, [name]:value })
-  }
-  console.log(values)
-  
-  const loginHandler = async () => {
-    const {email, password} =values;
-    const url = 'http://localhost:3000/login'
-    const body = {
-      email : email,
-      password : password,
-      social : null //필수
-    }
-    try {
-      await axios.post(url, body)
-      .then((res) => {
-        const {data, userinfo, message} = res.data;
-        const token = data.accessToken
-        console.log(userinfo)
-        if(message) {
-          console.log(message)
-          setIsLogin(true)
-          setUserInfo(userinfo)
-          console.log(isLogin)
-          return;
-        }
-        console.log(token)
-        console.log(userInfo)
-        
-        handleSign(token, data, true);
-        // window.location.href=`http://localhost:4000/routine/1`
-      });
-    } catch (e) {
-      alert("오류나써요")
-    }
-  };
-  const googlelogin = (result) => {
-    console.log(result);
-  };
-
-  // useEffect(() => {
-  //   dispatch(loginUserAction())
-  // })
-  const handlegoogleLogin = async (result) => {
-    try {
-      await axios
-        .post(
-          `http://localhost:3000/login`,
-          {
-            email: result.profileObj.email,
-            username: result.profileObj.name,
-            social: 'google',
-            socialid: result.profileObj.googleId,
-            profileimage: result.profileObj.imageUrl,
-          },
-          {
-            withCredentials: true,
-          }
-        )
-        .then((res) => {
-          console.log(res.data.userinfo);
-          if (res.status === 200) {
-            alert('로그인에 성공했습니다.');
-            setUser(res.data.userinfo);
-            window.location.reload(); //화면 재렌더링
-          } else if (res.status === 201) {
-            alert('회원가입에 성공했습니다.');
-            window.location.reload(); //화면 재렌더링
-          }
-        });
-    } catch {
-      alert('이메일 또는 비밀번호를 잘못 입력하셨습니다.\n 다시 시도해주세요');
-    }
-  };
-  const handleClickClose = () => {
-    props.onClickLogin(false);
-  };
-
-  return (
-    <>
-      <HeadInfo />
-      <LoginContainer>
-        <LoginInput value={values.email} type="email" name="email" placeholder='email' onChange={inputHandler}/>
-        <LoginInput type="password" name="password" placeholder='password' input type="password" onChange={inputHandler}/>
-        <LoginButton onClick={loginHandler}>로그인</LoginButton>
-        <GoogleLogin
-          clientId={`982420892016-vr0bn99ieuuaoucnhc5e2qiarg50mh2e.apps.googleusercontent.com`}
-          onSuccess={(result) => handlegoogleLogin(result)}
-          onFailure={(result) => console.log(result)}
-          cookiePolicy='single_host_origin'
-        />
-      </LoginContainer>
-    </>
-  );
-}

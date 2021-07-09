@@ -4,8 +4,6 @@ import styled from 'styled-components';
 import HeadInfo from '../src/components/HeadInfo';
 import axios from 'axios';
 import { useRouter } from 'next/router';
-import { route } from 'next/dist/next-server/server/router';
-import { getCurWorkout } from '../redux/reducers/id_reducer';
 
 const AddContainer = styled.div`
   display: flex;
@@ -39,12 +37,11 @@ const AddButton = styled.button`
 
 export default function add() {
   const router = useRouter();
-  const [routine, setRoutine] = useState(null);
-  const routineId = useSelector((state) => state.id_reducer.curRoutineId);
-  const userId = useSelector((state) => state.id_reducer.userId);
+  const userId = 1;
+  // const workouts = context.data;
+  // const workoutInfo = useSelector(state=> state.workout.data)
+  // console.log(workoutInfo);
   const [workoutInfo, setWorkoutInfo] = useState({});
-  // console.log(routineId.curRoutineId)
-
   const onChange = (e) => {
     const { value, name } = e.target;
     setWorkoutInfo({ ...workoutInfo, [name]: value });
@@ -52,8 +49,8 @@ export default function add() {
 
   console.log(workoutInfo);
 
-  const addWorkout = async () => {
-    const url = `http://localhost:8000/exercise`;
+  const addWorkout = (userId, workoutInfo) => {
+    const url = `http://localhost:3000/exercise`;
     const body = {
       userid: userId,
       name: workoutInfo.name,
@@ -61,10 +58,12 @@ export default function add() {
       rest_time: workoutInfo.rest,
       memo: workoutInfo.memo,
     };
-    await axios.post(url, body).then((res) => {
-      console.log(res);
-      router.push(`/workout/${routineId}`);
-    });
+    axios
+      .post(url, body, { withCredentials: true })
+      .then((res) => {
+        console.log('exercise@@@@@@@@@@', res);
+      })
+      .then(() => console.log('add성공'));
   };
 
   return (
@@ -78,12 +77,14 @@ export default function add() {
         ></AddInput>
         <AddInput
           placeholder='운동 시간'
-          name='time'
+          name='set_time'
+          type='number'
           onChange={(e) => onChange(e)}
         ></AddInput>
         <AddInput
-          name='rest'
+          name='rest_time'
           placeholder='휴식 시간'
+          type='number'
           onChange={(e) => onChange(e)}
         ></AddInput>
         <AddInput2
@@ -92,7 +93,9 @@ export default function add() {
           onChange={(e) => onChange(e)}
         ></AddInput2>
       </AddContainer>
-      <AddButton onClick={addWorkout}>운동 추가</AddButton>
+      <AddButton onClick={() => addWorkout(userId, workoutInfo)}>
+        운동 추가
+      </AddButton>
     </>
   );
 }
