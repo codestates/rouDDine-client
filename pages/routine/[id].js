@@ -1,14 +1,14 @@
 import styled from 'styled-components';
-import RoutineLists from '../../src/components/RoutineLists';
+import RoutineLists from './RoutineLists';
 import HeadInfo from '../../src/components/HeadInfo';
 import Nav from '../../src/components/Nav';
 import axios from 'axios';
 import { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import initialData from '../workout/initData';
-import { getRoutineId } from '../../redux/reducers/routine_id';
-import useLocalStorage from '../../util/useLocalStorage';
-import dynamic from 'next/dynamic'
+// import Workout from './workout/[id]'
+// import initData from '../workout/Dnd/initData'
+import nookies from 'nookies'
+import {currentRoutine} from '../../redux/reducers/routine'
+import { useDispatch, useSelector } from 'react-redux'
 
 const RoutineContainer = styled.ul`
   margin: 10px;
@@ -19,6 +19,9 @@ const RoutineContainer = styled.ul`
   button {
     font-size: 1em;
   }
+`;
+
+const AddButton = styled.button`
 `;
 
 const PageTitle = styled.h1`
@@ -32,61 +35,82 @@ const SubTitle = styled.h3`
 
 
 export default function Routine() {
-  const [routines, setRoutines] = useState(null) 
-  const [info, setInfo] = useLocalStorage('info', null)
-  // console.log(info)
+  const routines = useSelector(state => state.routine.result)
+  const [isOpen, setIsOpen] =useState(false);
+  const [routineId, setRoutineId] = useState(null);
+  const [workouts, setWorkouts] = useState(null);
+  const [title, setTitle] = useState(null);
+  const dispatch = useDispatch();
+  // const userid = nookies.get();
+  const userId = 1
+  console.log(userId)
 
-  useEffect(() => {
-    console.log(localStorage)
-    const userInfo = localStorage.getItem('userInfo')
-    console.log(JSON.parse(userInfo))
-    setInfo(JSON.parse(userInfo))
-  },[])
-  // alert('안녕하세요')
-  useEffect(() => {
-    getRoutine()
-  }, [])
-  
-  const getRoutine = async() => { 
-    const url = `http://localhost:8000/routine?userid=${info.id}`
-    await axios.get(url)
-    .then(res => {
-      setRoutines(res.data.result)
-    })
+  const toggle = (e) => {
+    setIsOpen(!isOpen)
+    console.log(isOpen)
   }
 
-  const addRoutine = async () => {
+  useEffect(() => {
+    getRoutine(userId)
+  },[]);
+
+  const getRoutine = async(userId) => { 
+    const url = `http://localhost:8000/routine?userid=${userId}`
+    const res = await axios.get(url)
+    dispatch(currentRoutine(res.data.result))
+    // setRoutines(res.data.result)
+    console.log(res)
+  }
+
+  const addRoutine = async (userId) => {
     const url = `http://localhost:8000/routine`;
     const body = {
-      userid : info.id,
+      userid : userId,
       routine_name : "새 루틴",
       share : "false",
     }
-    await axios.post(url, body)
-    .then(res => {
-        console.log(res)
-        console.log(`유저${info.name}의 루틴을 생성했습니다.`)
-        getRoutine()
-      })
-    }
-    
+    const res = await axios.post(url, body)
+    console.log(res);
+    await getRoutine(userId)
+  }
 
+    // useEffect(() => {
+    //   getRoutine(userId)
+    // }, [routines])
 
   return (
     <>
       <HeadInfo />
       <Nav />
+      {/* <Workout
+        getRoutine={getRoutine}
+        title={title}
+        setTitle={setTitle}
+        routineId={routineId}
+        userId={userId}
+        toggle={toggle} 
+        setWorkouts={setWorkouts}
+        workouts={workouts}
+        isOpen={isOpen}
+        routines={routines}
+        /> */}
       <PageTitle>Routine page</PageTitle>
       <SubTitle>오늘 걷지 않으면 내일은 뛰어야 된다</SubTitle>
       <RoutineContainer>
-        <button onClick={addRoutine}>루틴추가</button>
+        <AddButton onClick={()=>addRoutine(userId)}>루틴추가</AddButton>
         {routines &&
           routines.map((routine) => (
             <RoutineLists
-            userId={info.id}
-            routines={routines}
+            workouts={workouts}
+            title={title}
+            setTitle={setTitle}
+            isOpen={isOpen}
+            toggle={toggle}
+            userId={userId}
             key={routine.id}
+            routines={routines}
             routine={routine}
+            routineId={routine.id}
             getRoutine={getRoutine}
             />
             ))}
