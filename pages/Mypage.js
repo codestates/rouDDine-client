@@ -63,10 +63,10 @@ const MyPage = () => {
 
   const getMyInfo = () => {
     axios
-      .get(`http://localhost:8000/user?user_id=5`) //경로 나중에 환경변수로 관리하기 / userid본인에 맞게 수정하기
+      .get(`http://localhost:3000/user?user_id=24`, { withCredentials: true }) //경로 나중에 환경변수로 관리하기 / userid본인에 맞게 수정하기
       .then((res) => {
         if (res.status === 200) {
-          let defaultpath = 'http://localhost:8000/defaultimage.png'; //서버에 uploadedfile, defaultimage있어야함
+          let defaultpath = 'http://localhost:3000/defaultimage.png'; //서버에 uploadedfile, defaultimage있어야함
           setuser(res.data);
           if (res.data.profileimage === null) {
             setImg(defaultpath);
@@ -116,7 +116,7 @@ const MyPage = () => {
         age: age.age,
       };
       console.log(req);
-      await axios.patch(`http://localhost:8000/user`, req).then((res) => {
+      await axios.patch(`http://localhost:3000/user`, req).then((res) => {
         if (res.status === 200) {
           alert('회원 정보 수정이 완료되었습니다.');
           //window.location.reload();

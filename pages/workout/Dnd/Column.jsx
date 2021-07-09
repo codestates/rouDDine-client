@@ -1,8 +1,8 @@
-import React, { Component, use } from "react";
-import styled from "styled-components";
-import Task from "./Task";
+import React, { Component, use } from 'react';
+import styled from 'styled-components';
+import Task from './Task';
 // import Task from './Task';
-import { Droppable, Draggable } from "react-beautiful-dnd";
+import { Droppable, Draggable } from 'react-beautiful-dnd';
 
 const Container = styled.div`
   margin: 0 30px;
@@ -24,7 +24,7 @@ const Title = styled.h3`
 const TaskList = styled.div`
   transition: background-color 0.2s ease;
   background-color: ${(props) =>
-    props.isDraggingOver ? "skyblue" : "inherit"};
+    props.isDraggingOver ? 'skyblue' : 'inherit'};
   flex-grow: 1;
   border-radius: 20px;
   width: 500px;
@@ -32,35 +32,40 @@ const TaskList = styled.div`
   overflow-y: scroll;
 `;
 
-
-export default function Column({column, index, tasks, getWorkout, routineId, userId}) {
+export default function Column({
+  column,
+  index,
+  tasks,
+  getWorkout,
+  routineId,
+  userId,
+}) {
   return (
     <Container>
-      <Title>
-        {column.title}
-      </Title>
-      <Droppable droppableId={column.id} type="task">
+      <Title>{column.title}</Title>
+      <Droppable droppableId={column.id} type='task'>
         {(provided, snapshot) => (
           <TaskList
-          id={column.id}
-          {...provided.droppableProps}
-          ref={provided.innerRef}
-          isDraggingOver={snapshot.isDraggingOver}
+            id={column.id}
+            {...provided.droppableProps}
+            ref={provided.innerRef}
+            isDraggingOver={snapshot.isDraggingOver}
           >
             {tasks.map((task, index) => (
-              <Task 
-                getWorkout={getWorkout} 
-                id={column.id} 
+              <Task
+                getWorkout={getWorkout}
+                id={column.id}
                 routineId={routineId}
                 userId={userId}
-                key={task.id} 
-                task={task} 
-                index={index} />
-              ))}
+                key={task.id}
+                task={task}
+                index={index}
+              />
+            ))}
             {provided.placeholder}
           </TaskList>
         )}
       </Droppable>
     </Container>
-  )
+  );
 }

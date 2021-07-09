@@ -1,7 +1,7 @@
-import React, {useEffect} from 'react'
-import Image from 'next/image'
-import styled from 'styled-components'
-import icon from '../../public/icon.jpg'
+import React, { useEffect } from 'react';
+import Image from 'next/image';
+import styled from 'styled-components';
+import icon from '../../public/icon.jpg';
 import axios from 'axios';
 import router from 'next/router';
 // import Workout from '../api/workout/[id]'
@@ -31,11 +31,11 @@ const RoutineItem = styled.div`
 `;
 
 const ItemContainer = styled.div`
-    display: flex;
-    flex-wrap: wrap;
-    flex-wrap: row;
-    justify-content: space-around;
-    flex : 1 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  flex-wrap: row;
+  justify-content: space-around;
+  flex: 1 0 auto;
 `;
 
 const RoutineTitle = styled.h1`
@@ -60,16 +60,24 @@ const DeleteButton = styled.button`
   flex: 1 1 auto;
 `;
 
-const RoutineContainer = styled.div`
+const RoutineContainer = styled.div``;
 
-`;
-
-export default function RoutineLists({ routines, workouts, title, setTitle, routineId, setRoutineId, getWorkout, routine, getRoutine, userId, toggle}) {
-
+export default function RoutineLists({
+  routines,
+  workouts,
+  title,
+  setTitle,
+  routineId,
+  setRoutineId,
+  getWorkout,
+  routine,
+  getRoutine,
+  userId,
+  toggle,
+}) {
   const deleteRoutine = async (id) => {
-    const url = `http://localhost:8000/routine?routine_id=${id}`;
-    await axios.delete(url)
-    .then((res) => {
+    const url = `http://localhost:3000/routine?routine_id=1`;
+    await axios.delete(url).then((res) => {
       console.log(`${userId}의 루틴을 삭제했습니다`);
       console.log(res);
       getRoutine(userId, routineId);
@@ -83,30 +91,30 @@ export default function RoutineLists({ routines, workouts, title, setTitle, rout
 
   return (
     <>
-        <RoutineList>
-          <RoutineItem
-            // onClick={(e)=>routineIdHandler(e.target.id)}      
-            // onClick={(e) => {toggle(e)}}
-            onClick={()=>router.push(`/routine/workout/${userId}`)}
-            id={routine.id}>
-              <ItemContainer
-                id={routine.id}
-                // onClick={(e)=>routineIdHandler(e.target.id)}
-                >
-                <RoutineTitle>{routine.name}</RoutineTitle>
-              <RoutineTime>{routine.finished_time}분</RoutineTime>
-              </ItemContainer>
-          </RoutineItem>
-          <ButtonContainer>
-            <DeleteButton
-              id={routine.id}
-              onClick={(e) => deleteRoutine(e.target.id)}
-            >
-              삭제
-            </DeleteButton>
-          </ButtonContainer>
-        </RoutineList>
+      <RoutineList>
+        <RoutineItem
+          // onClick={(e)=>routineIdHandler(e.target.id)}
+          // onClick={(e) => {toggle(e)}}
+          onClick={() => router.push(`/workout/${userId}`)}
+          id={routine.id}
+        >
+          <ItemContainer
+            id={routine.id}
+            // onClick={(e)=>routineIdHandler(e.target.id)}
+          >
+            <RoutineTitle>{routine.name}</RoutineTitle>
+            <RoutineTime>{routine.finished_time}분</RoutineTime>
+          </ItemContainer>
+        </RoutineItem>
+        <ButtonContainer>
+          <DeleteButton
+            id={routine.id}
+            onClick={(e) => deleteRoutine(e.target.id)}
+          >
+            삭제
+          </DeleteButton>
+        </ButtonContainer>
+      </RoutineList>
     </>
-
   );
 }

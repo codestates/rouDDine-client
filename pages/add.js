@@ -4,8 +4,6 @@ import styled from 'styled-components';
 import HeadInfo from '../src/components/HeadInfo';
 import axios from 'axios';
 import { useRouter } from 'next/router';
-import { route } from 'next/dist/next-server/server/router';
-import workout from '../redux/reducers/workout';
 
 const AddContainer = styled.div`
   display: flex;
@@ -37,10 +35,10 @@ const AddButton = styled.button`
   cursor: pointer;
 `;
 
-export default function add(context) {
+export default function add() {
   const router = useRouter();
   const userId = 1;
-  const workouts = context.data;
+  // const workouts = context.data;
   // const workoutInfo = useSelector(state=> state.workout.data)
   // console.log(workoutInfo);
   const [workoutInfo, setWorkoutInfo] = useState({});
@@ -51,8 +49,8 @@ export default function add(context) {
 
   console.log(workoutInfo);
 
-  const addWorkout = async (userId, workoutInfo) => {
-    const url = `http://localhost:8000/exercise`;
+  const addWorkout = (userId, workoutInfo) => {
+    const url = `http://localhost:3000/exercise`;
     const body = {
       userid: userId,
       name: workoutInfo.name,
@@ -60,9 +58,12 @@ export default function add(context) {
       rest_time: workoutInfo.rest,
       memo: workoutInfo.memo,
     };
-    const res = await axios.post(url, body);
-    console.log(res);
-    router.push(`/routine/workout/1`);
+    axios
+      .post(url, body, { withCredentials: true })
+      .then((res) => {
+        console.log('exercise@@@@@@@@@@', res);
+      })
+      .then(() => console.log('add성공'));
   };
 
   return (
@@ -76,12 +77,14 @@ export default function add(context) {
         ></AddInput>
         <AddInput
           placeholder='운동 시간'
-          name='time'
+          name='set_time'
+          type='number'
           onChange={(e) => onChange(e)}
         ></AddInput>
         <AddInput
-          name='rest'
+          name='rest_time'
           placeholder='휴식 시간'
+          type='number'
           onChange={(e) => onChange(e)}
         ></AddInput>
         <AddInput2
@@ -96,14 +99,3 @@ export default function add(context) {
     </>
   );
 }
-
-export const getServerSideProps = async (context) => {
-  const url = `http://localhost:8000/routine?userid=1&routine_id=1`;
-  const res = await axios.get(url);
-  console.log(context.store);
-  return {
-    props: {
-      data: res.data,
-    },
-  };
-};

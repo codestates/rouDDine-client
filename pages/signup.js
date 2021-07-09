@@ -9,13 +9,11 @@ export default function SignUp() {
   //react-router-dom의 history 함수와 같은 기능
   const [userInfo, setUserInfo] = useState({});
   const [msg, setMsg] = useState('');
-
   const OnChange = (e) => {
     const { value, name } = e.target;
     //input값 저장
     setUserInfo({ ...userInfo, [name]: value });
   };
-
   const OnClickSignUp = (userInfo) => {
     if (userInfo) {
       const { username, email, password, pwdConfirm } = userInfo;
@@ -34,7 +32,8 @@ export default function SignUp() {
       axios
         .post(
           'http://localhost:3000/user',
-          { username, email, password } /*,{withCredentials:true}*/
+          { username, email, password, social: null }, //social: null로 필수
+          { withCredentials: true }
         )
         .then(() => router.push('/login'))
         .catch(() => setMsg('이미 존재하는 이메일입니다'));
