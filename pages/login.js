@@ -37,7 +37,7 @@ export default function login() {
         .then((res) => {
           const { data, userinfo } = res.data;
           res.cookies;
-          console.log('로그인성공');
+          console.log(res.data.data, '님 로그인성공');
         })
         .catch((e) => console.log('로그인 실패', e));
     }

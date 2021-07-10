@@ -3,8 +3,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import HeadInfo from '../src/components/HeadInfo';
 import { routineStart, timerStart, timerTime } from '../redux/reducers/timer';
+import axios from 'axios';
+import cookies from 'next-cookies';
 
-export default function timerpage() {
+export default function timerpage(ctx) {
+  console.log('데이터 : ', ctx);
   const dispatch = useDispatch();
   const isRunning = useSelector((state) => state.timer.isRunning);
   const hours = useSelector((state) => state.timer.hours);
@@ -12,8 +15,10 @@ export default function timerpage() {
   const seconds = useSelector((state) => state.timer.seconds);
   const time = useSelector((state) => state.timer.time);
 
+  //task 키의 length만큼 순회
+  //
   useEffect(() => {
-    dispatch(timerTime(seconds, minutes, hours));
+    // dispatch(timerTime(seconds, minutes, hours));
     //렌더링되고 딱한번만 저장(재시작 기능을위해서 원래시간)
   }, []);
 
@@ -72,6 +77,22 @@ export default function timerpage() {
     </>
   );
 }
+
+export const getServerSideProps = async (ctx) => {
+  const token = ctx.req.headers.cookie.split(' ')[1].split('=')[1];
+  // const allCookies = cookies(ctx);
+  // const token = allCookies;
+  const res = await axios.get('http://localhost:3000/routine?routine_id=1', {
+    headers: { Cookie: `accessToken=${token}` },
+    withCredentials: true,
+  });
+  const data = res.data;
+  return {
+    props: {
+      data,
+    },
+  };
+};
 
 let Body = styled.div`
   display: flex;
