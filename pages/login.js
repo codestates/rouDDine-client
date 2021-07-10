@@ -7,6 +7,7 @@ import { useDispatch } from 'react-redux';
 import { loginUserAction } from '../redux/reducers/user_reducer';
 import useLocalStorage from '../util/useLocalStorage';
 import router from 'next/router';
+import cookies from 'next-cookies';
 
 export default function login() {
   const dispatch = useDispatch();
@@ -25,7 +26,7 @@ export default function login() {
     if (email && password) {
       axios
         .post(
-          'http://localhost:8000/login',
+          'http://localhost:3000/login',
           {
             email: email,
             password: password,
@@ -35,11 +36,8 @@ export default function login() {
         )
         .then((res) => {
           const { data, userinfo } = res.data;
-          console.log(res);
-          if (res.status === 200) {
-            // const { id, username, email } = userinfo;
-            // dispatch(loginUserAction({ id, username, email }));
-          }
+          res.cookies;
+          console.log('로그인성공');
         })
         .catch((e) => console.log('로그인 실패', e));
     }
@@ -47,7 +45,7 @@ export default function login() {
 
   const handlegoogleLogin = (result) => {
     axios
-      .post(`http://localhost:8000/login`, {
+      .post(`http://localhost:3000/login`, {
         email: result.profileObj.email,
         username: result.profileObj.name,
         social: 'google',

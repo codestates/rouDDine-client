@@ -1,9 +1,7 @@
 import { combineReducers } from 'redux';
 import { HYDRATE } from 'next-redux-wrapper';
-import count from './count';
-import toggle from './toggle';
 import id_reducer from './id_reducer';
-import user_reducer from './user_reducer'
+import user_reducer from './user_reducer';
 import timer from './timer';
 import routine from './routine'
 import workout from './workout'
@@ -21,8 +19,6 @@ const rootReducer = combineReducers({
     }
   },
   //여러 리듀서를 하나로 합쳐줌
-  count,
-  toggle,
   id_reducer,
   user_reducer,
   timer,

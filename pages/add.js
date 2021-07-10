@@ -2,11 +2,8 @@ import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import HeadInfo from '../src/components/HeadInfo';
-import Nav from '../src/components/Nav';
 import axios from 'axios';
 import { useRouter } from 'next/router';
-import { route } from 'next/dist/next-server/server/router';
-import workout from '../redux/reducers/workout'
 
 const AddContainer = styled.div`
   display: flex;
@@ -38,22 +35,22 @@ const AddButton = styled.button`
   cursor: pointer;
 `;
 
-export default function add(context) {
+export default function add() {
   const router = useRouter();
   const userId = 1;
-  const workouts = context.data;
+  // const workouts = context.data;
   // const workoutInfo = useSelector(state=> state.workout.data)
   // console.log(workoutInfo);
-  const [workoutInfo, setWorkoutInfo] = useState({})
+  const [workoutInfo, setWorkoutInfo] = useState({});
   const onChange = (e) => {
     const { value, name } = e.target;
     setWorkoutInfo({ ...workoutInfo, [name]: value });
   };
 
-  console.log(workoutInfo)
+  console.log(workoutInfo);
 
-  const addWorkout = async (userId, workoutInfo) => {
-    const url = `http://localhost:8000/exercise`;
+  const addWorkout = (userId, workoutInfo) => {
+    const url = `http://localhost:3000/exercise`;
     const body = {
       userid: userId,
       name: workoutInfo.name,
@@ -61,58 +58,44 @@ export default function add(context) {
       rest_time: workoutInfo.rest,
       memo: workoutInfo.memo,
     };
-    const res = await axios.post(url, body)
-    console.log(res)
-    router.push(`/routine/workout/1`)
+    axios
+      .post(url, body, { withCredentials: true })
+      .then((res) => {
+        console.log('exercise@@@@@@@@@@', res);
+      })
+      .then(() => console.log('add성공'));
   };
 
   return (
     <>
       <HeadInfo />
-      <Nav />
       <AddContainer>
-      <AddInput 
-        placeholder='이름'
-        name='name'
-        onChange={(e)=> onChange(e)}
-        >
-        </AddInput>
-        <AddInput 
-        placeholder='운동 시간'
-        name='time'
-        onChange={(e)=> onChange(e)}
+        <AddInput
+          placeholder='이름'
+          name='name'
+          onChange={(e) => onChange(e)}
         ></AddInput>
-        <AddInput 
-        name='rest'
-        placeholder='휴식 시간'
-        onChange={(e)=> onChange(e)}
+        <AddInput
+          placeholder='운동 시간'
+          name='set_time'
+          type='number'
+          onChange={(e) => onChange(e)}
         ></AddInput>
-        <AddInput2 
-        name='memo'
-        placeholder='피드백(메모)'
-        onChange={(e)=> onChange(e)}
+        <AddInput
+          name='rest_time'
+          placeholder='휴식 시간'
+          type='number'
+          onChange={(e) => onChange(e)}
+        ></AddInput>
+        <AddInput2
+          name='memo'
+          placeholder='피드백(메모)'
+          onChange={(e) => onChange(e)}
         ></AddInput2>
       </AddContainer>
-      <AddButton
-        onClick={()=>
-          addWorkout(userId, workoutInfo)
-        }
-      >
+      <AddButton onClick={() => addWorkout(userId, workoutInfo)}>
         운동 추가
       </AddButton>
     </>
   );
 }
-
-
-export const getServerSideProps = async (context) => {
-  const url = `http://localhost:8000/routine?userid=1&routine_id=1`
-  const res = await axios.get(url)
-  console.log(context.store)
-  return {
-    props : {
-      data: res.data,
-    }
-  }
-  }
-
