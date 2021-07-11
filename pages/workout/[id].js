@@ -8,10 +8,9 @@ import { currentWorkout } from '../../redux/reducers/workout';
 import initData from './Dnd/initData';
 import cookies from 'next-cookies';
 
-function Workout(ctx) {
-  console.log('CTX : ', ctx);
+function Workout({ data }) {
+  console.log('CTX : ', data);
   const dispatch = useDispatch();
-
   return (
     <>
       <button onClick={() => router.push(`/add`)}>운동 추가하기</button>
