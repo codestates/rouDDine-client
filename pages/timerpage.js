@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import HeadInfo from '../src/components/HeadInfo';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { timerSet, timerRunning, timerReset, timerWorkoutSet, timerCurWorkout, timerIsResting, totalTime } from '../redux/reducers/timer';
@@ -141,7 +140,6 @@ export default function timerpage({ data }) {
   };
   return (
     <>
-      <HeadInfo />
       <Body>
         <Info>
           <div>{data ? data.name : null}</div>

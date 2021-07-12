@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
-import HeadInfo from '../src/components/HeadInfo/HeadInfo';
 import axios from 'axios';
 import { useRouter } from 'next/router';
 
@@ -68,34 +67,13 @@ export default function add() {
 
   return (
     <>
-      <HeadInfo />
       <AddContainer>
-        <AddInput
-          placeholder='이름'
-          name='name'
-          onChange={(e) => onChange(e)}
-        ></AddInput>
-        <AddInput
-          placeholder='운동 시간'
-          name='set_time'
-          type='number'
-          onChange={(e) => onChange(e)}
-        ></AddInput>
-        <AddInput
-          name='rest_time'
-          placeholder='휴식 시간'
-          type='number'
-          onChange={(e) => onChange(e)}
-        ></AddInput>
-        <AddInput2
-          name='memo'
-          placeholder='피드백(메모)'
-          onChange={(e) => onChange(e)}
-        ></AddInput2>
+        <AddInput placeholder='이름' name='name' onChange={(e) => onChange(e)}></AddInput>
+        <AddInput placeholder='운동 시간' name='set_time' type='number' onChange={(e) => onChange(e)}></AddInput>
+        <AddInput name='rest_time' placeholder='휴식 시간' type='number' onChange={(e) => onChange(e)}></AddInput>
+        <AddInput2 name='memo' placeholder='피드백(메모)' onChange={(e) => onChange(e)}></AddInput2>
       </AddContainer>
-      <AddButton onClick={() => addWorkout(userId, workoutInfo)}>
-        운동 추가
-      </AddButton>
+      <AddButton onClick={() => addWorkout(userId, workoutInfo)}>운동 추가</AddButton>
     </>
   );
 }
