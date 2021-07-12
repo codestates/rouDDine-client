@@ -1,10 +1,14 @@
 {
   "compilerOptions": {
     "target": "es5",
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
     "allowJs": true,
     "skipLibCheck": true,
-    "strict": true,
+    "strict": false,
     "forceConsistentCasingInFileNames": true,
     "noEmit": true,
     "esModuleInterop": true,
@@ -15,19 +19,11 @@
     "jsx": "preserve"
   },
   "include": [
-    "fonts",
     "next-env.d.ts",
     "**/*.ts",
-    "**/*.tsx",
-    "pages/index.js",
-    "pages/_app.js",
-    "pages/routine/routine.js",
-    "redux/actions/action.js",
-    "redux/reducers/reducer.js",
-    "utils/useLocalStorage.tsxx",
-    "utils/useLocalStorage.tsxx",
-    "utils/useLocalStorage.tsx",
-    "pages/timerpage.js"
+    "**/*.tsx"
   ],
-  "exclude": ["node_modules"]
+  "exclude": [
+    "node_modules"
+  ]
 }

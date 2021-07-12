@@ -33,8 +33,7 @@ const SubTitle = styled.h3`
   text-align: center;
 `;
 
-export default function Routine({ photo }) {
-  console.log(photo);
+export default function Routine() {
   const routines = useSelector((state) => state.routine.result);
   const [isOpen, setIsOpen] = useState(false);
   const [routineId, setRoutineId] = useState(null);
