@@ -1,22 +1,14 @@
-import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import HeadInfo from '../src/components/HeadInfo/HeadInfo';
 import GoogleLogin from 'react-google-login';
 import axios from 'axios';
-import { useDispatch } from 'react-redux';
-import { loginUserAction } from '../redux/reducers/user_reducer';
-import useLocalStorage from '../util/useLocalStorage';
-import router from 'next/router';
-import cookies from 'next-cookies';
+import React, { useState, useEffect } from 'react';
 
 export default function login() {
-  const dispatch = useDispatch();
-  const [user, setUser] = useState(null);
+  //input value 핸들링 state
   const [values, setValues] = useState({ email: '', password: '' });
-  const [isLogin, setIsLogin] = useState('isLogin', false);
-  const [userInfo, setUserInfo] = useState('userInfo', null);
 
   const inputHandler = (e) => {
+    //input value 핸들링 함수
     const { name, value } = e.target;
     setValues({ ...values, [name]: value });
   };
@@ -35,8 +27,6 @@ export default function login() {
           { withCredentials: true }
         )
         .then((res) => {
-          const { data, userinfo } = res.data;
-          res.cookies;
           console.log(res.data.data, '님 로그인성공');
         })
         .catch((e) => console.log('로그인 실패', e));
@@ -65,7 +55,6 @@ export default function login() {
 
   return (
     <>
-      <HeadInfo />
       <LoginContainer>
         <LoginInput name='email' placeholder='email' onChange={(e) => inputHandler(e)} />
         <LoginInput name='password' placeholder='password' onChange={(e) => inputHandler(e)} />
@@ -94,15 +83,11 @@ const LoginContainer = styled.div`
 `;
 
 const LoginInput = styled.input`
-  margin: 1em;
   padding: 0.5em;
   width: 20em;
-  height: 3em;
-  outline: none;
   font-size: large;
 `;
 
 const LoginButton = styled.button`
-  height: 5em;
   width: 8em;
 `;

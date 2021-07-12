@@ -13,7 +13,7 @@ const MyApp = ({ Component, pageProps }) => {
         <meta name='viewport' content='viewport-fit=cover' />
       </Head>
       <Nav />
-      <Component {...pageProps} />;
+      <Component {...pageProps} />
     </>
   );
 };

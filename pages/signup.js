@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import HeadInfo from '../src/components/HeadInfo';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/router';
@@ -44,50 +43,23 @@ export default function SignUp() {
 
   return (
     <>
-      <HeadInfo />
       <SignUpContainer>
-        <SignUpInput
-          placeholder='name'
-          name='username'
-          onChange={(e) => OnChange(e)}
-        />
-        <SignUpInput
-          placeholder='email'
-          name='email'
-          onChange={(e) => OnChange(e)}
-        />
-        <SignUpInput
-          placeholder='password'
-          name='password'
-          input
-          type='password'
-          onChange={(e) => OnChange(e)}
-        />
-        <SignUpInput
-          placeholder='confirm password'
-          name='pwdConfirm'
-          input
-          type='password'
-          onChange={(e) => OnChange(e)}
-        />
+        <SignUpInput placeholder='name' name='username' onChange={(e) => OnChange(e)} />
+        <SignUpInput placeholder='email' name='email' onChange={(e) => OnChange(e)} />
+        <SignUpInput placeholder='password' name='password' input type='password' onChange={(e) => OnChange(e)} />
+        <SignUpInput placeholder='confirm password' name='pwdConfirm' input type='password' onChange={(e) => OnChange(e)} />
         {msg ? <Message>{msg}</Message> : <div />}
-        <SignUpButton onClick={() => OnClickSignUp(userInfo)}>
-          회원가입
-        </SignUpButton>
+        <SignUpButton onClick={() => OnClickSignUp(userInfo)}>회원가입</SignUpButton>
       </SignUpContainer>
     </>
   );
 }
-
-const Message = styled.div``;
 
 const SignUpContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-around;
   align-items: center;
-  margin: 5em 0em 0em 0em;
-  height: 60vh;
   div:nth-child(5) {
     width: 20em;
     padding: 0.5em;

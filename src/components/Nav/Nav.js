@@ -1,69 +1,58 @@
 import styled from 'styled-components';
 import Link from 'next/link';
-import { useDispatch, useSelector } from 'react-redux';
-import { useCallback } from 'react';
+import Cookies from 'js-cookie';
 
 const NavContainer = styled.div`
-  background-color: black;
+  background-color: whitesmoke;
   display: flex;
-  justify-content: start;
-  width: 100%;
-  flex-wrap: wrap;
-`;
-
-const Linked = styled.a`
-  margin: 25px 20px;
-  color: white;
-  cursor: pointer;
-`;
-
-const LoginContainer = styled.div`
-  display: flex;
-  margin: 5px;
-  button {
-    margin: 5px;
+  justify-content: space-between;
+  top: 0;
+  height: 60px;
+  width: 100vw;
+  padding: 10px;
+  position: fixed;
+  z-index: 2;
+  /* box-shadow: 0 0 3px 1px rgb(0 0 0 / 10%); */
+  > div {
+    display: flex;
+    margin: 0px 20px 0px 0px;
+    justify-content: space-between;
+  }
+  .link {
+    color: white;
     cursor: pointer;
+    padding: 10px;
   }
 `;
 
 export default function Nav() {
-  const dispatch = useDispatch(); // dispatch를 사용하기 쉽게 하는 hook
-  const onClickLogout = useCallback(() => {
-    // useCallback은 최적화를 위한 hook이다 이 앱에선 굳이 사용 안 해도 되는데 습관이 들면 좋기에 사용.
-    console.log(`로그아웃`);
-    dispatch(logoutAction());
-  }, []);
+  const accessToken = Cookies.get('accessToken');
 
   return (
     <>
       <NavContainer>
         <Link href='/'>
-          <Linked>Home</Linked>
+          <div className='link'>로고</div>
         </Link>
-        <Link href='/routine/1'>
-          <Linked>Routine</Linked>
-        </Link>
-        <Link href='/workout/1'>
-          <Linked>workout</Linked>
-        </Link>
-        <Link href='/add'>
-          <Linked>addPage</Linked>
-        </Link>
-        <Link href='/Mypage'>
-          <Linked>Mypage</Linked>
-        </Link>
-        <Link href='/timerpage'>
-          <Linked>timer</Linked>
-        </Link>
-        <Link href='/statistics'>
-          <Linked>statistics</Linked>
-        </Link>
-        <Link href='/login'>
-          <Linked>login</Linked>
-        </Link>
-        <Link href='/signup'>
-          <Linked>signup</Linked>
-        </Link>
+
+        <ButtonContainer>
+          {accessToken ? (
+            <Link href='/Mypage'>
+              <div className='link'>마이페이지</div>
+            </Link>
+          ) : (
+            <Link href='/login'>
+              <div className='link'>로그인</div>
+            </Link>
+          )}
+          {accessToken ? (
+            <div onClick={() => Cookies.remove('accessToken')}>로그아웃</div>
+          ) : (
+            <Link href='/signup'>
+              <div className='link'>회원가입</div>
+            </Link>
+          )}
+        </ButtonContainer>
       </NavContainer>
     </>
   );

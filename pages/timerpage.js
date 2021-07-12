@@ -7,7 +7,7 @@ import axios from 'axios';
 export default function timerpage({ data }) {
   const taskIds = [
     //더미
-    { id: '1', name: '벤치프레스', set_number: 5, set_time: 1, rest_time: 1 },
+    { id: '1', name: '벤치프레스', set_number: 1, set_time: 1, rest_time: 1 },
     { id: '2', name: '스쿼트', set_number: 3, set_time: 2, rest_time: 1 },
     { id: '3', name: '데드리프트', set_number: 2, set_time: 1, rest_time: 1 },
   ];
@@ -49,7 +49,17 @@ export default function timerpage({ data }) {
     //workout_cur - cur , taskIds - 받아올 요청 데이터 , set
     //인덱스(현재운동), 루틴데이터
     if (!isResting) {
-      //쉬는시간
+      //마지막 세트이후 휴식 없음
+      if (set === taskIds[cur].set_number) {
+        //각 운동 마지막세트엔 휴식시간 없이 바로 다음 운동
+        if (cur < taskIds.length - 1) {
+          dispatch(timerCurWorkout(cur + 1));
+          dispatch(timerSet(1));
+          dispatch(timerSet(0, taskIds[cur].set_time));
+          dispatch(timerReset(0, taskIds[cur].set_time));
+          return;
+        }
+      }
       dispatch(timerIsResting());
       dispatch(timerSet(0, taskIds[cur].rest_time));
       dispatch(timerReset(0, taskIds[cur].rest_time));
@@ -183,27 +193,24 @@ export const getServerSideProps = async (ctx) => {
 let Body = styled.div`
   display: flex;
   width: 100vw;
-  height: 100vh;
   flex-direction: column;
   padding: 7%;
   /* border: 3px solid green; */
+  justify-content: space-around;
 `;
 
 let Info = styled.div`
   display: flex;
   justify-content: space-around;
   /* border: 3px solid blue; */
-  div {
-    font-size: 3rem;
-  }
 `;
 
 let Time = styled.div`
   font-family: 'digital';
   align-self: center;
-  font-size: 15rem;
   margin: 5%;
   width: 100%;
+  font-size: 10em;
   text-align: center;
   /* border: 3px solid red; */
 `;
@@ -211,6 +218,7 @@ let Time = styled.div`
 let ButtonContainer = styled.div`
   display: flex;
   justify-content: space-around;
+  /* border: 3px solid red; */
   > div :nth-child(2) {
     align-self: unset;
     > div {
@@ -220,7 +228,6 @@ let ButtonContainer = styled.div`
 `;
 let Button = styled.div`
   align-self: center;
-  font-size: 3rem;
   :hover {
     cursor: pointer;
   }
