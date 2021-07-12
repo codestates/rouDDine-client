@@ -1,4 +1,4 @@
-export const initialState = {};
+export const initialState = [];
 
 export const WORKOUT = 'WORKOUT'
 export const WORKOUT_DND = 'WORKOUT_DND'
@@ -10,15 +10,15 @@ export const currentWorkout = (workout) => ({
   payload: { data : workout }
 })
 
-export const workoutDnd = (newState) => ({
-  type: WORKOUT_DND,
-  payload: newState
-})
+// export const workoutDnd = (newState) => ({
+//   type: WORKOUT_DND,
+//   payload: newState
+// })
 
-export const addWorkout = (newState) => ({
-  type: ADD_WORKOUT,
-  payload: newState
-})
+// export const addWorkout = (newState) => ({
+//   type: ADD_WORKOUT,
+//   payload: newState
+// })
 
 
 // export const addRoutine = (routine) => ({

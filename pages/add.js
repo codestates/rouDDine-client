@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
-import HeadInfo from '../src/components/HeadInfo';
+import HeadInfo from '../src/components/HeadInfo/HeadInfo';
 import axios from 'axios';
 import { useRouter } from 'next/router';
 

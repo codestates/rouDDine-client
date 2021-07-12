@@ -1,9 +1,8 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
-import HeadInfo from '../src/components/HeadInfo';
+import HeadInfo from '../src/components/HeadInfo/HeadInfo';
 import { routineStart, timerStart, timerTime } from '../redux/reducers/timer';
-
 export default function timerpage() {
   const dispatch = useDispatch();
   const isRunning = useSelector((state) => state.timer.isRunning);

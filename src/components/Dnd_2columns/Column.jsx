@@ -29,7 +29,7 @@ const TaskList = styled.div`
   border-radius: 20px;
   width: 500px;
   max-height: 650px;
-  overflow-y: scroll;
+  overflow-y: auto;
 `;
 
 export default function Column({
@@ -42,7 +42,8 @@ export default function Column({
 }) {
   return (
     <Container>
-      <Title>{column.title}</Title>
+      <Title>{column.title}
+      </Title>
       <Droppable droppableId={column.id} type='task'>
         {(provided, snapshot) => (
           <TaskList

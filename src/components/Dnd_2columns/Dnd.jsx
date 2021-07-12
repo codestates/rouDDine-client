@@ -16,7 +16,7 @@ resetServerContext();
 
 const WorkoutContainer = styled.div`
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: center;
 `;
 
@@ -26,7 +26,6 @@ export default function Dnd({ curWorkouts }) {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    console.log('디앤디페이지@@@@@@@@@');
     dispatch(currentWorkout(workouts));
   }, []);
 
@@ -34,7 +33,7 @@ export default function Dnd({ curWorkouts }) {
   const onDragEnd = (result) => {
     document.body.style.color = 'inherit';
     document.body.style.backgroundColor = 'inherit';
-    console.log(result);
+    // console.log(result);
     const { destination, source, draggableId, type } = result;
     if (!destination) {
       console.log('onDragEnd no destination');
@@ -50,7 +49,7 @@ export default function Dnd({ curWorkouts }) {
 
     const start = workouts.columns[source.droppableId];
     const finish = workouts.columns[destination.droppableId];
-
+    // 같은 칼럼 내에서 이동
     if (start === finish) {
       const newTaskIds = Array.from(start.taskIds);
       newTaskIds.splice(source.index, 1);
@@ -71,23 +70,23 @@ export default function Dnd({ curWorkouts }) {
       // dispatch(workoutDnd(newState))
       return;
     }
-    //move to different column
-    const startTaskIds = Array.from(start.taskIds);
-    startTaskIds.splice(source.index, 1);
-    const newStart = { ...start, taskIds: startTaskIds };
+    //다른 칼럼으로 이동
+    // const startTaskIds = Array.from(start.taskIds);
+    // startTaskIds.splice(source.index, 1);
+    // const newStart = { ...start, taskIds: startTaskIds };
 
-    const finishTaskIds = Array.from(finish.taskIds);
-    finishTaskIds.splice(destination.index, 0, draggableId);
-    const newFinish = { ...finish, taskIds: finishTaskIds };
+    // const finishTaskIds = Array.from(finish.taskIds);
+    // finishTaskIds.splice(destination.index, 0, draggableId);
+    // const newFinish = { ...finish, taskIds: finishTaskIds };
 
-    const newState = {
-      ...workouts,
-      columns: {
-        ...workouts.columns,
-        [newStart.id]: newStart,
-        [newFinish.id]: newFinish,
-      },
-    };
+    // const newState = {
+    //   ...workouts,
+    //   columns: {
+    //     ...workouts.columns,
+    //     [newStart.id]: newStart,
+    //     [newFinish.id]: newFinish,
+    //   },
+    // };
     setWorkouts(newState);
     // dispatch(workoutDnd(newState))
   };
@@ -104,19 +103,19 @@ export default function Dnd({ curWorkouts }) {
               const column = workouts.columns[columnId];
               const tasks = column.taskIds.map(
                 (taskId) => workouts.tasks[taskId]
-              );
-              //
-              return (
-                <Column
+                );
+                //
+                return (
+                  <Column
                   // getWorkout={getWorkout}
                   key={column.id}
                   column={column}
                   tasks={tasks}
                   index={index}
-                />
-              );
-            })}
-            {provided.placeholder}
+                  />
+                  );
+                })}
+                {provided.placeholder}
           </WorkoutContainer>
         )}
       </Droppable>
