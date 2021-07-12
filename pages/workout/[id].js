@@ -51,3 +51,31 @@ function Workout(ctx) {
   );
 }
 export default Workout;
+
+// function Workout({ data }) {
+//   console.log('CTX : ', data);
+//   const dispatch = useDispatch();
+//   return (
+//     <>
+//       <button onClick={() => router.push(`/add`)}>운동 추가하기</button>
+//       {/* {workouts && <Dnd curWorkouts={workouts}></Dnd>} */}
+//     </>
+//   );
+// }
+// export default Workout;
+
+// export const getServerSideProps = async (ctx) => {
+//   const token = ctx.req.headers.cookie.split(' ')[1].split('=')[1];
+//   // const allCookies = cookies(ctx);
+//   // const token = allCookies;
+//   const res = await axios.get('http://localhost:3000/routine?routine_id=1', {
+//     headers: { Cookie: `accessToken=${token}` },
+//     withCredentials: true,
+//   });
+//   const data = res.data;
+//   return {
+//     props: {
+//       data,
+//     },
+//   };
+// };
