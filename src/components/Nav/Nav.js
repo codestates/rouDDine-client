@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 import Link from 'next/link';
-import { loginUser1Action, loginUser2Action, loginUser3Action, logoutAction } from '../../redux/reducers/id_reducer';
 import { useDispatch, useSelector } from 'react-redux';
 import { useCallback } from 'react';
 
@@ -66,9 +65,6 @@ export default function Nav() {
           <Linked>signup</Linked>
         </Link>
       </NavContainer>
-      <LoginContainer>
-        <button onClick={onClickLogout}>로그아웃</button>
-      </LoginContainer>
     </>
-  );
+  )
 }

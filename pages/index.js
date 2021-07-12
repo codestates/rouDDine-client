@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import HeadInfo from '../src/components/HeadInfo';
+import HeadInfo from '../src/components/HeadInfo/HeadInfo';
 
 const MainContainaer = styled.div`
   height: 100%;
