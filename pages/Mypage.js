@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import Link from 'next/link';
-import HeadInfo from '../src/components/HeadInfo';
-import Nav from '../src/components/Nav';
 import axios from 'axios';
 
 let imageUrl = '';
@@ -130,8 +128,6 @@ const MyPage = () => {
 
   return (
     <>
-      <HeadInfo />
-      <Nav />
       <Body>
         <Container>
           <div className='profileimage'>
@@ -143,59 +139,30 @@ const MyPage = () => {
           </div>
           <div>
             <span>
-              닉네임{' '}
-              <input
-                type='text'
-                defaultValue={userInfo.username || ''}
-                onChange={handleUsernameInputValue('username')}
-              />
+              닉네임 <input type='text' defaultValue={userInfo.username || ''} onChange={handleUsernameInputValue('username')} />
             </span>
           </div>
           <div>
             <span>
-              성별{' '}
-              <input
-                type='text'
-                defaultValue={userInfo.gender}
-                onChange={handleGenderInputValue('gender')}
-              />
+              성별 <input type='text' defaultValue={userInfo.gender} onChange={handleGenderInputValue('gender')} />
             </span>
           </div>
           <div>
             <span>
-              나이{' '}
-              <input
-                type='text'
-                defaultValue={userInfo.age}
-                onChange={handleAgeInputValue('age')}
-              />
+              나이 <input type='text' defaultValue={userInfo.age} onChange={handleAgeInputValue('age')} />
             </span>
           </div>
           <div>
             <span>
-              키{' '}
-              <input
-                type='text'
-                defaultValue={userInfo.height}
-                onChange={handleHeightInputValue('height')}
-              />
+              키 <input type='text' defaultValue={userInfo.height} onChange={handleHeightInputValue('height')} />
             </span>
           </div>
           <div>
             <span>
-              몸무게{' '}
-              <input
-                type='text'
-                defaultValue={userInfo.weigt}
-                onChange={handleWeightInputValue('weight')}
-              />
+              몸무게 <input type='text' defaultValue={userInfo.weigt} onChange={handleWeightInputValue('weight')} />
             </span>
           </div>
-          <button
-            className='btn-modify btn-modify-profile'
-            type='submit'
-            onClick={handleModify}
-          >
+          <button className='btn-modify btn-modify-profile' type='submit' onClick={handleModify}>
             저장
           </button>
           <LinkDiv href='/statistics'>

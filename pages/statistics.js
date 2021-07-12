@@ -1,13 +1,9 @@
 import styled from 'styled-components';
 import Link from 'next/link';
 
-import HeadInfo from '../src/components/HeadInfo';
-import Sidebar from '../src/components/Sidebar/index';
-
 export default function statistics() {
   return (
     <>
-      <HeadInfo />
       <Body>
         <div>루틴명</div>
         <Data>

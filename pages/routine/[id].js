@@ -6,22 +6,21 @@ import { useState, useEffect } from 'react';
 import { currentRoutine } from '../../redux/reducers/routine';
 import { useDispatch, useSelector } from 'react-redux';
 import cookies from 'next-cookies';
-import { Button, Icon } from 'semantic-ui-react'
-import Workout from '../workout/[id]'
+import { Button, Icon } from 'semantic-ui-react';
+import Workout from '../workout/[id]';
 import TodayRoutine from '../workout/Dnd';
-import Tabmenu from '../../src/components/Tabmenu'
-import Floating from '../../src/components/Floating'
-import initData from './initData'
-import Sidebar from '../../src/components/Sidebar'
-
+import Tabmenu from '../../src/components/Tabmenu';
+import Floating from '../../src/components/Floating';
+import initData from './initData';
+import Sidebar from '../../src/components/Sidebar';
 
 const RoutineContainer = styled.ul`
   margin: 10px;
   display: flex;
   justify-content: center;
   flex-direction: row;
-  
-  @media ( max-width: 768px ) {
+
+  @media (max-width: 768px) {
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
@@ -59,7 +58,7 @@ export default function Routine() {
   }, []);
 
   const getRoutine = async (userId) => {
-    const url = `http://localhost:8000/routine`;
+    const url = `http://localhost:3000/routine`;
     const res = await axios.get(url, { withCredentials: true });
     dispatch(currentRoutine(res.data.result));
     // setRoutines(res.data.result)
@@ -67,7 +66,7 @@ export default function Routine() {
   };
 
   const addRoutine = async (userId) => {
-    const url = `http://localhost:8000/routine`;
+    const url = `http://localhost:3000/routine`;
     const body = {
       userid: userId,
       routine_name: '새 루틴',
@@ -80,34 +79,25 @@ export default function Routine() {
 
   return (
     <>
-    <HeadInfo />
+      <HeadInfo />
       <PageTitle>Routine page</PageTitle>
       <SubTitle>오늘 걷지 않으면 내일은 뛰어야 된다</SubTitle>
       <RoutineContainer>
         {routines &&
           routines.map((routine) => (
-            <RoutineLists
-            id={routine.id}
-            workouts={workouts}
-            userId={userId}
-            key={routine.id}
-            routines={routines}
-            routine={routine}
-            routineId={routine.id}
-            getRoutine={getRoutine}
-            />
-            ))}
-            <Button 
-              onClick={()=>{addRoutine(userId)}}
-              icon={{ as: 'i', className: 'plus'}}
-              >
-              </Button>
+            <RoutineLists id={routine.id} workouts={workouts} userId={userId} key={routine.id} routines={routines} routine={routine} routineId={routine.id} getRoutine={getRoutine} />
+          ))}
+        <Button
+          onClick={() => {
+            addRoutine(userId);
+          }}
+          icon={{ as: 'i', className: 'plus' }}
+        ></Button>
       </RoutineContainer>
       <Container>
-      <Tabmenu></Tabmenu>
-      <TodayRoutine></TodayRoutine>
+        <Tabmenu></Tabmenu>
+        <TodayRoutine></TodayRoutine>
       </Container>
-
     </>
   );
 }
