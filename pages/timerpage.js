@@ -8,9 +8,9 @@ import axios from 'axios';
 export default function timerpage({ data }) {
   const taskIds = [
     //더미
-    { id: '1', name: '벤치프레스', set_number: 1, set_time: 1, rest_time: 0 },
-    { id: '2', name: '스쿼트', set_number: 1, set_time: 1, rest_time: 1 },
-    { id: '3', name: '데드리프트', set_number: 1, set_time: 1, rest_time: 1 },
+    { id: '1', name: '벤치프레스', set_number: 5, set_time: 1, rest_time: 1 },
+    { id: '2', name: '스쿼트', set_number: 3, set_time: 2, rest_time: 1 },
+    { id: '3', name: '데드리프트', set_number: 2, set_time: 1, rest_time: 1 },
   ];
 
   // const totalTime = (taskIds) => {
@@ -115,6 +115,9 @@ export default function timerpage({ data }) {
   };
   const nextWorkout = (taskIds, cur) => {
     if (cur < taskIds.length - 1) {
+      if (isResting) {
+        dispatch(timerReset());
+      }
       dispatch(timerCurWorkout(cur + 1));
       dispatch(timerWorkoutSet(1));
       dispatch(timerSet(0, taskIds[cur].set_time));
@@ -124,6 +127,9 @@ export default function timerpage({ data }) {
     }
   };
   const previousWorkout = () => {
+    if (isResting) {
+      dispatch(timerReset());
+    }
     if (cur > 0) {
       dispatch(timerCurWorkout(cur - 1));
       dispatch(timerWorkoutSet(1));
