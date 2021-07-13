@@ -5,11 +5,11 @@ import axios from 'axios'
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  overflow: auto;  
+  overflow: auto;
   max-height: 700px;
 `;
 
-const ItemContainer =styled.ul`
+const ItemContainer = styled.ul`
   background: #2ac1bc;
   color: #f7ffff;
   display: flex;
@@ -28,9 +28,7 @@ const ItemContainer =styled.ul`
   }
 `;
 
-const ItemTitle = styled.h4`
-
-`;
+const ItemTitle = styled.h4``;
 
 const ItemList = styled.li`
   list-style: none;
@@ -77,36 +75,42 @@ function List3({getRoutine}) {
       // set_time: Number(itemSetTime),
       // rest_time: Number(itemRestTime),
       // memo: "매일매일"
-    }
-    const res = await axios.post(url, body, { withCredentials: true })
+    };
+    const res = await axios.post(url, body, { withCredentials: true });
     console.log(res);
-  }
+  };
 
   // useEffect(() => {
   //   getRoutine()
   // }, [])
 
   const newWorkoutHandler = (e) => {
-    const itemTitle = e.target.parentElement.children[0].innerText
+    const itemTitle = e.target.parentElement.children[0].innerText;
     // const itemSetTime = e.target.parentElement.children[1].innerText
     // const itemRestTime = e.target.parentElement.children[2].innerText
-    addWorkout(itemTitle)
+    addWorkout(itemTitle);
     // const text = e.target.parentElement.innerText
-  }
+  };
 
   return (
     <Container>
-      {data.map((item)=> (
+      {data.map((item) => (
         <ItemContainer key={item.id} name={item.name} set_time={item.set_time} rest_time={item.rest_time}>
           <ItemTitle>{item.name}</ItemTitle>
           {/* <ItemList>세트 시간 {item.set_time}</ItemList>
           <ItemList>휴식 시간 {item.rest_time}</ItemList>
           <ItemList>총 3세트</ItemList> */}
-          <AddButton onClick={(e) => {newWorkoutHandler(e)}}>+</AddButton>
+          <AddButton
+            onClick={(e) => {
+              newWorkoutHandler(e);
+            }}
+          >
+            +
+          </AddButton>
         </ItemContainer>
       ))}
     </Container>
-  )
+  );
 }
 
-export default List3
+export default List3;

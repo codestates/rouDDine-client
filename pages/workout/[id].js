@@ -1,24 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import styled from 'styled-components';
 import axios from 'axios';
 import Dnd from '../../src/components/Dnd_2columns/Dnd';
-import router from 'next/router';
-import { useSelector, useDispatch } from 'react-redux';
-import { currentWorkout } from '../../redux/reducers/workout';
-import initData from '../../src/components/Dnd_2columns/initData';
-import cookies from 'next-cookies';
 
 function Workout(ctx) {
-  const [workouts, setWorkouts] = useState(null)
+  const [workouts, setWorkouts] = useState(null);
   console.log(workouts);
   console.log('CTX : ', ctx);
-  const dispatch = useDispatch();
 
   useEffect(() => {
-    getWorkout()
-    console.log("get");
-  }, [])
-
+    getWorkout();
+    console.log('get');
+  }, []);
 
   const getWorkout = async () => {
   const allCookies = cookies(ctx);
@@ -44,8 +36,20 @@ function Workout(ctx) {
 
   return (
     <>
-      <button onClick={()=>{getWorkout()}}>ddd</button>
-      <button onClick={()=>{getWorkout2()}}>ccc</button>
+      <button
+        onClick={() => {
+          getWorkout();
+        }}
+      >
+        ddd
+      </button>
+      <button
+        onClick={() => {
+          getWorkout2();
+        }}
+      >
+        ccc
+      </button>
       {workouts && <Dnd curWorkouts={workouts}></Dnd>}
     </>
   );

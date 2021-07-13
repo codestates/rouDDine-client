@@ -6,7 +6,7 @@ import axios from 'axios'
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  overflow: auto;  
+  overflow: auto;
   max-height: 700px;
 
   @media ( max-width: 768px ) {
@@ -14,7 +14,7 @@ const Container = styled.div`
   }
 `;
 
-const ItemContainer =styled.ul`
+const ItemContainer = styled.ul`
   background: #2ac1bc;
   color: #f7ffff;
   display: flex;
@@ -49,7 +49,7 @@ const AddButton = styled.div`
   font-size: 1.3rem;
 
   :hover {
-    background-color: rgba(0, 0, 255, .2);
+    background-color: rgba(0, 0, 255, 0.2);
   }
 `;
 
@@ -82,7 +82,7 @@ function List2({getRoutine}) {
     }
     const res = await axios.post(url, body, { withCredentials: true })
     console.log(res);
-  }
+  };
 
   const newWorkoutHandler = (e) => {
     const itemTitle = e.target.parentElement.children[0].innerText
@@ -91,17 +91,23 @@ function List2({getRoutine}) {
 
   return (
     <Container>
-      {data.map((item)=> (
+      {data.map((item) => (
         <ItemContainer key={item.id} name={item.name} set_time={item.set_time} rest_time={item.rest_time}>
           <ItemTitle>{item.name}</ItemTitle>
           {/* <ItemList>세트 시간 {item.set_time}</ItemList>
           <ItemList>휴식 시간 {item.rest_time}</ItemList>
           <ItemList>총 3세트</ItemList> */}
-          <AddButton onClick={(e) => {newWorkoutHandler(e)}}>+</AddButton>
+          <AddButton
+            onClick={(e) => {
+              newWorkoutHandler(e);
+            }}
+          >
+            +
+          </AddButton>
         </ItemContainer>
       ))}
     </Container>
-  )
+  );
 }
 
 export default List2

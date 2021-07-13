@@ -30,7 +30,6 @@ const ItemContainer = styled.div`
   opacity: ${(props) => (props.editMode ? '0.25' : '1')};
 `;
 
-
 const Item = styled.ul`
   border-radius: 5px;
   display: flex;
@@ -40,7 +39,7 @@ const Item = styled.ul`
   user-select: none;
   padding: 4px;
   margin: 5px 5px;
-  background: ${(props)=> (props.isDragging ? 'lightgreen' : '#2ac1bc')};
+  background: ${(props) => (props.isDragging ? 'lightgreen' : '#2ac1bc')};
 `;
 
 const ItemName = styled.h4`
@@ -72,7 +71,7 @@ function TodayRoutine() {
     { id: '9', name: '싯업', set_time: 5, rest_time: 40 },
   ])
 
-const grid = 8;
+  const grid = 8;
 
 const getListStyle = isDraggingOver => ({
   background: isDraggingOver ? "lightblue" : "#fff9f9",
@@ -82,26 +81,20 @@ const getListStyle = isDraggingOver => ({
   const [editMode, setEditMode] = useState(false)
 
   const onDragEnd = (result) => {
-  if (!result.destination) {
-    return;
-  }
+    if (!result.destination) {
+      return;
+    }
 
-  const reorder = (list, startIndex, endIndex) => {
-    const result = Array.from(list);
-    const [removed] = result.splice(startIndex, 1);
-    result.splice(endIndex, 0, removed);
-  
-    return result;
+    const reorder = (list, startIndex, endIndex) => {
+      const result = Array.from(list);
+      const [removed] = result.splice(startIndex, 1);
+      result.splice(endIndex, 0, removed);
+
+      return result;
+    };
+
+    setItems(reorder(items, result.source.index, result.destination.index));
   };
-  
-  setItems(
-    reorder(
-        items,
-        result.source.index,
-        result.destination.index
-    )
-  )
-}
 
 const workoutClickHandler = (e) =>{
   console.log(e);
@@ -182,5 +175,3 @@ const endEditMode = () => {
 }
 
 export default TodayRoutine;
-
-

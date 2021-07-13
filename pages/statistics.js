@@ -1,9 +1,6 @@
 import styled from 'styled-components';
 import Link from 'next/link';
 
-import HeadInfo from '../src/components/HeadInfo/HeadInfo';
-import Sidebar from '../src/components/Sidebar/index';
-
 export default function statistics() {
   return (
     <>
