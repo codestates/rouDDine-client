@@ -4,24 +4,26 @@ import { resetServerContext, DragDropContext, Droppable, Draggable } from "react
 import ReactDOM from "react-dom";
 import styled from 'styled-components'
 import cookies from 'next-cookies';
-import {useSelector} from 'react-redux';
-
+import Modal from '../../../src/components/ex_update_Modal'
+import {useDispatch, useSelector} from 'react-redux'
+import {workoutInfo} from '../../../redux/reducers/workoutInfo'
+import {ModalOpenAction} from '../../../redux/reducers/modal'
 resetServerContext();
 
 const grid = 8;
+
 const DndContainer = styled.div`
   display: block;
+  width: 10vw;
 `;
 
 const ItemContainer = styled.div`
   display: flex;
-  min-width: 500px;
+  min-width: 300px;
+  margin-left: 20px;
   padding: ${grid};
-  overflow: scroll;
   flex-direction: column;
   border-radius: 6px;
-  /* position: absolute; */
-  width: 30%;
   background-color: ${(props) => (props.isDraggingOver ? 'lightblue' : 'lightgray')};
   background-color: ${(props) => (props.editMode ? '#000' : 'white')};
   border: ${(props) => (props.editMode ? '1px solid #000' : 'none')};
@@ -31,50 +33,53 @@ const ItemContainer = styled.div`
 
 const Item = styled.ul`
   border-radius: 5px;
-  display: block;
-  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   user-select: none;
-  padding: 16px;
+  padding: 4px;
   margin: 5px 5px;
   background: ${(props)=> (props.isDragging ? 'lightgreen' : '#2ac1bc')};
 `;
 
-const ItemName = styled.h2`
+const ItemName = styled.h4`
   list-style: none;
+  text-align: left;
 `;
 
 const ItemMemo = styled.li`
   list-style: none;
 `;
 
+const UpdateButton = styled.span`
+
+`;
 
 function TodayRoutine() {
-  const getWorkouts = async () => {
-    const url = `http://localhost:8000/exercise`
-    const res = await axios.get(url, {
-      withCredentials: true,
-    });
-    const data = res.data
-    console.log(data.result);
-    setItems(data.result)
-  }
-
-  useEffect(() => {
-    getWorkouts()
-  }, [])
+  const dispatch = useDispatch();
+  const isOpen = useSelector((state) => state.modal)
+  const curItems = useSelector((state) => state.workout)
+  const [items, setItems] = useState([
+    { id: '1', name: '벤치프레스', set_time: 40, rest_time: 40 },
+    { id: '2', name: '덤벨플라이', set_time: 35, rest_time: 40 },
+    { id: '3', name: '푸쉬업', set_time: 20, rest_time: 40 },
+    { id: '4', name: '레그프레스', set_time: 20, rest_time: 40 },
+    { id: '5', name: '스쿼트', set_time: 10, rest_time: 40 },
+    { id: '6', name: '데드리프트', set_time: 1, rest_time: 40 },
+    { id: '7', name: '사이드레터럴레이즈', set_time: 2, rest_time: 40 },
+    { id: '8', name: '풀업', set_time: 15, rest_time: 40 },
+    { id: '9', name: '싯업', set_time: 5, rest_time: 40 },
+  ])
 
 const grid = 8;
 
 const getListStyle = isDraggingOver => ({
-  background: isDraggingOver ? "lightblue" : "lightgray",
+  background: isDraggingOver ? "lightblue" : "#fff9f9",
   display: "flex",
-  overflow: "scroll"
 });
 
-
-  const [items, setItems] = useState([])
   const [editMode, setEditMode] = useState(false)
-  console.log(items);
 
   const onDragEnd = (result) => {
   if (!result.destination) {
@@ -98,21 +103,34 @@ const getListStyle = isDraggingOver => ({
   )
 }
 
+const workoutClickHandler = (e) =>{
+  console.log(e);
+  // console.log(e.target.innerText);
+  dispatch(ModalOpenAction())
+  if(isOpen) {
+    dispatch(workoutInfo(e.target.id, e.target.innerText))
+  }
+}
+
+// modalOpen()
+// const modalOpen = ()=>{
+// }
+
 const triggerEditMode = () => {
   setEditMode(true);
-  console.log("editMode: ",editMode);
+  // console.log("editMode: ",editMode);
 };
 
 const endEditMode = () => {
   setEditMode(false);
-  console.log("editMode: ", editMode);
+  // console.log("editMode: ", editMode);
 };
 
   return (
     <>
       <DndContainer>
-    {editMode ? <button onClick={endEditMode}>저장</button> : (
-      <button onClick={triggerEditMode}>순서변경</button>
+    {editMode ? <div onClick={endEditMode}>저장</div> : (
+      <div onClick={triggerEditMode}>순서변경</div>
     )}
     <DragDropContext onDragEnd={onDragEnd}>
       <Droppable droppableId="droppable" direction="vertical">
@@ -124,7 +142,7 @@ const endEditMode = () => {
             {...provided.droppableProps}
             isDraggingOver={snapshot.isDraggingOver}
           >
-            {items.map((item, index) => (
+            {items && items.map((item, index) => (
               <Draggable
                 isDragDisabled={!editMode}
                 key={item.id}
@@ -134,6 +152,10 @@ const endEditMode = () => {
                 {(provided, snapshot) => (
                   <>
                   <Item
+                    onClick={(e)=>{workoutClickHandler(e)}}
+                    id={item.id}
+                    index={index}
+                    name={item.name}
                     ref={provided.innerRef}
                     {...provided.draggableProps}
                     {...provided.dragHandleProps}
@@ -142,6 +164,7 @@ const endEditMode = () => {
                   >
                     <ItemName>{item.name}</ItemName>
                     <ItemMemo>{item.memo}</ItemMemo>
+                    <UpdateButton></UpdateButton>
                   </Item>
                   </>
                 )}
@@ -153,6 +176,7 @@ const endEditMode = () => {
       </Droppable>
     </DragDropContext>
   </DndContainer>
+        <Modal isOpen={isOpen} ></Modal>
   </>
   )
 }

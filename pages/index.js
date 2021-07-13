@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import HeadInfo from '../src/components/HeadInfo/HeadInfo';
+import Image from 'next/image'
 
 const MainContainaer = styled.div`
   height: 100%;
@@ -9,12 +9,11 @@ const MainContainaer = styled.div`
 export default function Home() {
   return (
     <>
-      <HeadInfo />
       <MainContainaer>
         <>
           <div>안녕하세요</div>
         </>
       </MainContainaer>
     </>
-  );
+  )
 }

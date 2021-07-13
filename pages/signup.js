@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import HeadInfo from '../src/components/HeadInfo';
+import HeadInfo from '../src/components/HeadInfo/HeadInfo';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/router';
@@ -31,7 +31,7 @@ export default function SignUp() {
       console.log(username, email, password);
       axios
         .post(
-          'http://localhost:8000/user',
+          'http://localhost:3000/user',
           { username, email, password, social: null }, //social: null로 필수
           { withCredentials: true }
         )
@@ -44,7 +44,6 @@ export default function SignUp() {
 
   return (
     <>
-      <HeadInfo />
       <SignUpContainer>
         <SignUpInput
           placeholder='name'

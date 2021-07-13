@@ -9,9 +9,12 @@ const MyApp = ({ Component, pageProps }) => {
     <>
       <Head>
         <meta name="viewport" content="viewport-fit=cover" />
+        <meta name="viewport"
+            content="width=device-width, initial-scale=1, shrink-to-fit=no"
+          />
+          <link rel="stylesheet" type="text/css" href="semantic/dist/semantic.min.css"></link>
       </Head>
-      <Nav />
-      <Component {...pageProps} />;
+      <Component {...pageProps} />
     </>
   );
 };

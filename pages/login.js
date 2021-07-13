@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import HeadInfo from '../src/components/';
 import GoogleLogin from 'react-google-login';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
@@ -26,7 +25,7 @@ export default function login() {
     if (email && password) {
       axios
         .post(
-          'http://localhost:8000/login',
+          'http://localhost:3000/login',
           {
             email: email,
             password: password,
@@ -45,7 +44,7 @@ export default function login() {
 
   const handlegoogleLogin = (result) => {
     axios
-      .post(`http://localhost:8000/login`, {
+      .post(`http://localhost:3000/login`, {
         email: result.profileObj.email,
         username: result.profileObj.name,
         social: 'google',
@@ -67,7 +66,6 @@ export default function login() {
 
   return (
     <>
-      <HeadInfo />
       <LoginContainer>
         <LoginInput
           name='email'

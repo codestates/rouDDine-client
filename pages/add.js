@@ -9,6 +9,8 @@ const AddContainer = styled.div`
   display: flex;
   flex-direction: column;
   margin: 0 20%;
+  opacity: ${(props) => (props.isNewOpen ? "100%" : "0")};
+  top: ${(props) => (props.isNewOpen ? "0" : "-100%")};
 `;
 
 const AddTitle = styled.h1`
@@ -68,7 +70,6 @@ export default function add() {
 
   return (
     <>
-      <HeadInfo />
       <AddContainer>
         <AddInput
           placeholder='이름'

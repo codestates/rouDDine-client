@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import Link from 'next/link';
-import HeadInfo from '../src/components/HeadInfo';
+import HeadInfo from '../src/components/HeadInfo/HeadInfo';
 import Nav from '../src/components/Nav';
 import axios from 'axios';
 
@@ -130,8 +130,6 @@ const MyPage = () => {
 
   return (
     <>
-      <HeadInfo />
-      <Nav />
       <Body>
         <Container>
           <div className='profileimage'>

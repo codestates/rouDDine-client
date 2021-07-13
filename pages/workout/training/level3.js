@@ -1,5 +1,4 @@
 import React, {useState, useEffect} from 'react'
-import Data from './initData'
 import styled from 'styled-components'
 import axios from 'axios'
 
@@ -22,6 +21,11 @@ const ItemContainer =styled.ul`
   padding: 10px;
   border-radius: 8px;
   box-shadow: 4px 3px 2px 1px rgba(0, 0, 255, .2);
+
+  &:hover {
+    background-color:#f7ffff;
+    color: #2ac1bc;
+  }
 `;
 
 const ItemTitle = styled.h4`
@@ -34,20 +38,39 @@ const ItemList = styled.li`
   font-size: 1.2em;
 `;
 
-const AddButton = styled.button`
+const AddButton = styled.div`
   border-radius: 10px;
+  border: 1px solid;
   color: gray;
   font-size: 1.3rem;
+
+  :hover {
+    background-color: rgba(0, 0, 255, .2);
+  }
 `;
 
 
 function List3({getRoutine}) {
-  const [data, setData] = useState(Data[2].tasks)
-  console.log(data);
+  const [data, setData] = useState([])
+  const getWorkout = async () => {
+    const url = `http://localhost:3000/exercise`
+    const res = await axios.get(url, { withCredentials: true })
+    console.log(res.data.result);
+    const items = res.data.result;
+    const curWorkout = items.filter((item) => (
+      item.category === '휴식'
+    ))
+    console.log(curWorkout);
+    setData(curWorkout)
+  }
 
+  useEffect(() => {
+    getWorkout()
+    console.log("@@@@@@");
+  }, [])
 
   const addWorkout = async(itemTitle) => {
-    const url = `http://localhost:8000/exercise`
+    const url = `http://localhost:3000/exercise`
     const body = {
       userid: 1,
       name: itemTitle,
