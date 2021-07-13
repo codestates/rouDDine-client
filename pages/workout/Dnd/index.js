@@ -5,7 +5,7 @@ import ReactDOM from "react-dom";
 import styled from 'styled-components'
 import Modal from '../../../src/components/ex_update_Modal'
 import {useDispatch, useSelector} from 'react-redux'
-import {workoutInfo} from '../../../redux/reducers/workoutInfo'
+import {workoutInfo} from '../../../redux/reducers/routineInfo'
 import {ModalOpenAction} from '../../../redux/reducers/modal'
 import {deleteWorkout} from '../../../redux/reducers/workout'
 resetServerContext();
@@ -112,12 +112,18 @@ const endEditMode = () => {
   // console.log("editMode: ", editMode);
 };
 
-const deleteWorkoutHandler = (e) => {
+const deleteWorkoutHandler = async (e) => {
   const targetId = e.target.parentElement.id
   console.log(targetId);
   targetId && setWorkouts(workouts.filter((workout) => (workout.id !== targetId)));
   targetId && dispatch(deleteWorkout(targetId))
 }
+
+const updateWorkout = async (routineId) =>{
+  const url = `http://localhost:3000/exercise`
+  const res = await axios.patch(url, {withCredentials: true})
+  console.log(res);
+} 
 
   return (
     <>
@@ -125,6 +131,7 @@ const deleteWorkoutHandler = (e) => {
     {editMode ? <div onClick={endEditMode}>저장</div> : (
       <div onClick={triggerEditMode}>순서변경</div>
     )}
+    <span>운동 저장</span>
     <DragDropContext onDragEnd={onDragEnd}>
       <Droppable droppableId="droppable" direction="vertical">
         {(provided, snapshot) => (

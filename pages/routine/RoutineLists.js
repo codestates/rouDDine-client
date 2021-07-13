@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import axios from 'axios';
 import { Button, Icon } from 'semantic-ui-react'
 import {useDispatch, useSelector} from 'react-redux';
-import {currentWorkout} from '../../redux/reducers/workout'
+import {routineInfo} from '../../redux/reducers/routineInfo'
 
 const RoutineList = styled.li`
   margin: 4px;
@@ -60,19 +60,19 @@ export default function RoutineLists({
       getRoutine(userId, routineId);
   };
   
-  // const getMyRoutine = async(e) => {
-  //   const id = e.target.id
-  //   const url = `http://localhost:3000/routine?routine_id=${id}`
-  //   const res = await axios.get(url, { withCredentials: true });
-  //   console.log(res.data.tasks);
-  //   dispatch(currentWorkout(res.data.tasks))
-  // }
+  const getMyRoutine = async(e) => {
+    const id = e.target.id
+    const url = `http://localhost:3000/routine?routine_id=${id}`
+    const res = await axios.get(url, { withCredentials: true });
+    console.log(res.data);
+    dispatch(routineInfo(res.data.id, res.data.name))
+  }
 
   
   return (
     <>
       <RoutineList id={routine.id}
-      // onClick={(e) => {getMyRoutine(e)}}
+      onClick={(e) => {getMyRoutine(e)}}
       >
         <ItemContainer>
           <RoutineItem id={routine.id}>
