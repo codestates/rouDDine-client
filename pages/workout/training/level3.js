@@ -1,6 +1,8 @@
 import React, {useState, useEffect} from 'react'
 import styled from 'styled-components'
 import axios from 'axios'
+import {useDispatch} from 'react-redux'
+import {currentWorkout} from '../../../redux/reducers/workout'
 
 const Container = styled.div`
   display: flex;
@@ -49,6 +51,7 @@ const AddButton = styled.div`
 
 
 function List3({getRoutine}) {
+  const dispatch = useDispatch();
   const [data, setData] = useState([])
   const getWorkout = async () => {
     const url = `http://localhost:3000/exercise`
@@ -78,6 +81,8 @@ function List3({getRoutine}) {
     };
     const res = await axios.post(url, body, { withCredentials: true });
     console.log(res);
+    dispatch(currentWorkout(res.data))
+
   };
 
   // useEffect(() => {

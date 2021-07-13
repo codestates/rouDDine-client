@@ -3,11 +3,11 @@ import React, {useState, useEffect} from 'react'
 import { resetServerContext, DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import ReactDOM from "react-dom";
 import styled from 'styled-components'
-import cookies from 'next-cookies';
 import Modal from '../../../src/components/ex_update_Modal'
 import {useDispatch, useSelector} from 'react-redux'
 import {workoutInfo} from '../../../redux/reducers/workoutInfo'
 import {ModalOpenAction} from '../../../redux/reducers/modal'
+import {deleteWorkout} from '../../../redux/reducers/workout'
 resetServerContext();
 
 const grid = 8;
@@ -58,20 +58,17 @@ const UpdateButton = styled.span`
 function TodayRoutine() {
   const dispatch = useDispatch();
   const isOpen = useSelector((state) => state.modal)
-  const curItems = useSelector((state) => state.workout)
-  const [items, setItems] = useState([
-    { id: '1', name: '벤치프레스', set_time: 40, rest_time: 40 },
-    { id: '2', name: '덤벨플라이', set_time: 35, rest_time: 40 },
-    { id: '3', name: '푸쉬업', set_time: 20, rest_time: 40 },
-    { id: '4', name: '레그프레스', set_time: 20, rest_time: 40 },
-    { id: '5', name: '스쿼트', set_time: 10, rest_time: 40 },
-    { id: '6', name: '데드리프트', set_time: 1, rest_time: 40 },
-    { id: '7', name: '사이드레터럴레이즈', set_time: 2, rest_time: 40 },
-    { id: '8', name: '풀업', set_time: 15, rest_time: 40 },
-    { id: '9', name: '싯업', set_time: 5, rest_time: 40 },
-  ])
+  const curItems = useSelector((state) => state.workout.workout)
+  // const [items, setItems] = useState([])
+  const [workouts, setWorkouts] = useState(null)
+  console.log(workouts);
+  console.log(curItems);
 
-  const grid = 8;
+
+
+  useEffect(() => {
+    setWorkouts(curItems)
+  }, [curItems])
 
 const getListStyle = isDraggingOver => ({
   background: isDraggingOver ? "lightblue" : "#fff9f9",
@@ -93,7 +90,7 @@ const getListStyle = isDraggingOver => ({
       return result;
     };
 
-    setItems(reorder(items, result.source.index, result.destination.index));
+    setWorkouts(reorder(workouts, result.source.index, result.destination.index));
   };
 
 const workoutClickHandler = (e) =>{
@@ -105,10 +102,6 @@ const workoutClickHandler = (e) =>{
   }
 }
 
-// modalOpen()
-// const modalOpen = ()=>{
-// }
-
 const triggerEditMode = () => {
   setEditMode(true);
   // console.log("editMode: ",editMode);
@@ -118,6 +111,13 @@ const endEditMode = () => {
   setEditMode(false);
   // console.log("editMode: ", editMode);
 };
+
+const deleteWorkoutHandler = (e) => {
+  const targetId = e.target.parentElement.id
+  console.log(targetId);
+  targetId && setWorkouts(workouts.filter((workout) => (workout.id !== targetId)));
+  targetId && dispatch(deleteWorkout(targetId))
+}
 
   return (
     <>
@@ -135,28 +135,29 @@ const endEditMode = () => {
             {...provided.droppableProps}
             isDraggingOver={snapshot.isDraggingOver}
           >
-            {items && items.map((item, index) => (
+            {workouts && workouts.map((item, index) => (
               <Draggable
                 isDragDisabled={!editMode}
-                key={item.id}
-                draggableId={String(item.id)}
+                key={item.workout.id}
+                draggableId={String(item.workout.id)}
                 index={index}
               >
                 {(provided, snapshot) => (
                   <>
                   <Item
                     onClick={(e)=>{workoutClickHandler(e)}}
-                    id={item.id}
+                    id={item.workout.id}
                     index={index}
-                    name={item.name}
+                    name={item.workout.name}
                     ref={provided.innerRef}
                     {...provided.draggableProps}
                     {...provided.dragHandleProps}
                     isDragging={snapshot.isDragging}
                     draggableStyle={provided.draggableStyle}
                   >
-                    <ItemName>{item.name}</ItemName>
-                    <ItemMemo>{item.memo}</ItemMemo>
+                    <ItemName>{item.workout.name}</ItemName>
+                    <ItemMemo>{item.workout.memo}</ItemMemo>
+                    <span onClick={(e)=> {deleteWorkoutHandler(e)}}>삭제</span>
                     <UpdateButton></UpdateButton>
                   </Item>
                   </>

@@ -1,6 +1,9 @@
 import React, {useState, useEffect} from 'react'
 import styled from 'styled-components'
 import axios from 'axios'
+import {useDispatch} from 'react-redux'
+import {currentWorkout} from '../../../redux/reducers/workout'
+
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -50,7 +53,11 @@ const AddButton = styled.div`
 
 
 function List1({getRoutine}) {
+  const dispatch = useDispatch();
   const [data, setData] = useState([])
+  const [workouts, setWorkouts] = useState([])
+  console.log(workouts);
+
   const getWorkout = async () => {
     const url = `http://localhost:3000/exercise`
     const res = await axios.get(url, { withCredentials: true })
@@ -65,6 +72,7 @@ function List1({getRoutine}) {
 
   useEffect(() => {
     getWorkout()
+    console.log(workouts);
     console.log("@@@@@@");
   }, [])
 
@@ -74,14 +82,13 @@ function List1({getRoutine}) {
     const body = {
       userid: 1,
       name: itemTitle,
-      // set_time: Number(itemSetTime),
-      // rest_time: Number(itemRestTime),
-      // memo: "매일매일"
     }
     const res = await axios.post(url, body, { withCredentials: true })
     console.log(res);
+    dispatch(currentWorkout(res.data))
   };
-
+  
+  console.log(workouts);
   // useEffect(() => {
   //   getRoutine()
   // }, [])

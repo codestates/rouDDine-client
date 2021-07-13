@@ -3,10 +3,6 @@ import styled from 'styled-components';
 import GoogleLogin from 'react-google-login';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
-import { loginUserAction } from '../redux/reducers/user_reducer';
-import useLocalStorage from '../util/useLocalStorage';
-import router from 'next/router';
-import cookies from 'next-cookies';
 
 export default function login() {
   const dispatch = useDispatch();

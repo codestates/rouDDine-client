@@ -46,31 +46,33 @@ export default function RoutineLists({
   userId,
 }) {
   const dispatch = useDispatch();
+
   const deleteHandler = (e) => {
-    deleteRoutine(e.target.parentElement.id)
+    const routineId = e.target.parentElement.id
+    console.log(routineId);
+    deleteRoutine(routineId)
   }
   const deleteRoutine = async (id) => {
     const url = `http://localhost:3000/routine?routine_id=${id}`;
-    await axios.delete(url).then((res) => {
+    const res = await axios.delete(url)
       console.log(`${userId}의 루틴을 삭제했습니다`);
       console.log(res);
       getRoutine(userId, routineId);
-    });
   };
   
-  const getMyRoutine = async(e) => {
-    const id = e.target.id
-    const url = `http://localhost:3000/routine?routine_id=${id}`
-    const res = await axios.get(url, { withCredentials: true });
-    console.log(res.data.tasks);
-    dispatch(currentWorkout(res.data.tasks))
-  }
+  // const getMyRoutine = async(e) => {
+  //   const id = e.target.id
+  //   const url = `http://localhost:3000/routine?routine_id=${id}`
+  //   const res = await axios.get(url, { withCredentials: true });
+  //   console.log(res.data.tasks);
+  //   dispatch(currentWorkout(res.data.tasks))
+  // }
 
   
   return (
     <>
       <RoutineList id={routine.id}
-      onClick={(e) => {getMyRoutine(e)}}
+      // onClick={(e) => {getMyRoutine(e)}}
       >
         <ItemContainer>
           <RoutineItem id={routine.id}>

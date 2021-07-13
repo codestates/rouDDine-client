@@ -27,8 +27,8 @@ const RoutineSection = styled.section`
   flex-direction: row;
   flex-wrap: wrap;
   margin: 30px;
-  border: 2px inset;
-  box-shadow: 0 0 5px 0px;
+  /* border: 2px inset; */
+  /* box-shadow: 0 0 5px 0px; */
 /*     
   @media ( max-width: 768px ) {
   display: flex;
