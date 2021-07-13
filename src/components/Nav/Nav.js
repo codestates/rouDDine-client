@@ -9,13 +9,14 @@ export default function Nav() {
   const accessToken = Cookies.get('accessToken');
   const [modalLogin, setModalLogin] = useState(false);
   const [modalSignup, setModalSignup] = useState(false);
+
   return (
     <>
       <NavContainer>
         <Link href='/'>
           <div className='link'>로고</div>
         </Link>
-        {modalLogin || modalSignup ? <Overlay_modal /> : null}
+        {modalLogin || modalSignup ? <Overlay_modal onClick={() => setModalLogin(false)} /> : null}
         {modalLogin && <Login />}
         {modalSignup && <SignUp />}
         <ButtonContainer>

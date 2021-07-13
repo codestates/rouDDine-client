@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import Data from './initData';
 import styled from 'styled-components';
 import axios from 'axios';
 
@@ -48,7 +47,7 @@ const AddButton = styled.button`
 `;
 
 function List2({ getRoutine }) {
-  const [data, setData] = useState(Data[1].tasks);
+  const [data, setData] = useState([]);
   console.log(data);
 
   const addWorkout = async (itemTitle) => {
