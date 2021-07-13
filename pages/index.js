@@ -1,10 +1,12 @@
 import styled from 'styled-components';
-import HeadInfo from '../src/components/HeadInfo/HeadInfo';
+import Image from 'next/image'
 
 export default function Home() {
   return (
     <>
-      <HeadInfo />
+        <>
+          <div>안녕하세요</div>
+        </>
     </>
-  );
+  )
 }

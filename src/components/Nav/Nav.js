@@ -13,32 +13,6 @@ export default function Nav() {
   return (
     <>
       <NavContainer>
-        <Link href='/'>
-          <div className='link'>로고</div>
-        </Link>
-        {modalLogin || modalSignup ? <Overlay_modal onClick={() => setModalLogin(false)} /> : null}
-        {modalLogin && <Login />}
-        {modalSignup && <SignUp />}
-        <ButtonContainer>
-          {accessToken ? (
-            <Link href='/Mypage'>
-              <div className='link'>마이페이지</div>
-            </Link>
-          ) : (
-            <div className='link' onClick={() => setModalLogin(true)}>
-              로그인
-            </div>
-          )}
-          {accessToken ? (
-            <div className='link' onClick={() => Cookies.remove('accessToken')}>
-              로그아웃
-            </div>
-          ) : (
-            <div className='link' onClick={() => setModalSignup(true)}>
-              회원가입
-            </div>
-          )}
-        </ButtonContainer>
       </NavContainer>
     </>
   );

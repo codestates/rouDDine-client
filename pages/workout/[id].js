@@ -13,24 +13,26 @@ function Workout(ctx) {
   }, []);
 
   const getWorkout = async () => {
-    const allCookies = cookies(ctx);
-    const token = allCookies;
-    const res = await axios.get('http://localhost:8000/routine?routine_id=1', {
-      headers: { Cookie: `accessToken=${token}` },
-      withCredentials: true,
-    });
-    setWorkouts(res.data);
-  };
+  const allCookies = cookies(ctx);
+  const token = allCookies;
+  const res = await axios.get('http://localhost:3000/routine?routine_id=1', {
+    headers: { Cookie: `accessToken=${token}` },
+    withCredentials: true,
+  });
+  setWorkouts(res.data)
+  }
 
   const getWorkout2 = async () => {
-    const allCookies = cookies(ctx);
-    const token = allCookies;
-    const res = await axios.get('http://localhost:8000/exercise', {
-      headers: { Cookie: `accessToken=${token}` },
-      withCredentials: true,
-    });
-    console.log(res.data.result);
-  };
+  const allCookies = cookies(ctx);
+  const token = allCookies;
+  const res = await axios.get('http://localhost:3000/exercise', {
+    headers: { Cookie: `accessToken=${token}` },
+    withCredentials: true,
+  });
+  console.log(res.data.result);
+}
+  
+
 
   return (
     <>
