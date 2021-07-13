@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import HeadInfo from '../src/components/HeadInfo';
 import axios from 'axios';
 import { useRouter } from 'next/router';
-import { route } from 'next/dist/next-server/server/router';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 export default function Update() {
   const router = useRouter();
@@ -55,14 +53,9 @@ export default function Update() {
   // console.log(curWorkout.name)
   return (
     <>
-      <HeadInfo />
       <AddContainer>
         {/* <div>{curWorkout.name}</div> */}
-        <AddInput
-          placeholder={curWorkout && curWorkout.name}
-          name='name'
-          onChange={(e) => onChange(e)}
-        ></AddInput>
+        <AddInput placeholder={curWorkout && curWorkout.name} name='name' onChange={(e) => onChange(e)}></AddInput>
         <AddInput
           placeholder={curWorkout && curWorkout.set_time}
           // placeholder='운동 시간'

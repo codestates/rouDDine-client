@@ -1,18 +1,11 @@
 import styled from 'styled-components';
-import RoutineLists from './RoutineLists';
-import HeadInfo from '../../src/components/HeadInfo/HeadInfo';
 import axios from 'axios';
 import { useState, useEffect } from 'react';
 import { currentRoutine } from '../../redux/reducers/routine';
 import { useDispatch, useSelector } from 'react-redux';
-import cookies from 'next-cookies';
 import { Button, Icon } from 'semantic-ui-react';
-import Workout from '../workout/[id]';
 import TodayRoutine from '../workout/Dnd';
 import Tabmenu from '../../src/components/Tabmenu';
-import Floating from '../../src/components/Floating';
-import initData from './initData';
-import Sidebar from '../../src/components/Sidebar';
 
 const RoutineContainer = styled.ul`
   margin: 10px;
@@ -79,14 +72,13 @@ export default function Routine() {
 
   return (
     <>
-      <HeadInfo />
       <PageTitle>Routine page</PageTitle>
       <SubTitle>오늘 걷지 않으면 내일은 뛰어야 된다</SubTitle>
       <RoutineContainer>
-        {routines &&
+        {/* {routines &&
           routines.map((routine) => (
             <RoutineLists id={routine.id} workouts={workouts} userId={userId} key={routine.id} routines={routines} routine={routine} routineId={routine.id} getRoutine={getRoutine} />
-          ))}
+          ))} */}
         <Button
           onClick={() => {
             addRoutine(userId);

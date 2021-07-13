@@ -82,7 +82,6 @@ const MyPage = () => {
 
   useEffect(() => {
     getMyInfo();
-    console.log('@@@@');
   }, []);
 
   const handleUsernameInputValue = (key) => (e) => {

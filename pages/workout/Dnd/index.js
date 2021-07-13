@@ -1,10 +1,7 @@
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { resetServerContext, DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
-import ReactDOM from 'react-dom';
 import styled from 'styled-components';
-import cookies from 'next-cookies';
-import { useSelector } from 'react-redux';
 
 resetServerContext();
 
