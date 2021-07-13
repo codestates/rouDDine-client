@@ -4,6 +4,7 @@ import Cookies from 'js-cookie';
 import SignUp from '../login&signup/signup';
 import Login from '../login&signup/login';
 import { useState } from 'react';
+import router from 'next/router';
 
 export default function Nav() {
   const accessToken = Cookies.get('accessToken');
@@ -16,8 +17,21 @@ export default function Nav() {
         <Link href='/'>
           <div className='link'>로고</div>
         </Link>
-        {modalLogin || modalSignup ? <Overlay_modal onClick={() => setModalLogin(false)} /> : null}
-        {modalLogin && <Login />}
+        {modalLogin || modalSignup ? (
+          <Overlay_modal
+            onClick={() => {
+              if (modalLogin) {
+                setModalLogin(false);
+                return;
+              }
+              if (modalSignup) {
+                setModalSignup(false);
+                return;
+              }
+            }}
+          />
+        ) : null}
+        {modalLogin && <Login modalLogin={modalLogin} setModalLogin={setModalLogin} />}
         {modalSignup && <SignUp />}
         <ButtonContainer>
           {accessToken ? (
@@ -30,7 +44,14 @@ export default function Nav() {
             </div>
           )}
           {accessToken ? (
-            <div className='link' onClick={() => Cookies.remove('accessToken')}>
+            <div
+              className='link'
+              onClick={() => {
+                Cookies.remove('accessToken');
+                router.push('/');
+                //로그아웃시 랜딩페이지로
+              }}
+            >
               로그아웃
             </div>
           ) : (
@@ -71,6 +92,13 @@ const NavContainer = styled.div`
 `;
 const ButtonContainer = styled.div`
   display: flex;
+  @media all and (min-width: 480px) and (max-width: 767px) {
+    flex-direction: column;
+    border: 3px solid red;
+    > .link {
+      display: none;
+    }
+  }
 `;
 
 const Overlay_modal = styled.div`

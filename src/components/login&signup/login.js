@@ -3,12 +3,12 @@ import GoogleLogin from 'react-google-login';
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
+import { useSelector } from 'react-redux';
 
-export default function login({ setModalLogin }) {
+export default function login({ modalLogin, setModalLogin }) {
   const router = useRouter();
   //input value 핸들링 state
   const [values, setValues] = useState({ email: '', password: '' });
-
   const inputHandler = (e) => {
     //input value 핸들링 함수
     const { name, value } = e.target;
@@ -30,7 +30,10 @@ export default function login({ setModalLogin }) {
         )
         .then((res) => {
           console.log(res.data.data, '님 로그인성공');
-          router.push('/login');
+          if (modalLogin) {
+            setModalLogin(false);
+          }
+          router.push('/');
         })
         .catch((e) => console.log('로그인 실패', e));
     }

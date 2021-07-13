@@ -7,9 +7,6 @@ import { ParallaxProvider } from 'react-scroll-parallax';
 const MyApp = ({ Component, pageProps }) => {
   return (
     <>
-      <Head>
-        <meta name='viewport' content='viewport-fit=cover' />
-      </Head>
       <ParallaxProvider>
         <Component {...pageProps} />
       </ParallaxProvider>
