@@ -115,6 +115,11 @@ const LoginContainer = styled.div`
       flex-direction: column;
       align-items: center;
     }
+    @media (max-width: 768px) {
+      flex-direction: column;
+      flex-wrap: wrap;
+      max-width: 300px;
+    }
   }
 `;
 

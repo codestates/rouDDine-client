@@ -177,7 +177,7 @@ export default function timerpage({ data }) {
   );
 }
 
-export const getServerSideProps = async (ctx) => {
+export const getInitialProps = async (ctx) => {
   const token = ctx.req.headers.cookie.split(' ')[1].split('=')[1];
   // const allCookies = cookies(ctx);
   // const token = allCookies;

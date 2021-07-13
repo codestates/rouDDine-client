@@ -1,7 +1,6 @@
 import '../styles/globals.css';
 import 'semantic-ui-css/semantic.min.css';
 import wrapper from '../redux/store/index';
-import HeadInfo from '../src/components/HeadInfo/HeadInfo';
 import Head from 'next/head';
 import { ParallaxProvider } from 'react-scroll-parallax';
 
