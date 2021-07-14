@@ -67,9 +67,6 @@ export default function SignUp() {
 }
 
 const SignUpContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
   .signup_form {
     position: absolute;
     display: flex;
