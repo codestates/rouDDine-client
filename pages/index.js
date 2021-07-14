@@ -3,19 +3,29 @@ import Image from 'next/image'
 import Nav from '../src/components/Nav/Nav'
 import ReviewContainer from '../src/components/ReviewCard/Container'
 import ReviewCard from '../src/components/ReviewCard/Card'
+import Video from '../src/components/video/video.js'
 // import {Link} from 'react-router-dom'
 
 const Container = styled.div`
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
+  overflow: auto;
+  
 `;
 
 const Logo = styled.span`
   font-size: 2rem;
   padding: 10px;
+`;
+
+
+const VideoSection= styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
 `;
 
 const Section = styled.div`
@@ -28,6 +38,8 @@ const Section = styled.div`
   flex-direction: column;
   justify-content: center;
   
+ 
+
   div {
     margin: 0 auto;
     
@@ -35,6 +47,9 @@ const Section = styled.div`
       text-align: center;
       font-family: NanumGothic-ExtraBold;
     }
+  
+  
+  
 
     article {
       text-align: center;
@@ -64,6 +79,9 @@ function App() {
     <>
       <Nav></Nav>
       <Container>
+        <VideoSection>
+        <Video/>
+        </VideoSection>
         <Section>
           <div>
             <h2>rouDDine을 사용한 많은 분들이 목표 달성에 성공하셨습니다.</h2>
