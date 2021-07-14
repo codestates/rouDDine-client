@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Button, Icon } from 'semantic-ui-react'
 import TodayRoutine from '../workout/Dnd';
 import Tabmenu from '../../src/components/Tabmenu'
-// import Sidebar from '../../src/components/Sidebar'
+import Timer from '../timerpage'
 
 const Sidebar = styled.div`
   width: 100px;
@@ -140,7 +140,6 @@ export default function Routine() {
     <>
     <Container>
       <HeadSection/>
-        <Sidebar/>
       <BodySection>
         <BodyLeftSection>
           <RoutineSection>
@@ -167,12 +166,13 @@ export default function Routine() {
           </TabMenuContainer>
         </BodyLeftSection>
         <BodyRightSection>
-          <DndSection>
-            <TodayRoutine></TodayRoutine>
-          </DndSection>
+          <Timer></Timer>
         </BodyRightSection>
         </BodySection>
     </Container>
     </>
+          // <DndSection>
+          //   <TodayRoutine></TodayRoutine>
+          // </DndSection>
   );
 }
