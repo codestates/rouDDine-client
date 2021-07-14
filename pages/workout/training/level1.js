@@ -1,17 +1,15 @@
-import React, { useState, useEffect } from 'react';
-import Data from './initData';
-import styled from 'styled-components';
-import axios from 'axios';
+import React, {useState, useEffect} from 'react'
+import styled from 'styled-components'
+import axios from 'axios'
+import {useDispatch, useSelector} from 'react-redux'
+import {addWorkoutArray} from '../../../redux/reducers/workout'
+import {routineInfo} from '../../../redux/reducers/routineInfo'
 
 const Container = styled.div`
   display: flex;
   flex-direction: column;
   overflow: auto;
   max-height: 700px;
-
-  @media (max-width: 768px) {
-    display: none;
-  }
 `;
 
 const ItemContainer = styled.ul`
@@ -33,7 +31,9 @@ const ItemContainer = styled.ul`
   }
 `;
 
-const ItemTitle = styled.h4``;
+const ItemTitle = styled.h4`
+
+`;
 
 const ItemList = styled.li`
   list-style: none;
@@ -41,25 +41,64 @@ const ItemList = styled.li`
   font-size: 1.2em;
 `;
 
-const AddButton = styled.button`
+const AddButton = styled.div`
   border-radius: 10px;
+  border: 1px solid;
   color: gray;
   font-size: 1.3rem;
+
+  :hover {
+    background-color: rgba(0, 0, 255, .2);
+  }
 `;
 
-function List2({ getRoutine }) {
-  const [data, setData] = useState(Data[1].tasks);
-  console.log(data);
 
-  const addWorkout = async (itemTitle) => {
-    const url = `http://localhost:3000/exercise`;
+function List1({getRoutine}) {
+  const dispatch = useDispatch();
+  const [data, setData] = useState([])
+  const [workouts, setWorkouts] = useState([])
+  console.log(workouts);
+
+  const getWorkout = async () => {
+    const url = `http://localhost:3000/testexercise`
+    const res = await axios.get(url, { withCredentials: true })
+    console.log(res.data.result);
+    const items = res.data.result;
+    const curWorkout = items.filter((item) => (
+      item.category === '웨이트운동'
+    ))
+    console.log(curWorkout);
+    setData(curWorkout)
+  }
+
+  useEffect(() => {
+    getWorkout()
+    console.log(workouts);
+    console.log("@@@@@@");
+  }, [])
+  const routineId = useSelector((state) => state.routineInfo.id)
+
+  const addWorkout = async(itemTitle) => {
+    const url = `http://localhost:3000/testexercise`
     const body = {
       userid: 1,
+      routine_id: routineId,
       name: itemTitle,
-    };
-    const res = await axios.post(url, body, { withCredentials: true });
+    }
+    const res = await axios.post(url, body, { withCredentials: true })
     console.log(res);
+    const data = res.data
+
+    getMyRoutine(routineId) 
+    // dispatch(addWorkoutArray(data))
   };
+  
+  const getMyRoutine = async(routineId) => {
+    const url = `http://localhost:3000/testroutine?routine_id=${routineId}`
+    const res = await axios.get(url, { withCredentials: true });
+    console.log(res.data);
+    dispatch(routineInfo(res.data.id, res.data.name, res.data.tasks))
+  }
 
   // useEffect(() => {
   //   getRoutine()
@@ -94,4 +133,4 @@ function List2({ getRoutine }) {
   );
 }
 
-export default List2;
+export default List1

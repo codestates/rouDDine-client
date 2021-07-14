@@ -5,6 +5,9 @@ import { timerSet, timerRunning, timerReset, timerWorkoutSet, timerCurWorkout, t
 import axios from 'axios';
 
 export default function timerpage({ data }) {
+  // const myLoader = ({ src, width, quality }) => {
+  //   return `https://example.com/${src}?w=${width}&q=${quality || 75}`;
+  // };
   const taskIds = [
     //더미
     { id: '1', name: '벤치프레스', set_number: 1, set_time: 1, rest_time: 1 },
@@ -174,7 +177,7 @@ export default function timerpage({ data }) {
   );
 }
 
-export const getServerSideProps = async (ctx) => {
+export const getInitialProps = async (ctx) => {
   const token = ctx.req.headers.cookie.split(' ')[1].split('=')[1];
   // const allCookies = cookies(ctx);
   // const token = allCookies;
@@ -231,4 +234,10 @@ let Button = styled.div`
   :hover {
     cursor: pointer;
   }
+`;
+
+const ImageBox = styled.img`
+  width: 400px;
+  height: 400px;
+  display: block;
 `;

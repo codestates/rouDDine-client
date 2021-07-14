@@ -1,13 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import Image from 'next/image';
+import React, { useEffect, useState} from 'react';
 import styled from 'styled-components';
-import icon from '../../public/icon.jpg';
 import axios from 'axios';
-import router from 'next/router';
-import { Button, Icon } from 'semantic-ui-react';
-import { useDispatch } from 'react-redux';
-import Workout from '../workout/[id]';
-import { currentWorkout } from '../../redux/reducers/workout';
+import { Button, Icon } from 'semantic-ui-react'
+import {useDispatch, useSelector} from 'react-redux';
+import {routineInfo} from '../../redux/reducers/routineInfo'
 
 const RoutineList = styled.li`
   margin: 4px;
@@ -15,23 +11,21 @@ const RoutineList = styled.li`
   flex-direction: row;
   flex-wrap: wrap;
   cursor: pointer;
-  background-color: #dbe4e4;
-
-  div {
-    font-size: 1.3rem;
-    text-align: center;
-    vertical-align: middle;
-  }
+  background-color:#dbe4e4;
+  list-style: none;
 
   :hover {
-    background-color: pink;
+    background-color: #2ac1bc;
   }
+`;
+
+const ItemContainer = styled.div`
+  display: flex;
+  flex: row;
 `;
 
 const RoutineItem = styled.div`
   padding: 0 5px;
-  flex: 1 0 auto;
-  /* border: 2px solid black; */
   list-style: none;
   margin: 5px;
   border-radius: 15px;
@@ -42,65 +36,55 @@ const RoutineItem = styled.div`
   justify-content: space-around;
 `;
 
-const ItemContainer = styled.div`
-  display: flex;
-  justify-content: space-around;
-  flex: 1 0 auto;
+const RoutineTitle = styled.h3`
 `;
 
-const RoutineTitle = styled.h3``;
-
-const RoutineTime = styled.h4`
-  text-align: center;
-  vertical-align: middle;
-  padding: 50px 0;
-`;
-
-const DeleteButton = styled.button`
-  position: absolute;
-  /* right: 8px */
-`;
-
-export default function RoutineLists({ routineId, routine, routines, getRoutine, userId }) {
+export default function RoutineLists({
+  routineId,
+  routine,
+  getRoutine,
+  userId,
+}) {
   const dispatch = useDispatch();
+  console.log(userId)
+
   const deleteHandler = (e) => {
-    deleteRoutine(e.target.parentElement.id);
-  };
-  const deleteRoutine = async (id) => {
-    const url = `http://localhost:3000/routine?routine_id=${id}`;
-    await axios.delete(url).then((res) => {
+    const routineId = e.target.parentElement.id
+    console.log(e.target.parentElement.id);
+    deleteRoutine(routineId)
+  }
+  const deleteRoutine = async (routineId) => {
+    const url = `http://localhost:3000/testroutine?routine_id=${routineId}`;
+    const res = await axios.delete(url)
       console.log(`${userId}의 루틴을 삭제했습니다`);
       console.log(res);
       getRoutine(userId, routineId);
-    });
   };
-
-  const getMyRoutine = async (e) => {
-    const id = e.target.id;
-    const url = `http://localhost:3000/routine?routine_id=${id}`;
+  
+  const getMyRoutine = async(e) => {
+    const id = e.target.id
+    const url = `http://localhost:3000/testroutine?routine_id=${id}`
     const res = await axios.get(url, { withCredentials: true });
-    console.log(res.data.tasks);
-    // setTasks(res.data.tasks)
-    dispatch(currentWorkout(res.data.tasks));
-  };
+    console.log(res.data);
+    dispatch(routineInfo(res.data.id, res.data.name, res.data.tasks))
+  }
 
   return (
     <>
-      <RoutineList
-        id={routine.id}
-        onClick={(e) => {
-          getMyRoutine(e);
-        }}
+      <RoutineList 
+      id={routine.id}
+      onClick={(e) => {getMyRoutine(e)}}
       >
-        <RoutineItem id={routine.id}>
-          <RoutineTitle id={routine.id}>{routine.name}</RoutineTitle>
-        </RoutineItem>
-        <Button
-          id={routine.id}
-          onClick={(e) => deleteHandler(e)}
-          // onClick={(e) => deleteRoutine(e.target.id)}
-          icon={{ as: 'i', className: 'trash' }}
-        />
+        <ItemContainer id={routine.id}>
+          <RoutineItem id={routine.id}>
+              <RoutineTitle id={routine.id}>{routine.name}</RoutineTitle>
+          </RoutineItem>
+          <Button
+            id={routine.id}
+            onClick={(e) => deleteHandler(e)}
+            icon={{ as: 'i', className: 'trash' }}
+            />
+        </ItemContainer>
       </RoutineList>
     </>
   );

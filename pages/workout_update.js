@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import HeadInfo from '../src/components/HeadInfo';
 import axios from 'axios';
 import { useRouter } from 'next/router';
-import { route } from 'next/dist/next-server/server/router';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 export default function Update() {
   const router = useRouter();
@@ -15,7 +13,7 @@ export default function Update() {
   const [workoutInfo, setWorkoutInfo] = useState({});
 
   const getUserInfo = async () => {
-    const url = `http://localhost:8000/user?user_id=${userId}`;
+    const url = `http://localhost:3000/user?user_id=${userId}`;
   };
 
   const onChange = (e) => {
@@ -28,7 +26,7 @@ export default function Update() {
   }, []);
 
   const getCurWorkout = async () => {
-    const url = `http://localhost:8000/exercise?userid=${userId}`;
+    const url = `http://localhost:3000/exercise?userid=${userId}`;
     await axios.get(url).then((res) => {
       // console.log(res)
       const results = res.data.result;
@@ -39,7 +37,7 @@ export default function Update() {
 
   const updateWorkout = async () => {
     console.log('클릭');
-    const url = `http://localhost:8000/exercise`;
+    const url = `http://localhost:3000/exercise`;
     const body = {
       workoutid: workoutId,
       name: workoutInfo.name,
@@ -55,14 +53,9 @@ export default function Update() {
   // console.log(curWorkout.name)
   return (
     <>
-      <HeadInfo />
       <AddContainer>
         {/* <div>{curWorkout.name}</div> */}
-        <AddInput
-          placeholder={curWorkout && curWorkout.name}
-          name='name'
-          onChange={(e) => onChange(e)}
-        ></AddInput>
+        <AddInput placeholder={curWorkout && curWorkout.name} name='name' onChange={(e) => onChange(e)}></AddInput>
         <AddInput
           placeholder={curWorkout && curWorkout.set_time}
           // placeholder='운동 시간'

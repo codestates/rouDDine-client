@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import List1 from '../../../pages/workout/training/level1'
-import List2 from '../../../pages/workout/training/level2'
+import List1 from '../../../pages/workout/training/level2'
+import List2 from '../../../pages/workout/training/level1'
 import List3 from '../../../pages/workout/training/level3'
 
 
@@ -10,8 +10,7 @@ const Container = styled.div`
   flex-direction:column;
   align-items: center;
   height: 500x;
-  position: absolute;
-  left: 40px;
+  /* position: absolute; */
 `;
 
 const Button = styled.ul`
@@ -26,6 +25,7 @@ const Button = styled.ul`
 const List = styled.li`
   border: 1px solid lightgrey;
   list-style: none;
+  font-size: 0.8rem;
   padding: 0 25px;
   :hover {
     background-color: rgba(0, 0, 255, .2);
@@ -40,7 +40,7 @@ const First = styled.div`
   padding: 0 5px;
   width: 300px;
   height: 500px;
-  overflow-y: auto;
+  /* overflow-y: auto; */
   margin: 0 15px;
 
 `;
@@ -48,7 +48,7 @@ const Second = styled.div`
   padding: 0 5px;
   width: 300px;
   height: 500px;
-  overflow-y: auto;
+  /* overflow-y: auto; */
   margin: 0 15px;
 `;
 
@@ -56,7 +56,7 @@ const Third = styled.div`
   padding: 0 5px;
   width: 300px;
   height: 500px;
-  overflow-y: auto;
+  /* overflow-y: auto; */
   margin: 0 15px;
 `;
 
@@ -67,7 +67,7 @@ function Tabmenu() {
     console.log(menuNum)
   }
   
-  const arr = ["근력향상", "지구력향상", "휴식"]
+  const arr = ["유산소운동", "웨이트운동", "휴식"]
   
   const obj = {
     0: <First><List1></List1></First>,
