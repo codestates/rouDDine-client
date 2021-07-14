@@ -7,11 +7,13 @@ config.autoAddCss = false; //폰트어썸
 
 const MyApp = ({ Component, pageProps }) => {
   return (
+
     <>
       <ParallaxProvider>
         <Component {...pageProps} />
       </ParallaxProvider>
     </>
+
   );
 };
 

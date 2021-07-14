@@ -20,23 +20,11 @@ export default function Nav() {
         <Link href='/'>
           <div className='link logo'>로고</div>
         </Link>
+        {modalLogin ? <Overlay_modal onClick={()=>setModalLogin(false)} /> : null}
+        {modalSignup ? <Overlay_modal onClick={()=>setModalSignup(false)} /> : null}
+        {modalLogin &&  <Login setModalLogin={setModalLogin} /> }
+        {modalSignup && <SignUp setModalSignup={setModalSignup}  />}
 
-        {modalLogin || modalSignup ? (
-          <Overlay_modal
-            onClick={() => {
-              if (modalLogin) {
-                setModalLogin(false);
-                return;
-              }
-              if (modalSignup) {
-                setModalSignup(false);
-                return;
-              }
-            }}
-          />
-        ) : null}
-        {modalLogin && <Login />}
-        {modalSignup && <SignUp />}
         <ButtonContainer>
           {accessToken ? (
             <Link href='/Mypage'>
