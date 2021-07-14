@@ -5,18 +5,22 @@ import SignUp from '../login&signup/signup';
 import Login from '../login&signup/login';
 import { useState } from 'react';
 import router from 'next/router';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBars, faTimes } from '@fortawesome/free-solid-svg-icons';
 
 export default function Nav() {
   const accessToken = Cookies.get('accessToken');
   const [modalLogin, setModalLogin] = useState(false);
   const [modalSignup, setModalSignup] = useState(false);
+  const [modalBuger, setModalBuger] = useState(false);
 
   return (
     <>
       <NavContainer>
         <Link href='/'>
-          <div className='link'>로고</div>
+          <div className='link logo'>로고</div>
         </Link>
+
         {modalLogin || modalSignup ? (
           <Overlay_modal
             onClick={() => {
@@ -31,21 +35,21 @@ export default function Nav() {
             }}
           />
         ) : null}
-        {modalLogin && <Login modalLogin={modalLogin} setModalLogin={setModalLogin} />}
+        {modalLogin && <Login />}
         {modalSignup && <SignUp />}
         <ButtonContainer>
           {accessToken ? (
             <Link href='/Mypage'>
-              <div className='link'>마이페이지</div>
+              <div className='link mypage'>마이페이지</div>
             </Link>
           ) : (
-            <div className='link' onClick={() => setModalLogin(true)}>
+            <div className='link login' onClick={() => setModalLogin(true)}>
               로그인
             </div>
           )}
           {accessToken ? (
             <div
-              className='link'
+              className='link logout'
               onClick={() => {
                 Cookies.remove('accessToken');
                 router.push('/');
@@ -55,48 +59,69 @@ export default function Nav() {
               로그아웃
             </div>
           ) : (
-            <div className='link' onClick={() => setModalSignup(true)}>
+            <div className='link signup' onClick={() => setModalSignup(true)}>
               회원가입
             </div>
           )}
+          {modalBuger ? (
+            <FontAwesomeIcon className='bars' icon={faTimes} onClick={() => setModalBuger(false)} />
+          ) : (
+            <FontAwesomeIcon className='bars' icon={faBars} onClick={() => setModalBuger(true)} />
+          )}
         </ButtonContainer>
+
+        {modalBuger ? (
+          <BugerModal>
+            <div></div>
+            <div></div>
+          </BugerModal>
+        ) : null}
       </NavContainer>
     </>
   );
 }
 
 const NavContainer = styled.div`
-  position: absolute;
-  background-color: white;
   display: flex;
+  background-color: white;
   justify-content: space-between;
-  height: 60px;
-  width: 100vw;
-  padding: 10px;
-  position: fixed;
+  height: 8vh;
+  width: 100%;
   z-index: 103;
   box-shadow: 0 0 3px 1px rgb(0 0 0 / 10%);
-  > div {
-    display: flex;
-    margin: 0px 20px 0px 0px;
-    justify-content: space-between;
-  }
+  padding: 10px;
   .link {
     color: black;
     cursor: pointer;
-    padding: 10px;
+    align-self: center;
+    padding: 10px 20px 10px 20px;
   }
   .modal {
     position: fixed;
   }
+  .bars {
+    display: none;
+    cursor: pointer;
+  }
+  .mypage,
+  .login {
+    //로그인,마이페이지
+  }
 `;
+
 const ButtonContainer = styled.div`
   display: flex;
-  @media all and (min-width: 480px) and (max-width: 767px) {
+  justify-content: center;
+  align-items: center;
+  @media all and (max-width: 1024px) {
     flex-direction: column;
-    border: 3px solid red;
     > .link {
       display: none;
+    }
+    .bars {
+      display: block;
+      font-size: 2.3rem;
+      padding-right: 10px;
     }
   }
 `;
@@ -107,8 +132,35 @@ const Overlay_modal = styled.div`
   right: 0;
   bottom: 0;
   left: 0;
-  height: 100vh;
-  width: 100vw;
+  height: 100%;
+  width: 100%;
   background: rgba(0, 0, 0, 0.495);
   z-index: 99;
+`;
+
+const BugerModal = styled.div`
+  display: none;
+  flex-direction: column;
+  position: absolute;
+  padding: 30px 25px 0;
+  height: 0vh;
+  transition: 0.3s ease-in-out;
+  background: rgba(21, 39, 64, 0.9215686274509803);
+  right: 0;
+  top: 8vh;
+  @media all and (min-width: 1024px) {
+    display: none;
+  }
+
+  @media all and (min-width: 768px) and (max-width: 1023px) {
+    display: block;
+    height: 100vh;
+    width: 50%;
+  }
+
+  @media all and (max-width: 767px) {
+    display: block;
+    height: 100vh;
+    width: 100%;
+  }
 `;
