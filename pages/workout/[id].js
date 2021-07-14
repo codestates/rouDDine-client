@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import Dnd from '../../src/components/Dnd_2columns/Dnd';
+import Dnd from './Dnd/index';
 
 function Workout(ctx) {
   const [workouts, setWorkouts] = useState(null);

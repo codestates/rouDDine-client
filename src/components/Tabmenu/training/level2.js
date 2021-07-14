@@ -2,14 +2,13 @@ import React, {useState, useEffect} from 'react'
 import styled from 'styled-components'
 import axios from 'axios'
 import {useDispatch, useSelector} from 'react-redux'
-import {addWorkoutArray} from '../../../redux/reducers/workout'
-import {routineInfo} from '../../../redux/reducers/routineInfo'
+import {addWorkoutArray} from '../../../../redux/reducers/workout'
+import {routineInfo} from '../../../../redux/reducers/routineInfo'
 
 
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  overflow: auto;
   max-height: 700px;
 
   @media ( max-width: 768px ) {
@@ -24,14 +23,15 @@ const ItemContainer = styled.ul`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  width: 250px;
+  font-family: NanumGothic-regular;
+  width: 130px;
   margin: 10px;
   padding: 10px;
   border-radius: 8px;
-  box-shadow: 4px 3px 2px 1px rgba(0, 0, 255, .2);
+  box-shadow: 4px 3px 2px 1px rgba(0, 0, 255, 0.2);
 
   &:hover {
-    background-color:#f7ffff;
+    background-color: #f7ffff;
     color: #2ac1bc;
   }
 `;
