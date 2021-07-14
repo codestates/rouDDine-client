@@ -37,6 +37,7 @@ export default function Nav() {
         ) : null}
         {modalLogin && <Login />}
         {modalSignup && <SignUp />}
+
         <ButtonContainer>
           {accessToken ? (
             <Link href='/Mypage'>
@@ -72,8 +73,10 @@ export default function Nav() {
 
         {modalBuger ? (
           <BugerModal>
-            <div></div>
-            <div></div>
+            <div>로고</div>
+            <div>버튼</div>
+            <div>버튼</div>
+            <div>버튼</div>
           </BugerModal>
         ) : null}
       </NavContainer>
@@ -83,6 +86,7 @@ export default function Nav() {
 
 const NavContainer = styled.div`
   display: flex;
+  position: fixed;
   background-color: white;
   justify-content: space-between;
   height: 8vh;
@@ -96,16 +100,21 @@ const NavContainer = styled.div`
     align-self: center;
     padding: 10px 20px 10px 20px;
   }
+  .logo {
+    margin-left: 20px;
+    //로고 버튼
+  }
+  .mypage,
+  .login {
+    //로그인,마이페이지 버튼
+    margin-right: 20px;
+  }
   .modal {
     position: fixed;
   }
   .bars {
     display: none;
     cursor: pointer;
-  }
-  .mypage,
-  .login {
-    //로그인,마이페이지
   }
 `;
 
@@ -139,21 +148,32 @@ const Overlay_modal = styled.div`
 `;
 
 const BugerModal = styled.div`
-  display: none;
+  //툴바 누르면 나오는 창
+  display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
   position: absolute;
-  padding: 30px 25px 0;
+  color: white;
   height: 0vh;
   transition: 0.3s ease-in-out;
   background: rgba(21, 39, 64, 0.9215686274509803);
   right: 0;
   top: 8vh;
+  border: 3px solid red;
+  > div {
+    display: flex;
+    border: 3px solid blue;
+    height: 100vh;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+  }
   @media all and (min-width: 1024px) {
     display: none;
   }
 
   @media all and (min-width: 768px) and (max-width: 1023px) {
-    display: block;
     height: 100vh;
     width: 50%;
   }
