@@ -4,11 +4,13 @@ import { ParallaxProvider } from 'react-scroll-parallax'; //패럴렉스-스크�
 import '@fortawesome/fontawesome-svg-core/styles.css'; //폰트어썸
 import { config } from '@fortawesome/fontawesome-svg-core'; //폰트어썸
 config.autoAddCss = false; //폰트어썸
+import Nav from '../src/components/Nav/Nav';
 
 const MyApp = ({ Component, pageProps }) => {
   return (
     <>
       <ParallaxProvider>
+        <Nav />
         <Component {...pageProps} />
       </ParallaxProvider>
     </>

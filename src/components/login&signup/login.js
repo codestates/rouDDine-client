@@ -8,7 +8,16 @@ import { useSelector } from 'react-redux';
 export default function login({ modalLogin, setModalLogin }) {
   const router = useRouter();
   //input value 핸들링 state
+  const [loginSuccess, setloginSuccess] = useState(false);
+  //로그인성공여부
   const [values, setValues] = useState({ email: '', password: '' });
+
+  useEffect(() => {
+    if (loginSuccess) {
+      router.push('/');
+    }
+  }, [loginSuccess]);
+
   const inputHandler = (e) => {
     //input value 핸들링 함수
     const { name, value } = e.target;
@@ -29,12 +38,12 @@ export default function login({ modalLogin, setModalLogin }) {
           { withCredentials: true }
         )
         .then((res) => {
-          console.log(res.data.data, '님 로그인성공');
+          // console.log(res.data.data, '님 로그인성공');
           if (modalLogin) {
             setModalLogin(false);
           }
-          router.push('/');
         })
+        .then(() => router.push('/'))
         .catch((e) => console.log('로그인 실패', e));
     }
   };
