@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev -p 4000",
+    "dev": "next dev -p 3000",
     "build": "next build",
-    "start": "next start -p 4000",
+    "start": "next start -p 3000",
     "lint": "next lint"
   },
   "dependencies": {
@@ -22,9 +22,12 @@
     "react-dnd": "^14.0.2",
     "react-dnd-html5-backend": "^14.0.0",
     "react-dom": "17.0.2",
+    "react-fade-in": "^2.0.1",
     "react-floating-action-button": "^1.0.5",
     "react-google-login": "^5.2.2",
+    "react-parallax": "^3.3.0",
     "react-redux": "^7.2.4",
+    "react-scroll-parallax": "^2.4.0",
     "redux": "^4.1.0",
     "redux-devtools-extension": "^2.13.9",
     "redux-logger": "^3.0.6",

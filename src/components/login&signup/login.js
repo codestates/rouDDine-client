@@ -57,14 +57,14 @@ export default function login({ setModalLogin }) {
 
   return (
     <>
-      <LoginContainer>
+      <LoginContainer >
         <div className='login_form'>
           <div>로그인</div>
           <div className='login_input'>
             <span>아이디</span>
             <LoginInput name='email' onChange={(e) => inputHandler(e)} />
             <span>비밀번호</span>
-            <LoginInput name='password' onChange={(e) => inputHandler(e)} />
+            <LoginInput name='password' input type="password" onChange={(e) => inputHandler(e)} />
           </div>
 
           <div className='login_button'>
@@ -86,6 +86,11 @@ export default function login({ setModalLogin }) {
 }
 
 const LoginContainer = styled.div`
+display: flex;
+justify-content: center;
+align-items: center;
+flex-direction: column;
+padding-top : 200px;
   .login_form {
     position: absolute;
     display: flex;
@@ -109,6 +114,8 @@ const LoginContainer = styled.div`
         font-size: 0.8rem;
         color: grey;
       }
+     }
+    
     }
     .login_button {
       display: flex;
@@ -124,10 +131,12 @@ const LoginInput = styled.input`
   height: 1.5rem;
   border-radius: 3px;
   border: 1px solid grey;
-  :hover {
-    border: 1px solid black;
+  &:hover {
+    transform:translateX(-5px);
+    width: 100%
   }
 `;
+
 
 const LoginButton = styled.div`
   border: 0px;
