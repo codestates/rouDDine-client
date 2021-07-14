@@ -102,7 +102,7 @@ export default function Routine() {
   const routines = useSelector((state) => state.routine.result);
   const [workouts, setWorkouts] = useState(null);
   const dispatch = useDispatch();
-  const userId = 1;
+  const userId = 5;
   console.log(userId);
   console.log(routines);
 
@@ -110,8 +110,8 @@ export default function Routine() {
     getRoutine(userId);
   }, []);
 
-  const getRoutine = async (userId) => {
-    const url = `http://localhost:3000/routine`;
+  const getRoutine = async () => {
+    const url = `http://localhost:3000/testroutine`;
     const res = await axios.get(url, { withCredentials: true });
     dispatch(currentRoutine(res.data));
     // setRoutines(res.data.result)
@@ -119,7 +119,7 @@ export default function Routine() {
   };
 
   const addRoutine = async (userId) => {
-    const url = `http://localhost:3000/routine`;
+    const url = `http://localhost:3000/testroutine`;
     const body = {
       userid: userId,
       routine_name: '새 루틴',

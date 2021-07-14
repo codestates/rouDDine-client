@@ -5,9 +5,10 @@ import ReactDOM from "react-dom";
 import styled from 'styled-components'
 import Modal from '../../../src/components/ex_update_Modal'
 import {useDispatch, useSelector} from 'react-redux'
-import {workoutInfo} from '../../../redux/reducers/workoutInfo'
+import {workoutInfo} from '../../../redux/reducers/routineInfo'
 import {ModalOpenAction} from '../../../redux/reducers/modal'
 import {deleteWorkout} from '../../../redux/reducers/workout'
+import {dndUpdate} from '../../../redux/reducers/workout'
 resetServerContext();
 
 const grid = 8;
@@ -58,17 +59,31 @@ const UpdateButton = styled.span`
 function TodayRoutine() {
   const dispatch = useDispatch();
   const isOpen = useSelector((state) => state.modal)
-  const curItems = useSelector((state) => state.workout.workout)
-  // const [items, setItems] = useState([])
   const [workouts, setWorkouts] = useState(null)
+  // const routineId = useSelector((state) => state.routineInfo.id)
   console.log(workouts);
-  console.log(curItems);
 
+  const orderChangeHandler = async(routineId, workouts) => {
+    const url = `http://localhost:3000/testroutine`
+    const body = {
+      routine_id :routineId,
+      exercise_array: workouts
+    }
+    const res = await axios.patch(url, body, {withCredentials: true})
+    console.log(res.data.exercise);
+    getMyRoutine(routineId)
+  }
+  const getMyRoutine = async(routineId) => {
+    const url = `http://localhost:3000/testroutine?routine_id=${routineId}`
+    const res = await axios.get(url, { withCredentials: true });
+    console.log(res.data);
+    dispatch(dndUpdate(res.data.tasks))
+  }
 
 
   useEffect(() => {
-    setWorkouts(curItems)
-  }, [curItems])
+    setWorkouts(currentWorkouts)
+  }, [])
 
 const getListStyle = isDraggingOver => ({
   background: isDraggingOver ? "lightblue" : "#fff9f9",
@@ -86,10 +101,11 @@ const getListStyle = isDraggingOver => ({
       const result = Array.from(list);
       const [removed] = result.splice(startIndex, 1);
       result.splice(endIndex, 0, removed);
-
+      console.log(result);
+      
       return result;
     };
-
+    // dispatch(dndUpdate(reorder(result))
     setWorkouts(reorder(workouts, result.source.index, result.destination.index));
   };
 
@@ -109,14 +125,43 @@ const triggerEditMode = () => {
 
 const endEditMode = () => {
   setEditMode(false);
+  orderChangeHandler(routineId, workouts)
   // console.log("editMode: ", editMode);
 };
 
-const deleteWorkoutHandler = (e) => {
+const deleteWorkoutHandler = async (e) => {
   const targetId = e.target.parentElement.id
   console.log(targetId);
   targetId && setWorkouts(workouts.filter((workout) => (workout.id !== targetId)));
   targetId && dispatch(deleteWorkout(targetId))
+}
+
+const updateWorkout = async (routineId) =>{
+  const url = `http://localhost:3000/testexercise`
+  const res = await axios.patch(url, {withCredentials: true})
+  console.log(res);
+} 
+const routineId = useSelector((state) => state.routineInfo.id)
+// const workoutIds = workouts && workouts.map((workout) => (workout.workout.id))
+const currentWorkouts = useSelector((state) => state.routineInfo.tasks)
+console.log(currentWorkouts)
+
+
+useEffect(() => {
+  setWorkouts(currentWorkouts)
+}, [currentWorkouts])
+// console.log(workouts)
+// console.log(workoutIds);
+// console.log(routineId);
+
+const routineUpdateHandler = async() => {
+  const url = `http://localhost:3000/testroutine`
+  const body = {
+    routine_id : routineId,
+    exercise_array : [...workoutIds]
+  }
+  const res = await axios.patch(url, body)
+  console.log(res);
 }
 
   return (
@@ -125,6 +170,7 @@ const deleteWorkoutHandler = (e) => {
     {editMode ? <div onClick={endEditMode}>저장</div> : (
       <div onClick={triggerEditMode}>순서변경</div>
     )}
+    <span onClick={()=>{routineUpdateHandler()}}>운동 저장</span>
     <DragDropContext onDragEnd={onDragEnd}>
       <Droppable droppableId="droppable" direction="vertical">
         {(provided, snapshot) => (
@@ -138,25 +184,25 @@ const deleteWorkoutHandler = (e) => {
             {workouts && workouts.map((item, index) => (
               <Draggable
                 isDragDisabled={!editMode}
-                key={item.workout.id}
-                draggableId={String(item.workout.id)}
+                key={item.id}
+                draggableId={String(item.id)}
                 index={index}
               >
                 {(provided, snapshot) => (
                   <>
                   <Item
                     onClick={(e)=>{workoutClickHandler(e)}}
-                    id={item.workout.id}
+                    id={item.id}
                     index={index}
-                    name={item.workout.name}
+                    name={item.name}
                     ref={provided.innerRef}
                     {...provided.draggableProps}
                     {...provided.dragHandleProps}
                     isDragging={snapshot.isDragging}
                     draggableStyle={provided.draggableStyle}
                   >
-                    <ItemName>{item.workout.name}</ItemName>
-                    <ItemMemo>{item.workout.memo}</ItemMemo>
+                    <ItemName>{item.name}</ItemName>
+                    <ItemMemo>{item.memo}</ItemMemo>
                     <span onClick={(e)=> {deleteWorkoutHandler(e)}}>삭제</span>
                     <UpdateButton></UpdateButton>
                   </Item>

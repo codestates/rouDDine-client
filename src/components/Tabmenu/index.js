@@ -40,7 +40,7 @@ const First = styled.div`
   padding: 0 5px;
   width: 300px;
   height: 500px;
-  overflow-y: auto;
+  /* overflow-y: auto; */
   margin: 0 15px;
 
 `;
@@ -48,7 +48,7 @@ const Second = styled.div`
   padding: 0 5px;
   width: 300px;
   height: 500px;
-  overflow-y: auto;
+  /* overflow-y: auto; */
   margin: 0 15px;
 `;
 
@@ -56,7 +56,7 @@ const Third = styled.div`
   padding: 0 5px;
   width: 300px;
   height: 500px;
-  overflow-y: auto;
+  /* overflow-y: auto; */
   margin: 0 15px;
 `;
 

@@ -6,7 +6,7 @@ import timer from './timer';
 import routine from './routine'
 import workout from './workout'
 import modal from './modal'
-import workoutInfo from './workoutInfo'
+import routineInfo from './routineInfo'
 //리듀서들을 import
 
 //리듀서들을 import
@@ -27,7 +27,7 @@ const rootReducer = combineReducers({
   routine,
   workout,
   modal,
-  workoutInfo,
+  routineInfo,
 });
 
 export default rootReducer;
