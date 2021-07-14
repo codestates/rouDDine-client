@@ -1,16 +1,23 @@
 import '../styles/globals.css';
-import 'semantic-ui-css/semantic.min.css';
+import Nav from '../src/components/Nav/Nav'
+import HeadInfo from '../src/components/HeadInfo/HeadInfo';
 import wrapper from '../redux/store/index';
-import Head from 'next/head';
-import { ParallaxProvider } from 'react-scroll-parallax';
+import { ParallaxProvider } from 'react-scroll-parallax'; //패럴렉스-스크롤
+import '@fortawesome/fontawesome-svg-core/styles.css'; //폰트어썸
+import { config } from '@fortawesome/fontawesome-svg-core'; //폰트어썸
+config.autoAddCss = false; //폰트어썸
 
 const MyApp = ({ Component, pageProps }) => {
   return (
+
     <>
+    <Nav></Nav>
+    <HeadInfo/>
       <ParallaxProvider>
         <Component {...pageProps} />
       </ParallaxProvider>
     </>
+
   );
 };
 

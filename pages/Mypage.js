@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import styled from 'styled-components';
 import Link from 'next/link';
-import axios from 'axios';
+import axios from "axios";
+import Nav from '../src/components/Nav/Nav';
 
-let imageUrl = '';
+
+let imageUrl = "";
 
 let Body = styled.div`
   width: 100vw;
@@ -50,6 +52,7 @@ const LinkDiv = styled(Link)`
 `;
 
 const MyPage = () => {
+
   const [img, setImg] = useState('');
   const [userInfo, setuser] = useState({});
 
@@ -58,48 +61,64 @@ const MyPage = () => {
   const [height, setHeight] = useState('');
   const [weight, setWeight] = useState('');
   const [age, setAge] = useState('');
+  const [selectimage, selectimg] = useState('');
 
   const getMyInfo = () => {
-    axios
-      .get(`http://localhost:3000/user?user_id=24`, { withCredentials: true }) //경로 나중에 환경변수로 관리하기 / userid본인에 맞게 수정하기
-      .then((res) => {
-        if (res.status === 200) {
-          let defaultpath = 'http://localhost:3000/defaultimage.png'; //서버에 uploadedfile, defaultimage있어야함
-          setuser(res.data);
-          if (res.data.profileimage === null) {
-            setImg(defaultpath);
-          } else {
-            setImg(res.data.profileimage);
-          }
-        } else {
-          alert('잘못된 시도.');
+    axios.get(`http://localhost:3000/user`, {
+      withCredentials: true,
+    }) 
+    .then(res => {
+      if (res.status === 200) {
+        let defaultpath = 'http://localhost:3000/defaultimage.png'; //서버에 uploadedfile, defaultimage있어야함
+        let manpath = 'http://localhost:3000/man.jpg';
+        let womanpath = 'http://localhost:3000/woman.jpg';
+        setuser(res.data);
+        if(res.data.profileimage === 'default'){
+          setImg(defaultpath);
         }
-      })
-      .catch((err) => {
-        alert('예상치 못한 오류가 발생했습니다. \n 잠시 후 다시 시도해주세요.');
-      });
-  };
-
+        else if(res.data.profileimage === 'man'){
+          setImg(manpath);
+        }
+        else if(res.data.profileimage === 'woman'){
+          setImg(womanpath);
+        }
+        else{
+          setImg(res.data.profileimage);
+        }
+      }
+    })
+    .catch(err => {
+      console.log(err)
+      alert("예상치 못한 오류가 발생했습니다. \n 잠시 후 다시 시도해주세요.");
+    })
+  }
+    
   useEffect(() => {
-    getMyInfo();
-  }, []);
-
-  const handleUsernameInputValue = (key) => (e) => {
+    getMyInfo()
+    console.log("@@@@")
+  }, [])
+    
+    
+  const handleUsernameInputValue = key => e => {
     setUsername({ [key]: e.target.value });
-    console.log('name수정');
   };
-  const handleGenderInputValue = (key) => (e) => {
+  const handleGenderInputValue = key => e => {
     setGender({ [key]: e.target.value });
   };
-  const handleHeightInputValue = (key) => (e) => {
+  const handleHeightInputValue = key => e => {
     setHeight({ [key]: e.target.value });
   };
-  const handleWeightInputValue = (key) => (e) => {
+  const handleWeightInputValue = key => e => {
     setWeight({ [key]: e.target.value });
   };
-  const handleAgeInputValue = (key) => (e) => {
+  const handleAgeInputValue = key => e => {
     setAge({ [key]: e.target.value });
   };
+  const handleSelectValue = key => e => {
+    selectimg({ [key]: e.target.value });
+    console.log({ [key]: e.target.value })
+  };
+
 
   const handleModify = async () => {
     console.log('클릭');
@@ -110,58 +129,84 @@ const MyPage = () => {
         gender: gender.gender,
         height: height.height,
         weigt: weight.weight,
-        age: age.age,
-      };
-      console.log(req);
-      await axios.patch(`http://localhost:3000/user`, req).then((res) => {
-        if (res.status === 200) {
-          alert('회원 정보 수정이 완료되었습니다.');
-          //window.location.reload();
-        }
-      });
-    } catch (err) {
-      console.log(err);
-      alert('예상치 못한 에러가 발생했습니다.\n 잠시 후 다시 시도해주세요.');
+        age : age.age,
+        profileimage : selectimage.select
+      }
+      console.log(req)
+      await axios
+        .patch(`http://localhost:3000/user`, req, {
+          withCredentials: true,
+        })
+        .then(res => {
+          if (res.status === 200) {
+            alert("회원 정보 수정이 완료되었습니다.");
+            window.location.reload();
+          }
+        });
+    } catch(err) {
+      console.log(err)
+      alert("예상치 못한 에러가 발생했습니다.\n 잠시 후 다시 시도해주세요.");
     }
   };
+  
 
   return (
     <>
       <Body>
+        
         <Container>
-          <div className='profileimage'>
-            <img src={img} width='120px'></img>
-          </div>
-          <span>기본정보</span>
-          <div className='profile-group profile-group-email'>
+        <div className="profileimage">
+            {/* <img src={img} width="120px"></img> */}
+        </div>
+        <select name="select" id="seletimage" onChange={handleSelectValue("select")}>
+          <option value="default">기본이미지</option>
+          <option value="man">성인남성</option>
+          <option value="woman">성인여성</option>
+        </select>
+        <span>기본정보</span>
+          <div className="profile-group profile-group-email">
             <span>이메일 : {userInfo.email} </span>
           </div>
           <div>
-            <span>
-              닉네임 <input type='text' defaultValue={userInfo.username || ''} onChange={handleUsernameInputValue('username')} />
-            </span>
+            <span>닉네임 <input
+                type="text"
+                defaultValue  ={userInfo.username || ''}
+                onChange={handleUsernameInputValue("username")}
+              /></span>
           </div>
           <div>
-            <span>
-              성별 <input type='text' defaultValue={userInfo.gender} onChange={handleGenderInputValue('gender')} />
-            </span>
+            <span>성별 <input
+                type="text"
+                defaultValue={userInfo.gender}
+                onChange={handleGenderInputValue("gender")}
+              /></span>
           </div>
           <div>
-            <span>
-              나이 <input type='text' defaultValue={userInfo.age} onChange={handleAgeInputValue('age')} />
-            </span>
+            <span>나이 <input
+                type="text"
+                defaultValue={userInfo.age}
+                onChange={handleAgeInputValue("age")}
+              /></span>
           </div>
           <div>
-            <span>
-              키 <input type='text' defaultValue={userInfo.height} onChange={handleHeightInputValue('height')} />
-            </span>
+            <span>키 <input
+                type="text"
+                defaultValue={userInfo.height}
+                onChange={handleHeightInputValue("height")}
+              /></span>
           </div>
           <div>
-            <span>
-              몸무게 <input type='text' defaultValue={userInfo.weigt} onChange={handleWeightInputValue('weight')} />
-            </span>
+            <span>몸무게 <input
+                type="text"
+                defaultValue={userInfo.weigt}
+                onChange={handleWeightInputValue("weight")}
+              /></span>
           </div>
-          <button className='btn-modify btn-modify-profile' type='submit' onClick={handleModify}>
+          <button
+            className="btn-modify btn-modify-profile"
+            type="submit"
+            onClick={handleModify}
+          >
             저장
           </button>
           <LinkDiv href='/statistics'>
@@ -171,5 +216,5 @@ const MyPage = () => {
       </Body>
     </>
   );
-};
+}
 export default MyPage;

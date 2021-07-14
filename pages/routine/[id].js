@@ -7,12 +7,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Button, Icon } from 'semantic-ui-react'
 import TodayRoutine from '../workout/Dnd';
 import Tabmenu from '../../src/components/Tabmenu'
+import Timer from '../timerpage'
+import {routineInfo} from '../../redux/reducers/routineInfo'
 
 const Container = styled.section`
   display: flex;
   flex-direction: column;
   height: 100vh;
-
 `;
 
 const HeadSection = styled.section`
@@ -44,28 +45,29 @@ const BodySection = styled.section`
   display: flex;
   flex-direction: row;
   justify-content: center;
-  height: 100%;
+  height: 100vh;
 `;
 
 const BodyLeftSection = styled.section`
   display: flex;
-  flex-direction: column;
-  justify-content: center;
+  flex-direction: row;
+  align-items: center;
   border-right: 1px dotted;
-  width: 50%;
+  width: 50vw;
   height: 100%;
+  overflow-y: scroll;
 `;
 
 const BodyRightSection = styled.section`
   display: flex;
   flex-direction: row;
   justify-content: center;
-  width: 50%;
-
+  width: 50vw;
+  height: 100%;
 `;
 
 const DndSection = styled.section`
-  width: 100vw;
+  /* width: 50vw; */
 `;
 // const RoutineSection = styled.section`
 //   margin: 10px;
@@ -83,87 +85,49 @@ const DndSection = styled.section`
 //   }
 // `;
 
-const PageTitle = styled.h1`
-  text-align: center;
-  margin: 5px;
-`;
-
-const SubTitle = styled.h3`
-  text-align: center;
-`;
-
 const TabMenuContainer = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
 `;
 
-export default function Routine() {
+export default function Main() {
   const routines = useSelector((state) => state.routine.result);
+  const routineId = useSelector((state) => state.routineInfo.id)
   const [workouts, setWorkouts] = useState(null);
   const dispatch = useDispatch();
   const userId = 5;
   console.log(userId);
   console.log(routines);
+  console.log(routineId)
 
   useEffect(() => {
-    getRoutine(userId);
-  }, []);
+    // if(!routineId){
+    //   location.replace(`/routine`)
+    // } else {
+      getMyRoutine(routineId)
+    // }
+  }, [])
 
-  const getRoutine = async () => {
-    const url = `http://localhost:3000/testroutine`;
+  const getMyRoutine = async(routineId) => {
+    const url = `http://localhost:3000/testroutine?routine_id=${routineId}`
     const res = await axios.get(url, { withCredentials: true });
-    dispatch(currentRoutine(res.data));
-    // setRoutines(res.data.result)
-    console.log(res);
-  };
-
-  const addRoutine = async (userId) => {
-    const url = `http://localhost:3000/testroutine`;
-    const body = {
-      userid: userId,
-      routine_name: '새 루틴',
-      share: 'false',
-    };
-    const res = await axios.post(url, body, { withCredentials: true });
-    console.log(res);
-    await getRoutine(userId);
-  };
+    console.log(res.data);
+    dispatch(routineInfo(res.data.id, res.data.name, res.data.tasks))
+    // dispatch(dndUpdate(res.data.tasks))
+  }
 
   return (
     <>
     <Container>
-      <HeadSection>
-      </HeadSection>
+      <HeadSection/>
       <BodySection>
         <BodyLeftSection>
-      <RoutineSection>
-        {routines &&
-          routines.map((routine) => (
-            <RoutineLists
-            id={routine.id}
-            workouts={workouts}
-            userId={userId}
-            key={routine.id}
-            routines={routines}
-            routine={routine}
-            routineId={routine.id}
-            getRoutine={getRoutine}
-            />
-            ))}
-        <Button 
-          onClick={()=>{addRoutine(userId)}}
-          icon={{ as: 'i', className: 'plus'}}
-          />
-      </RoutineSection>
-          <TabMenuContainer>
-            <Tabmenu></Tabmenu>
-          </TabMenuContainer>
+          <Tabmenu></Tabmenu>
+          <TodayRoutine></TodayRoutine>
         </BodyLeftSection>
         <BodyRightSection>
-          <DndSection>
-            <TodayRoutine></TodayRoutine>
-          </DndSection>
+          <Timer/>
         </BodyRightSection>
         </BodySection>
     </Container>

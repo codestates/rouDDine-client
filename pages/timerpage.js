@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { timerSet, timerRunning, timerReset, timerWorkoutSet, timerCurWorkout, timerIsResting, totalTime } from '../redux/reducers/timer';
 import axios from 'axios';
 
-export default function timerpage({ data }) {
+export default function Timer({ data }) {
   // const myLoader = ({ src, width, quality }) => {
   //   return `https://example.com/${src}?w=${width}&q=${quality || 75}`;
   // };

@@ -70,8 +70,10 @@ const SignUpContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
+  padding-top : 200px;
   .signup_form {
-    position: absolute;
+    position: static;
     display: flex;
     flex-direction: column;
     width: 22rem;
@@ -82,6 +84,7 @@ const SignUpContainer = styled.div`
     justify-content: center;
     z-index: 100;
     > span {
+      padding-top : 30px;
       font-size: 1.5rem;
     }
     div:nth-child(5) {
