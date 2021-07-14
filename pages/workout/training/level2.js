@@ -1,8 +1,9 @@
 import React, {useState, useEffect} from 'react'
 import styled from 'styled-components'
 import axios from 'axios'
-import {useDispatch} from 'react-redux'
-import {currentWorkout} from '../../../redux/reducers/workout'
+import {useDispatch, useSelector} from 'react-redux'
+import {addWorkoutArray} from '../../../redux/reducers/workout'
+import {routineInfo} from '../../../redux/reducers/routineInfo'
 
 
 const Container = styled.div`
@@ -64,7 +65,7 @@ function List2({getRoutine}) {
   // console.log(workouts)
 
   const getWorkout = async () => {
-    const url = `http://localhost:3000/exercise`
+    const url = `http://localhost:3000/testexercise`
     const res = await axios.get(url, { withCredentials: true })
     // console.log(res.data.result);
     const items = res.data.result;
@@ -79,18 +80,30 @@ function List2({getRoutine}) {
     getWorkout()
     console.log("@@@@@@");
   }, [])
+  const routineId = useSelector((state) => state.routineInfo.id)
 
   const addWorkout = async(itemTitle) => {
-    const url = `http://localhost:3000/exercise`
+    const url = `http://localhost:3000/testexercise`
     const body = {
       userid: 1,
+      routine_id: routineId,
       name: itemTitle,
     }
     const res = await axios.post(url, body, { withCredentials: true })
     console.log(res);
-    console.log(res);
-    dispatch(currentWorkout(res.data))
+    const data = res.data
+
+    getMyRoutine(routineId) 
+    // dispatch(addWorkoutArray(data))
   };
+  
+  const getMyRoutine = async(routineId) => {
+    const url = `http://localhost:3000/testroutine?routine_id=${routineId}`
+    const res = await axios.get(url, { withCredentials: true });
+    console.log(res.data);
+    dispatch(routineInfo(res.data.id, res.data.name, res.data.tasks))
+  }
+
 
   const newWorkoutHandler = (e) => {
     const itemTitle = e.target.parentElement.children[0].innerText

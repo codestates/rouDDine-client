@@ -1,8 +1,9 @@
 import React, {useState, useEffect} from 'react'
 import styled from 'styled-components'
 import axios from 'axios'
-import {useDispatch} from 'react-redux'
-import {currentWorkout} from '../../../redux/reducers/workout'
+import {useDispatch, useSelector} from 'react-redux'
+import {addWorkoutArray} from '../../../redux/reducers/workout'
+import {routineInfo} from '../../../redux/reducers/routineInfo'
 
 const Container = styled.div`
   display: flex;
@@ -54,7 +55,7 @@ function List3({getRoutine}) {
   const dispatch = useDispatch();
   const [data, setData] = useState([])
   const getWorkout = async () => {
-    const url = `http://localhost:3000/exercise`
+    const url = `http://localhost:3000/testexercise`
     const res = await axios.get(url, { withCredentials: true })
     console.log(res.data.result);
     const items = res.data.result;
@@ -69,21 +70,30 @@ function List3({getRoutine}) {
     getWorkout()
     console.log("@@@@@@");
   }, [])
+  const routineId = useSelector((state) => state.routineInfo.id)
 
   const addWorkout = async(itemTitle) => {
-    const url = `http://localhost:3000/exercise`
+    const url = `http://localhost:3000/testexercise`
     const body = {
       userid: 1,
+      routine_id: routineId,
       name: itemTitle,
-      // set_time: Number(itemSetTime),
-      // rest_time: Number(itemRestTime),
-      // memo: "매일매일"
-    };
-    const res = await axios.post(url, body, { withCredentials: true });
+    }
+    const res = await axios.post(url, body, { withCredentials: true })
     console.log(res);
-    dispatch(currentWorkout(res.data))
+    const data = res.data
 
+    getMyRoutine(routineId) 
+    // dispatch(addWorkoutArray(data))
   };
+  
+  const getMyRoutine = async(routineId) => {
+    const url = `http://localhost:3000/testroutine?routine_id=${routineId}`
+    const res = await axios.get(url, { withCredentials: true });
+    console.log(res.data);
+    dispatch(routineInfo(res.data.id, res.data.name, res.data.tasks))
+  }
+
 
   // useEffect(() => {
   //   getRoutine()
