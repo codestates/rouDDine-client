@@ -1,27 +1,93 @@
 import styled from 'styled-components';
+import RoutineLists from './RoutineLists';
 import axios from 'axios';
 import { useState, useEffect } from 'react';
 import { currentRoutine } from '../../redux/reducers/routine';
 import { useDispatch, useSelector } from 'react-redux';
-import { Button, Icon } from 'semantic-ui-react';
+import { Button, Icon } from 'semantic-ui-react'
 import TodayRoutine from '../workout/Dnd';
-import Tabmenu from '../../src/components/Tabmenu';
+import Tabmenu from '../../src/components/Tabmenu'
+// import Sidebar from '../../src/components/Sidebar'
 
-const RoutineContainer = styled.ul`
-  margin: 10px;
+const Sidebar = styled.div`
+  width: 100px;
+  height: 100px;
+`;
+
+
+const Container = styled.section`
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+`;
+
+const HeadSection = styled.section`
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 50px;
+`;
+
+const RoutineSection = styled.section`
   display: flex;
   justify-content: center;
   flex-direction: row;
-
-  @media (max-width: 768px) {
-    display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
-    max-width: 300px;
-    /* justify-content: start; */
-    /* align-items: center; */
-  }
+  flex-wrap: wrap;
+  margin: 30px;
+  /* border: 2px inset; */
+  /* box-shadow: 0 0 5px 0px; */
+/*     
+  @media ( max-width: 768px ) {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  max-width: 300px;
+  justify-content: start;
+  align-items: center; 
+  } */
 `;
+
+const BodySection = styled.section`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  height: 100%;
+`;
+
+const BodyLeftSection = styled.section`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border-right: 1px dotted;
+  width: 50%;
+  height: 100%;
+`;
+
+const BodyRightSection = styled.section`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  width: 50%;
+
+`;
+
+const DndSection = styled.section`
+  width: 100vw;
+`;
+// const RoutineSection = styled.section`
+//   margin: 10px;
+//   display: flex;
+//   justify-content: center;
+//   flex-direction: row;
+  
+//   @media ( max-width: 768px ) {
+//     display: flex;
+//     flex-direction: column;
+//     flex-wrap: wrap;
+//     max-width: 300px;
+//     /* justify-content: start; */
+//     /* align-items: center; */
+//   }
+// `;
 
 const PageTitle = styled.h1`
   text-align: center;
@@ -32,7 +98,7 @@ const SubTitle = styled.h3`
   text-align: center;
 `;
 
-const Container = styled.div`
+const TabMenuContainer = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -42,7 +108,7 @@ export default function Routine() {
   const routines = useSelector((state) => state.routine.result);
   const [workouts, setWorkouts] = useState(null);
   const dispatch = useDispatch();
-  const userId = 1;
+  const userId = 5;
   console.log(userId);
   console.log(routines);
 
@@ -50,16 +116,16 @@ export default function Routine() {
     getRoutine(userId);
   }, []);
 
-  const getRoutine = async (userId) => {
-    const url = `http://localhost:3000/routine`;
+  const getRoutine = async () => {
+    const url = `http://localhost:3000/testroutine`;
     const res = await axios.get(url, { withCredentials: true });
-    dispatch(currentRoutine(res.data.result));
+    dispatch(currentRoutine(res.data));
     // setRoutines(res.data.result)
     console.log(res);
   };
 
   const addRoutine = async (userId) => {
-    const url = `http://localhost:3000/routine`;
+    const url = `http://localhost:3000/testroutine`;
     const body = {
       userid: userId,
       routine_name: '새 루틴',
@@ -72,24 +138,41 @@ export default function Routine() {
 
   return (
     <>
-      <PageTitle>Routine page</PageTitle>
-      <SubTitle>오늘 걷지 않으면 내일은 뛰어야 된다</SubTitle>
-      <RoutineContainer>
-        {/* {routines &&
-          routines.map((routine) => (
-            <RoutineLists id={routine.id} workouts={workouts} userId={userId} key={routine.id} routines={routines} routine={routine} routineId={routine.id} getRoutine={getRoutine} />
-          ))} */}
-        <Button
-          onClick={() => {
-            addRoutine(userId);
-          }}
-          icon={{ as: 'i', className: 'plus' }}
-        ></Button>
-      </RoutineContainer>
-      <Container>
-        <Tabmenu></Tabmenu>
-        <TodayRoutine></TodayRoutine>
-      </Container>
+    <Container>
+      <HeadSection/>
+        <Sidebar/>
+      <BodySection>
+        <BodyLeftSection>
+          <RoutineSection>
+            {routines &&
+              routines.map((routine) => (
+                <RoutineLists
+                id={routine.id}
+                workouts={workouts}
+                userId={userId}
+                key={routine.id}
+                routines={routines}
+                routine={routine}
+                routineId={routine.id}
+                getRoutine={getRoutine}
+                />
+                ))}
+            <Button 
+              onClick={()=>{addRoutine(userId)}}
+              icon={{ as: 'i', className: 'plus'}}
+              />
+          </RoutineSection>
+          <TabMenuContainer>
+            <Tabmenu></Tabmenu>
+          </TabMenuContainer>
+        </BodyLeftSection>
+        <BodyRightSection>
+          <DndSection>
+            <TodayRoutine></TodayRoutine>
+          </DndSection>
+        </BodyRightSection>
+        </BodySection>
+    </Container>
     </>
   );
 }
