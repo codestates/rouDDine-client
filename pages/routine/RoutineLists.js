@@ -50,12 +50,11 @@ export default function RoutineLists({
 
   const deleteHandler = (e) => {
     const routineId = e.target.parentElement.id
-    
-    console.log(routineId);
+    console.log(e.target.parentElement.id);
     deleteRoutine(routineId)
   }
-  const deleteRoutine = async (id) => {
-    const url = `http://localhost:3000/testroutine?routine_id=${id}`;
+  const deleteRoutine = async (routineId) => {
+    const url = `http://localhost:3000/testroutine?routine_id=${routineId}`;
     const res = await axios.delete(url)
       console.log(`${userId}의 루틴을 삭제했습니다`);
       console.log(res);
@@ -70,13 +69,13 @@ export default function RoutineLists({
     dispatch(routineInfo(res.data.id, res.data.name, res.data.tasks))
   }
 
-  
   return (
     <>
-      <RoutineList id={routine.id}
+      <RoutineList 
+      id={routine.id}
       onClick={(e) => {getMyRoutine(e)}}
       >
-        <ItemContainer>
+        <ItemContainer id={routine.id}>
           <RoutineItem id={routine.id}>
               <RoutineTitle id={routine.id}>{routine.name}</RoutineTitle>
           </RoutineItem>

@@ -74,8 +74,6 @@ function App() {
         </Section>
       </Container>
       <Footer>
-
-
       </Footer>
     </>
   )

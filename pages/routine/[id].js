@@ -7,12 +7,18 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Button, Icon } from 'semantic-ui-react'
 import TodayRoutine from '../workout/Dnd';
 import Tabmenu from '../../src/components/Tabmenu'
+// import Sidebar from '../../src/components/Sidebar'
+
+const Sidebar = styled.div`
+  width: 100px;
+  height: 100px;
+`;
+
 
 const Container = styled.section`
   display: flex;
   flex-direction: column;
   height: 100vh;
-
 `;
 
 const HeadSection = styled.section`
@@ -133,29 +139,29 @@ export default function Routine() {
   return (
     <>
     <Container>
-      <HeadSection>
-      </HeadSection>
+      <HeadSection/>
+        <Sidebar/>
       <BodySection>
         <BodyLeftSection>
-      <RoutineSection>
-        {routines &&
-          routines.map((routine) => (
-            <RoutineLists
-            id={routine.id}
-            workouts={workouts}
-            userId={userId}
-            key={routine.id}
-            routines={routines}
-            routine={routine}
-            routineId={routine.id}
-            getRoutine={getRoutine}
-            />
-            ))}
-        <Button 
-          onClick={()=>{addRoutine(userId)}}
-          icon={{ as: 'i', className: 'plus'}}
-          />
-      </RoutineSection>
+          <RoutineSection>
+            {routines &&
+              routines.map((routine) => (
+                <RoutineLists
+                id={routine.id}
+                workouts={workouts}
+                userId={userId}
+                key={routine.id}
+                routines={routines}
+                routine={routine}
+                routineId={routine.id}
+                getRoutine={getRoutine}
+                />
+                ))}
+            <Button 
+              onClick={()=>{addRoutine(userId)}}
+              icon={{ as: 'i', className: 'plus'}}
+              />
+          </RoutineSection>
           <TabMenuContainer>
             <Tabmenu></Tabmenu>
           </TabMenuContainer>
