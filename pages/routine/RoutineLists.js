@@ -9,44 +9,24 @@ import Image from 'next/image';
 
 const RoutineContainer = styled.ul`
   display: flex;
-  flex-direction: column;
+  padding: 30px;
+  flex-direction: row;
+  /* margin-left: 40px; */
   justify-content: center;
   align-items: center;
-  padding: 0;
-  margin: 80px 15px;
-  width: 100%;
   box-sizing: border-box;
-  margin-bottom: 50px;
-
-  img {
-    height: 300px;
-    width: 300px;
-  }
-`;
-
-const RoutineHeader = styled.div`
-`;
-
-const RoutineList = styled.li`
   background: rgba( 255, 255, 255, 0.60 );
   box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
-  padding: 20px 15px;
-  margin: 4px;
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  cursor: pointer;
-  background-color:#dbe4e4;
-  list-style: none;
+  border-radius: 5%;
+
+  img {
+    height: 150px;
+    width: 150px;
+  }
 
   :hover {
-    background-color: #2ac1bc;
+    border: 7px solid #ffffff;
   }
-`;
-
-const ItemContainer = styled.div`
-  display: flex;
-  flex: row;
 `;
 
 const RoutineItem = styled.div`
@@ -66,14 +46,27 @@ const RoutineTitle = styled.h2`
   text-align: center;
 `;
 
-const RoutineHeaderTitle = styled.h4`
-  width: 110px;
+const DeleteButton = styled.span`
+  height: 30px;
+  width: 30px;
+  border-radius: 15px;
+  /* position: relative; */
+  width: 20px;
+  height: 20px;
+  color: #ffffff;
+  cursor: pointer;
+  background-color: #b00000;
+  text-align: center;
+  margin-right: 10px;
+
+  :hover {
+    height: 22px;
+    width: 22px;
+    font-size: 1.3rem;
+  }
 `;
 
-const DeleteButton = styled.button`
-  position: sticky;
-  /* background: none; */
-`;
+
 export default function RoutineLists({
   routineId,
   routine,
@@ -108,11 +101,6 @@ export default function RoutineLists({
   
   return (
     <>
-    <RoutineHeader>
-      <RoutineTitle></RoutineTitle>
-    <DeleteButton id={routine.id} onClick={() => deleteHandler(routine.id)}/>
-
-    </RoutineHeader>
     <Link href={`/routine/${routine.id}`}>
      <a>
        <RoutineContainer
@@ -120,16 +108,13 @@ export default function RoutineLists({
         onClick={(e) => {getMyRoutine(e)}}
         >
         <img id={routine.id} src={`${process.env.NEXT_PUBLIC_url}/${img}`}></img>
-        <RoutineList id={routine.id}>
-          <ItemContainer id={routine.id}>
-            <RoutineItem id={routine.id}>
-                <RoutineTitle id={routine.id}>{routine.name}</RoutineTitle>
-            </RoutineItem>
-          </ItemContainer>
-          </RoutineList>
+          <RoutineItem id={routine.id}>
+            <RoutineTitle id={routine.id}>{routine.name}</RoutineTitle>
+          </RoutineItem>
         </RoutineContainer>
       </a>
     </Link>
+    <DeleteButton id={routine.id} onClick={() => deleteHandler(routine.id)}>-</DeleteButton>
     </>
   );
 }
