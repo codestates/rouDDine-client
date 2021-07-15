@@ -79,7 +79,6 @@ const Footer = styled.footer`
 function App() {
   return (
     <>
-      <Nav></Nav>
       <Container>
         <VideoSection>
         <Video/>

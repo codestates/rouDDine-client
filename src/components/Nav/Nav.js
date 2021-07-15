@@ -18,7 +18,7 @@ export default function Nav() {
     <>
       <NavContainer>
         <Link href='/'>
-          <div className='link logo'>로고</div>
+          <div className='link logo'>rouDDine</div>
         </Link>
         {modalLogin ? <Overlay_modal onClick={()=>setModalLogin(false)} /> : null}
         {modalSignup ? <Overlay_modal onClick={()=>setModalSignup(false)} /> : null}

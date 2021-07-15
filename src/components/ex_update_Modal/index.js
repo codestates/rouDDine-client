@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import {useDispatch, useSelector} from 'react-redux'
 import {ModalOpenAction} from '../../../redux/reducers/modal'
 import {workoutInfo} from '../../../redux/reducers/workoutInfo'
@@ -9,9 +9,9 @@ import axios from 'axios'
 
 function Modal({setModalOpen, modalOpen, id, name}) {
   // console.log("id: ",id, "name: ", name);
-
-  const dispatch = useDispatch();
   const routineId = useSelector((state) => state.routineInfo.id)
+  const dispatch = useDispatch();
+  // const routineId = 11;
   const workoutId = useSelector((state) => state.workoutInfo.id)
   console.log(workoutId);
   console.log(routineId);
@@ -26,7 +26,7 @@ function Modal({setModalOpen, modalOpen, id, name}) {
   
 
 
-  const updateWorkoutInfo =async(workoutId, values) => {
+  const updateWorkoutInfo = async(workoutId, values) => {
     console.log("요청");
     const url = `http://localhost:3000/testexercise`
     const body = {
@@ -48,6 +48,10 @@ function Modal({setModalOpen, modalOpen, id, name}) {
     console.log(res.data);
     dispatch(routineInfo(res.data.id, res.data.name, res.data.tasks))
   }
+
+  useEffect(() => {
+    getMyRoutine(routineId)
+  }, [])
 
   
 
@@ -77,7 +81,7 @@ function Modal({setModalOpen, modalOpen, id, name}) {
         </li>
       </ul>
       <ModalSaveBtn 
-      onClick={(e)=>{updateWorkoutInfo(workoutId, values)}}
+      onClick={()=>{updateWorkoutInfo(workoutId, values)}}
       onClick={()=>{setModalOpen(!modalOpen)}}
       >
         저장</ModalSaveBtn>
@@ -89,7 +93,7 @@ export default Modal;
 
 
 export const ModalContainer = styled.section`
-  height: 20vh;
+  height: 40vh;
   width: 20vw;
   display: flex;
   justify-content: center;
@@ -111,7 +115,7 @@ export const ModalSection = styled.section`
   z-index: 999;
   opacity: ${(props) => (props.modalOpen ? "100%" : "0")};
   top: ${(props) => (props.modalOpen ? "0" : "-100%")};
-  height: 20vh;
+  height: 40vh;
   /* right: 100px;
   top: 50px; */
   width: 20vw;

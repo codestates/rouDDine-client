@@ -58,7 +58,6 @@ const ReviewCardContainer = styled.li`
 
 
 function ReviewCard({content}) {
-  console.log(content);
   return (
     <ReviewCardContainer>
       <div>
