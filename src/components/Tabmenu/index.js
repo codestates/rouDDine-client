@@ -1,15 +1,15 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import List1 from '../../../pages/workout/training/level2'
-import List2 from '../../../pages/workout/training/level1'
-import List3 from '../../../pages/workout/training/level3'
+import List1 from './training/level2'
+import List2 from './training/level1'
+import List3 from './training/level3'
 
 
 const Container = styled.div`
   display: flex;
   flex-direction:column;
-  align-items: center;
-  height: 500x;
+  align-items: right;
+  height: 400x;
   /* position: absolute; */
 `;
 
@@ -38,7 +38,7 @@ const Contents = styled.div`
 
 const First = styled.div`
   padding: 0 5px;
-  width: 300px;
+  width: 200px;
   height: 500px;
   /* overflow-y: auto; */
   margin: 0 15px;
@@ -46,7 +46,7 @@ const First = styled.div`
 `;
 const Second = styled.div`
   padding: 0 5px;
-  width: 300px;
+  width: 200px;
   height: 500px;
   /* overflow-y: auto; */
   margin: 0 15px;
@@ -54,7 +54,7 @@ const Second = styled.div`
 
 const Third = styled.div`
   padding: 0 5px;
-  width: 300px;
+  width: 200px;
   height: 500px;
   /* overflow-y: auto; */
   margin: 0 15px;

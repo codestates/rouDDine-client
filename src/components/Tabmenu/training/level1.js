@@ -2,13 +2,12 @@ import React, {useState, useEffect} from 'react'
 import styled from 'styled-components'
 import axios from 'axios'
 import {useDispatch, useSelector} from 'react-redux'
-import {addWorkoutArray} from '../../../redux/reducers/workout'
-import {routineInfo} from '../../../redux/reducers/routineInfo'
+import {addWorkoutArray} from '../../../../redux/reducers/workout'
+import {routineInfo} from '../../../../redux/reducers/routineInfo'
 
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  overflow: auto;
   max-height: 700px;
 `;
 
@@ -19,19 +18,22 @@ const ItemContainer = styled.ul`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  width: 250px;
+  font-family: NanumGothic-regular;
+  width: 130px;
   margin: 10px;
   padding: 10px;
   border-radius: 8px;
-  box-shadow: 4px 3px 2px 1px rgba(0, 0, 255, .2);
+  box-shadow: 4px 3px 2px 1px rgba(0, 0, 255, 0.2);
 
   &:hover {
-    background-color:#f7ffff;
+    background-color: #f7ffff;
     color: #2ac1bc;
   }
 `;
 
-const ItemTitle = styled.h4``;
+const ItemTitle = styled.h4`
+
+`;
 
 const ItemList = styled.li`
   list-style: none;
@@ -51,16 +53,19 @@ const AddButton = styled.div`
 `;
 
 
-function List3({getRoutine}) {
+function List1({getRoutine}) {
   const dispatch = useDispatch();
   const [data, setData] = useState([])
+  const [workouts, setWorkouts] = useState([])
+  console.log(workouts);
+
   const getWorkout = async () => {
     const url = `http://localhost:3000/testexercise`
     const res = await axios.get(url, { withCredentials: true })
     console.log(res.data.result);
     const items = res.data.result;
     const curWorkout = items.filter((item) => (
-      item.category === '휴식'
+      item.category === '웨이트운동'
     ))
     console.log(curWorkout);
     setData(curWorkout)
@@ -68,6 +73,7 @@ function List3({getRoutine}) {
 
   useEffect(() => {
     getWorkout()
+    console.log(workouts);
     console.log("@@@@@@");
   }, [])
   const routineId = useSelector((state) => state.routineInfo.id)
@@ -93,7 +99,6 @@ function List3({getRoutine}) {
     console.log(res.data);
     dispatch(routineInfo(res.data.id, res.data.name, res.data.tasks))
   }
-
 
   // useEffect(() => {
   //   getRoutine()
@@ -128,4 +133,4 @@ function List3({getRoutine}) {
   );
 }
 
-export default List3;
+export default List1

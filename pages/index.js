@@ -17,7 +17,67 @@ const Logo = styled.span`
   padding: 10px;
 `;
 
-const Section = styled.div`
+const MainSection = styled.div`
+  height: 80vh;
+  margin-top: 10vh;
+  font-family: NanumGothic-ExtraBold;
+  display: flex;
+  flex: row;
+  justify-content: center;
+  max-width: 100%;
+  color: #000036;
+  padding: 40px;
+`;
+
+
+const MainArticle = styled.article`
+  display: flex;
+  flex-direction: row;
+`;
+
+const TitleStrong = styled.strong`
+  font-size: 10rem;
+`;
+
+const TitleWrapper = styled.div`
+
+`;
+//   article {
+//     display: flex;
+//     flex-direction: row;
+
+//     strong {
+//       font-size: 10rem;
+
+//       div{
+//         p {
+//           font-size: 4rem;
+//         }
+
+//         strong{
+//           font-size: 6rem;
+//         }
+//       }
+//     }
+//   }
+// `;
+
+const MainPicture = styled(Image)`
+  min-width: 40vw;
+`;
+
+const UsingSection = styled.div`
+  height: 80vh;
+  background-color: #000036;
+  max-width: 100%;
+
+`;
+
+const VideoSection = styled.div`
+
+`;
+
+const ReviewSection = styled.div`
   color: #343a40;
   background-color: #ffffff;
   margin-top: 60px;
@@ -26,7 +86,7 @@ const Section = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-
+  max-width: 100%;
   div {
     margin: 0 auto;
 
@@ -52,19 +112,47 @@ const Footer = styled.footer`
   background-color: #000036;
   display: flex;
   flex-direction: row;
+  max-width: 100%;
+`;
+
+const ReactiveSection= styled.div`
+  height: 80vh;
+  max-width: 100%;
 `;
 
 function App() {
   return (
     <>
       <Container>
-        <Section>
+
+        <MainSection>
+          <MainArticle>
+            <TitleStrong>내</TitleStrong>
+            <TitleWrapper>
+              <p>마음대로 운동하기</p>
+              <strong>"루띤"</strong>
+            </TitleWrapper>
+          </MainArticle>
+          <MainPicture src='/../public/exercise.jpg'height="100px" width="700px"></MainPicture>
+        </MainSection>
+
+        <UsingSection></UsingSection>
+
+        <VideoSection>
+          {/* <WorkoutVideo></WorkoutVideo> */}
+        </VideoSection>
+
+        <ReviewSection>
           <div>
             <h2>rouDDine을 사용한 많은 분들이 목표 달성에 성공하셨습니다.</h2>
             <article>하루의 시작도, 하루의 끝도 우리에겐 너무나 소중하니까, 정해진 시간 안에 최고의 효율을 경험해 보세요! 당신도 할 수 있습니다!</article>
           </div>
-          <ReviewContainer></ReviewContainer>
-        </Section>
+
+          <ReviewContainer>
+          </ReviewContainer>
+        </ReviewSection>
+        <ReactiveSection></ReactiveSection>
+
       </Container>
       <Footer></Footer>
     </>

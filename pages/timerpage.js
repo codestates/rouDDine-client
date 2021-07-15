@@ -6,6 +6,7 @@ import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPause, faPlay, faStop, faBackward, faForward } from '@fortawesome/free-solid-svg-icons';
 export default function timerpage({ data }) {
+
   const taskIds = [
     //더미
     { id: '1', name: '벤치프레스', set_number: 1, set_time: 1, rest_time: 1 },
