@@ -22,10 +22,12 @@ const Logo = styled.span`
 `;
 
 
+
 const VideoSection= styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
+  padding-bottom : -300px;
 `;
 
 const Section = styled.div`
