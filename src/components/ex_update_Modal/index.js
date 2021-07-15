@@ -57,29 +57,13 @@ function Modal({setModalOpen, modalOpen, id, name}) {
 
   return (
     <ModalSection modalOpen={modalOpen}>
-      <ul>
-        <li>
-          <input name="name" placeholder="운동 이름" onChange={(e)=>{inputHandler(e)}}/>
-        </li>
-        <li>
-          <input name="set_number" type="number" placeholder="세트" onChange={(e)=>{inputHandler(e)}}/>
-        </li>
-        <li>
-          <input name="minutes" type="number" placeholder="운동시간(분)" onChange={(e)=>{inputHandler(e)}}/>
-        </li>
-        <li>
-          <input name="seconds" type="number" placeholder="운동시간(초)" onChange={(e)=>{inputHandler(e)}}/>
-        </li>
-        <li>
-          <input name="rest_minutes" type="number" placeholder="휴식시간(분)" onChange={(e)=>{inputHandler(e)}}/>
-        </li>
-        <li>
-          <input name="rest_seconds" type="number" placeholder="휴식시간(초)" onChange={(e)=>{inputHandler(e)}}/>
-        </li>
-        <li>
-          <input name="memo" placeholder="메모" onChange={(e)=>{inputHandler(e)}}/>
-        </li>
-      </ul>
+        <input name="name" placeholder="운동 이름" onChange={(e)=>{inputHandler(e)}}/>
+        <input name="set_number" type="number" placeholder="세트" onChange={(e)=>{inputHandler(e)}}/>
+        <input name="minutes" type="number" placeholder="운동시간(분)" onChange={(e)=>{inputHandler(e)}}/>
+        <input name="seconds" type="number" placeholder="운동시간(초)" onChange={(e)=>{inputHandler(e)}}/>
+        <input name="rest_minutes" type="number" placeholder="휴식시간(분)" onChange={(e)=>{inputHandler(e)}}/>
+        <input name="rest_seconds" type="number" placeholder="휴식시간(초)" onChange={(e)=>{inputHandler(e)}}/>
+        <input name="memo" placeholder="메모" onChange={(e)=>{inputHandler(e)}}/>
       <ModalSaveBtn 
       onClick={()=>{updateWorkoutInfo(workoutId, values)}}
       onClick={()=>{setModalOpen(!modalOpen)}}
@@ -97,6 +81,7 @@ export const ModalContainer = styled.section`
   width: 20vw;
   display: flex;
   justify-content: center;
+  padding:50%;
   align-items: center;
   /* background: rgba(0, 0, 0, 0.8); */
   position: fixed;
@@ -108,21 +93,26 @@ export const ModalSection = styled.section`
   box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
   -webkit-backdrop-filter: blur( 12.0px );
   border-radius: 10px;
+  margin: 10% 30%;
   border: 1px solid rgba( 255, 255, 255, 0.18 );
   position: absolute;
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
   z-index: 999;
   opacity: ${(props) => (props.modalOpen ? "100%" : "0")};
   top: ${(props) => (props.modalOpen ? "0" : "-100%")};
-  height: 40vh;
+  height:500px;
   /* right: 100px;
   top: 50px; */
-  width: 20vw;
-  flex-direction: column;
+  width: 500px;
 
-  li {
+  input {
     list-style: none;
+    width: 200px;
+    padding: 8px;
+    /* height: 150px; */
   }
 /* 
   @media screen and (max-width: 768px) {
@@ -138,4 +128,8 @@ export const ModalSaveBtn = styled.span`
   font-size: 0.2rem;
   cursor: pointer;
   padding: 5px;
+  border: 2px solid #000035;
+  background-color: #000035;
+  color: #ffffff;
+  font-size: 1rem;
 `;
