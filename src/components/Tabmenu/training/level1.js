@@ -15,10 +15,12 @@ const ItemContainer = styled.ul`
   background: #2ac1bc;
   color: #f7ffff;
   display: flex;
+  text-align: center;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
   font-family: NanumGothic-regular;
+  font-weight: 300;
   width: 130px;
   margin: 10px;
   padding: 10px;
@@ -60,7 +62,7 @@ function List1({getRoutine}) {
   console.log(workouts);
 
   const getWorkout = async () => {
-    const url = `http://localhost:3000/testexercise`
+    const url = `${process.env.NEXT_PUBLIC_url}/testexercise`
     const res = await axios.get(url, { withCredentials: true })
     console.log(res.data.result);
     const items = res.data.result;
@@ -79,7 +81,7 @@ function List1({getRoutine}) {
   const routineId = useSelector((state) => state.routineInfo.id)
 
   const addWorkout = async(itemTitle) => {
-    const url = `http://localhost:3000/testexercise`
+    const url = `${process.env.NEXT_PUBLIC_url}/testexercise`
     const body = {
       userid: 1,
       routine_id: routineId,
@@ -94,7 +96,7 @@ function List1({getRoutine}) {
   };
   
   const getMyRoutine = async(routineId) => {
-    const url = `http://localhost:3000/testroutine?routine_id=${routineId}`
+    const url = `${process.env.NEXT_PUBLIC_url}/testroutine?routine_id=${routineId}`
     const res = await axios.get(url, { withCredentials: true });
     console.log(res.data);
     dispatch(routineInfo(res.data.id, res.data.name, res.data.tasks))

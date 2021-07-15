@@ -65,7 +65,7 @@ function List2({getRoutine}) {
   // console.log(workouts)
 
   const getWorkout = async () => {
-    const url = `http://localhost:3000/testexercise`
+    const url = `${process.env.NEXT_PUBLIC_url}/testexercise`
     const res = await axios.get(url, { withCredentials: true })
     // console.log(res.data.result);
     const items = res.data.result;
@@ -83,7 +83,7 @@ function List2({getRoutine}) {
   const routineId = useSelector((state) => state.routineInfo.id)
 
   const addWorkout = async(itemTitle) => {
-    const url = `http://localhost:3000/testexercise`
+    const url = `${process.env.NEXT_PUBLIC_url}/testexercise`
     const body = {
       userid: 1,
       routine_id: routineId,
@@ -98,7 +98,7 @@ function List2({getRoutine}) {
   };
   
   const getMyRoutine = async(routineId) => {
-    const url = `http://localhost:3000/testroutine?routine_id=${routineId}`
+    const url = `${process.env.NEXT_PUBLIC_url}/testroutine?routine_id=${routineId}`
     const res = await axios.get(url, { withCredentials: true });
     console.log(res.data);
     dispatch(routineInfo(res.data.id, res.data.name, res.data.tasks))

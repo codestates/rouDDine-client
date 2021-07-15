@@ -1,6 +1,7 @@
 import styled from 'styled-components'
 import Image from 'next/image'
 import Nav from '../src/components/Nav/Nav'
+import {useRouter} from 'next/router';
 import ReviewContainer from '../src/components/ReviewCard/Container'
 import ReviewCard from '../src/components/ReviewCard/Card'
 import WorkoutVideo from '../src/components/video/video';
@@ -47,6 +48,24 @@ const MainSection = styled.div`
 
   }
   `;
+
+const StartButton = styled.button`
+  width: 250px;
+  height: 90px;
+  margin-top: 20px;
+  color: lightgrey;
+  font-size: 1.8rem;
+  font-family: NanumGothic-ExtraBold;
+  background-color: #000035;
+  border-radius: 30%;
+
+  :hover {
+    border: 5px solid #000035;
+    color: #000035;
+    background-color: lightgrey;
+    opacity: 0.7;
+  }
+`;
 
 const TitleContainer = styled.div`
   margin-left: 30px;
@@ -168,6 +187,7 @@ const ReactiveSection= styled.div`
 
 
 function App() {
+  const router = useRouter();
   return (
     <>
       <Container>
@@ -176,7 +196,7 @@ function App() {
             <MainArticle>
               <TitleStrong>내</TitleStrong>
               <TitleWrapper>
-                <p>마음대로 만든 <br/>손 안의 트레이너</p>
+                <p>마음대로 만드는 <br/>손 안의 트레이너</p>
                 <strong>루띤</strong>
               </TitleWrapper>
             </MainArticle>
@@ -184,6 +204,7 @@ function App() {
               남이 시켜서 하는 운동은 이제 그만!! <br/>
               내가 만든 나만의 루틴으로 운동하고 <br /> 
               당신의 목표를 달성을 공유해 보세요.<br/>
+              <StartButton onClick={() => router.push('/routine')}>운동 시작하기</StartButton>
             </TitleContents>
           </TitleContainer>
           <Image src='/../public/main.jpeg' width='800' height='600'></Image>

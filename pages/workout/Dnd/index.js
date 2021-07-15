@@ -19,9 +19,18 @@ const grid = 8;
 
 const DndContainer = styled.div`
   margin-top: 5vh;
-  display: block;
+  display: flex;
+  flex-direction: column;
   width: 20vw;
   height: 80vh;
+  align-items: center;
+  
+  /* border : 1px solid black; */
+  
+  div{
+    margin-left: 0;
+    text-align : center;
+  }
 `;
 
 const ItemContainer = styled.div`
@@ -34,7 +43,7 @@ const ItemContainer = styled.div`
   background-color: ${(props) => (props.isDraggingOver ? 'lightblue' : '#4665d9')};
   background-color: ${(props) => (props.editMode ? '#000' : 'white')};
   border: ${(props) => (props.editMode ? '1px solid #000' : 'none')};
-  opacity: ${(props) => (props.editMode ? '0.25' : '1')};
+  opacity: ${(props) => (props.editMode ? '0.55' : '1')};
 `;
 
 const Item = styled.ul`
@@ -43,18 +52,18 @@ const Item = styled.ul`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  opacity: 0.8;
   user-select: none;
-  /* padding: 30px; */
   margin: 5px 5px;
   font-family: Stylish-Regular;
-  color: white;
-  background: ${(props) => (props.isDragging ? '#000036' : '#4665d9;')};
+  color: lightgrey;
+  box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
+  -webkit-backdrop-filter: blur( 12.0px );
+  background: ${(props) => (props.isDragging ? '#2ac1bc' : '#4665d9;')};
   
   :hover{
     background: #ffffff;
     color: #000036;
-    box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
-    -webkit-backdrop-filter: blur( 12.0px );
     /* border: 2px solid #000036; */  
   }
 
@@ -62,6 +71,10 @@ const Item = styled.ul`
     display: flex;
     flex-direction: row;
     width: 100%;
+  }
+
+  span {
+    text-align: left;
   }
 `;
 
@@ -94,6 +107,30 @@ const UpdateButton = styled.span`
   margin: 10px 0;
   padding: 0 10px;
   cursor: pointer;
+  font-family: NanumGothic-Bold;
+  /* font-weight: 800; */
+`;
+
+const RotateButton = styled.div`
+  background-color: #000035;
+  opacity: 0.9;
+  color: lightgrey;
+  font-size: 1.0rem;
+  padding: 10px;
+  /* border: 2px outset lightgreen; */
+  border-radius: 10px;
+  height: 100px;
+  width: 80%;
+  
+  :hover {
+    /* border: 5px outset #2ac1bc; */
+    box-shadow: 3px 5px;
+    background-color: #000035;
+    opacity: 0.7;
+    border: #000035 2px;
+    font-weight: 600;
+    color: white;
+  }
 `;
 
 function TodayRoutine() {
@@ -108,7 +145,7 @@ function TodayRoutine() {
 
   //드래그앤드롭으로 순서 바꾸기
   const orderChangeHandler = async(routineId, workouts) => {
-    const url = `http://localhost:3000/testroutine`
+    const url = `${process.env.NEXT_PUBLIC_url}/testroutine`
     const body = {
       routine_id :routineId,
       exercise_array: workouts
@@ -118,7 +155,7 @@ function TodayRoutine() {
     getMyRoutine(routineId)
   }
   const getMyRoutine = async(routineId) => {
-    const url = `http://localhost:3000/testroutine?routine_id=${routineId}`
+    const url = `${process.env.NEXT_PUBLIC_url}/testroutine?routine_id=${routineId}`
     const res = await axios.get(url, { withCredentials: true });
     console.log(res.data);
     dispatch(routineInfo(res.data.id, res.data.name, res.data.tasks))
@@ -180,7 +217,7 @@ const getListStyle = isDraggingOver => ({
     // const id = e.target.parentElement.parentElement.id
     const targetId = e.target.parentElement.parentElement.id
     console.log(targetId)
-    const url = `http://localhost:3000/testexercise?workoutid=${targetId}`
+    const url = `${process.env.NEXT_PUBLIC_url}/testexercise?workoutid=${targetId}`
     const res = await axios.delete(url, {withCredentials: true})
 
     console.log(res)
@@ -189,7 +226,7 @@ const getListStyle = isDraggingOver => ({
   }
 
   const updateWorkout = async (routineId) =>{
-    const url = `http://localhost:3000/testexercise`
+    const url = `${process.env.NEXT_PUBLIC_url}/testexercise`
     const res = await axios.patch(url, {withCredentials: true})
     console.log(res);
   } 
@@ -210,7 +247,7 @@ const getListStyle = isDraggingOver => ({
   // console.log(routineId);
 
 // const routineUpdateHandler = async(workoutIds) => {
-//   const url = `http://localhost:3000/testroutine`
+//   const url = `${process.env.NEXT_PUBLIC_url}/testroutine`
 //   const body = {
 //     routine_id : routineId,
 //     exercise_array : [...workoutIds]
@@ -222,8 +259,8 @@ const getListStyle = isDraggingOver => ({
   return (
     <>
       <DndContainer>
-        {editMode ? <div onClick={endEditMode}>저장</div> : (
-          <div onClick={triggerEditMode}>순서변경</div>
+        {editMode ? <RotateButton onClick={endEditMode}>저장</RotateButton> : (
+          <RotateButton onClick={triggerEditMode}>운동의 순서를 바꾸어 보세요!</RotateButton>
         )}
         <DragDropContext onDragEnd={onDragEnd}>
           <Droppable droppableId="droppable" direction="vertical">

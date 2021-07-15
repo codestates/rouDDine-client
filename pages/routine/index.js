@@ -59,7 +59,7 @@ function Routine() {
   }, []);
 
   const getRoutine = async (userId) => {
-    const url = `http://localhost:3000/testroutine`;
+    const url = `${process.env.NEXT_PUBLIC_url}/testroutine`;
     const res = await axios.get(url, { withCredentials: true });
     dispatch(currentRoutine(res.data));
     // setRoutines(res.data.result)
@@ -67,7 +67,7 @@ function Routine() {
   };
 
   const addRoutine = async (userId) => {
-    const url = `http://localhost:3000/testroutine`;
+    const url = `${process.env.NEXT_PUBLIC_url}/testroutine`;
     const body = {
       userid: userId,
       routine_name: '새 루틴',

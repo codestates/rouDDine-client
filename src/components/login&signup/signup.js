@@ -30,7 +30,7 @@ export default function SignUp() {
       console.log(username, email, password);
       axios
         .post(
-          'http://localhost:3000/user',
+          `${process.env.NEXT_PUBLIC_url}/user`,
           { username, email, password, social: null }, //social: null로 필수
           { withCredentials: true }
         )

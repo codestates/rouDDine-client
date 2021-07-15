@@ -28,7 +28,7 @@ function Modal({setModalOpen, modalOpen, id, name}) {
 
   const updateWorkoutInfo = async(workoutId, values) => {
     console.log("요청");
-    const url = `http://localhost:3000/testexercise`
+    const url = `${process.env.NEXT_PUBLIC_url}/testexercise`
     const body = {
       workoutid : workoutId,
       name : values.name,
@@ -43,7 +43,7 @@ function Modal({setModalOpen, modalOpen, id, name}) {
   }
 
   const getMyRoutine = async(routineId) => {
-    const url = `http://localhost:3000/testroutine?routine_id=${routineId}`
+    const url = `${process.env.NEXT_PUBLIC_url}/testroutine?routine_id=${routineId}`
     const res = await axios.get(url, { withCredentials: true });
     console.log(res.data);
     dispatch(routineInfo(res.data.id, res.data.name, res.data.tasks))

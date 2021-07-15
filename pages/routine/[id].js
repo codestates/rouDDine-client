@@ -52,16 +52,23 @@ const BodySection = styled.section`
 const BodyLeftSection = styled.section`
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
   align-items: center;
   border-right: 1px dotted;
   width: 50vw;
   height: 100%;
   overflow-y: scroll;
+
+  @media ( max-width: 1024px ) {
+    display: none;
+  }
 `;
 
 const BodyRightSection = styled.section`
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
   justify-content: center;
   width: 50vw;
   height: 100%;
@@ -112,7 +119,7 @@ export default function Main() {
   }, [])
 
   const getMyRoutine = async(routineId) => {
-    const url = `http://localhost:3000/testroutine?routine_id=${routineId}`
+    const url = `${process.env.NEXT_PUBLIC_url}/testroutine?routine_id=${routineId}`
     const res = await axios.get(url, { withCredentials: true });
     console.log(res.data);
     dispatch(routineInfo(res.data.id, res.data.name, res.data.tasks))
