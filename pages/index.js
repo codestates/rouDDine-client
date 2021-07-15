@@ -3,7 +3,7 @@ import Image from 'next/image'
 import Nav from '../src/components/Nav/Nav'
 import ReviewContainer from '../src/components/ReviewCard/Container'
 import ReviewCard from '../src/components/ReviewCard/Card'
-import WorkoutVideo from '../src/components/video';
+import WorkoutVideo from '../src/components/video/video';
 // import {Link} from 'react-router-dom'
 
 const Container = styled.div`
@@ -20,7 +20,7 @@ const Logo = styled.span`
 `;
 
 const MainSection = styled.div`
-  height: 80vh;
+  height: 100%;
   margin-top: 10vh;
   font-family: NanumGothic-ExtraBold;
   display: flex;
@@ -29,44 +29,78 @@ const MainSection = styled.div`
   max-width: 100%;
   color: #000036;
   padding: 40px;
+  
+  @media (min-width:768px) and (max-width:1023px) { 
+    box-sizing: auto;
+    display: flex;
+    flex-direction: column;
+    padding: 10px 0px;
+    /* min-height:100%; */
+    /* height: 120%; */
+    margin-bottom: 200px;
+  }
+  
+  @media ( max-width: 768px ) {
+    box-sizing: auto;
+    padding: 10px 0px;
+    flex-direction: column;
+
+  }
+  `;
+
+const TitleContainer = styled.div`
+  margin-left: 30px;
+  display: block;
+  flex-wrap: wrap;
+
+  @media ( max-width: 768px ) {
+    box-sizing: auto;
+    max-height: 20%;
+    padding: 10px 0px;
+  }
 `;
 
+const TitleContents = styled.h3`
+  padding: 60px 50px;
+  
+    @media (min-width:768px) and (max-width:1023px) { 
+    box-sizing: auto;
+  }
+
+  @media ( max-width: 768px ) {
+    box-sizing: auto;
+  }
+`;
 
 const MainArticle = styled.article`
   display: flex;
   flex-direction: row;
+  max-height: 300px;
+  /* margin: 0 20px; */
 `;
 
 const TitleStrong = styled.strong`
-  font-size: 10rem;
+  font-size: 8rem;
+  padding-top: 120px;
 `;
 
 const TitleWrapper = styled.div`
+  font-size: 3.2rem;
+  padding-top: 120px;
 
+
+  p {
+    font-size: 2.0rem;
+    margin: 0;
+    text-align: center;
+  }
+
+  strong {
+    font-size: 5rem;
+    margin: 0 25px;
+  }
 `;
-//   article {
-//     display: flex;
-//     flex-direction: row;
 
-//     strong {
-//       font-size: 10rem;
-
-//       div{
-//         p {
-//           font-size: 4rem;
-//         }
-
-//         strong{
-//           font-size: 6rem;
-//         }
-//       }
-//     }
-//   }
-// `;
-
-const MainPicture = styled(Image)`
-  min-width: 40vw;
-`;
 
 const UsingSection = styled.div`
   height: 80vh;
@@ -129,11 +163,7 @@ const Footer = styled.footer`
 const ReactiveSection= styled.div`
   height: 80vh;
   max-width: 100%;
-
-
 `;
-
-
 
 
 
@@ -142,14 +172,21 @@ function App() {
     <>
       <Container>
         <MainSection>
-          <MainArticle>
-            <TitleStrong>내</TitleStrong>
-            <TitleWrapper>
-              <p>마음대로 운동하기</p>
-              <strong>"루띤"</strong>
-            </TitleWrapper>
-          </MainArticle>
-          <MainPicture src='/' height="100px" width="700px"></MainPicture>
+          <TitleContainer>
+            <MainArticle>
+              <TitleStrong>내</TitleStrong>
+              <TitleWrapper>
+                <p>마음대로 만든 <br/>손 안의 트레이너</p>
+                <strong>루띤</strong>
+              </TitleWrapper>
+            </MainArticle>
+            <TitleContents>
+              남이 시켜서 하는 운동은 이제 그만!! <br/>
+              내가 만든 나만의 루틴으로 운동하고 <br /> 
+              당신의 목표를 달성을 공유해 보세요.<br/>
+            </TitleContents>
+          </TitleContainer>
+          <Image src='/../public/main.jpeg' width='800' height='600'></Image>
         </MainSection>
 
         <UsingSection>
