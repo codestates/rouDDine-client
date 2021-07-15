@@ -2,7 +2,6 @@ import React, {useState, useEffect} from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import RoutineLists from './RoutineLists'
 import styled from 'styled-components'
-import { Button, Icon } from 'semantic-ui-react'
 import axios from 'axios'
 import { currentRoutine } from '../../redux/reducers/routine';
 import {useRouter} from 'next/router'
