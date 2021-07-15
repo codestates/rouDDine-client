@@ -1,36 +1,23 @@
-
-import styled from 'styled-components';
-import Image from 'next/image';
-import ReviewContainer from '../src/components/ReviewCard/Container';
-import ReviewCard from '../src/components/ReviewCard/Card';
+import styled from 'styled-components'
+import Image from 'next/image'
+import Nav from '../src/components/Nav/Nav'
+import ReviewContainer from '../src/components/ReviewCard/Container'
+import ReviewCard from '../src/components/ReviewCard/Card'
+import WorkoutVideo from '../src/components/video';
 // import {Link} from 'react-router-dom'
 
 const Container = styled.div`
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
-  overflow: auto;
-  
 `;
 
 const Logo = styled.span`
   font-size: 2rem;
   padding: 10px;
 `;
-
-
-
-
-const VideoSection= styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  padding-bottom : -300px;
-`;
-
-const Section = styled.div`
 
 const MainSection = styled.div`
   height: 80vh;
@@ -85,15 +72,18 @@ const UsingSection = styled.div`
   height: 80vh;
   background-color: #000036;
   max-width: 100%;
-
-`;
+  `;
 
 const VideoSection = styled.div`
-
+  /* padding:15%; */
+  display: flex;
+  flex: row;
+  justify-content: center;
+  align-items: center;
+  vertical-align: middle;
 `;
 
 const ReviewSection = styled.div`
-
   color: #343a40;
   background-color: #ffffff;
   margin-top: 60px;
@@ -102,17 +92,16 @@ const ReviewSection = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
+  max-width: 100%;
+
   
   div {
     margin: 0 auto;
-
+    
     h2 {
       text-align: center;
       font-family: NanumGothic-ExtraBold;
     }
-  
-  
-  
 
     article {
       text-align: center;
@@ -120,11 +109,13 @@ const ReviewSection = styled.div`
       font-size: 1.5rem;
       margin-bottom: 50px;
     }
+
   }
-  @media (max-width: 768px) {
+  @media ( max-width: 768px ) {
     padding: 10px 0px;
   }
-`;
+  `;
+
 
 const Footer = styled.footer`
   height: 20vh;
@@ -132,23 +123,24 @@ const Footer = styled.footer`
   display: flex;
   flex-direction: row;
   max-width: 100%;
+
 `;
 
 const ReactiveSection= styled.div`
   height: 80vh;
   max-width: 100%;
+
+
 `;
+
+
+
+
 
 function App() {
   return (
     <>
       <Container>
-        <VideoSection>
-        <Video/>
-        </VideoSection>
-        <Section>
-
-
         <MainSection>
           <MainArticle>
             <TitleStrong>내</TitleStrong>
@@ -157,13 +149,14 @@ function App() {
               <strong>"루띤"</strong>
             </TitleWrapper>
           </MainArticle>
-          <MainPicture src='/../public/exercise.jpg'height="100px" width="700px"></MainPicture>
+          <MainPicture src='/' height="100px" width="700px"></MainPicture>
         </MainSection>
 
-        <UsingSection></UsingSection>
+        <UsingSection>
+        </UsingSection>
 
         <VideoSection>
-          {/* <WorkoutVideo></WorkoutVideo> */}
+          <WorkoutVideo></WorkoutVideo>
         </VideoSection>
 
         <ReviewSection>
@@ -171,16 +164,17 @@ function App() {
             <h2>rouDDine을 사용한 많은 분들이 목표 달성에 성공하셨습니다.</h2>
             <article>하루의 시작도, 하루의 끝도 우리에겐 너무나 소중하니까, 정해진 시간 안에 최고의 효율을 경험해 보세요! 당신도 할 수 있습니다!</article>
           </div>
-
           <ReviewContainer>
           </ReviewContainer>
         </ReviewSection>
+
         <ReactiveSection></ReactiveSection>
 
       </Container>
-      <Footer></Footer>
+      <Footer>
+      </Footer>
     </>
-  );
+  )
 }
 
 export default App;
