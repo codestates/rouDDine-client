@@ -2,7 +2,6 @@ import React, {useState, useEffect} from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import RoutineLists from './RoutineLists'
 import styled from 'styled-components'
-import { Button, Icon } from 'semantic-ui-react'
 import axios from 'axios'
 import { currentRoutine } from '../../redux/reducers/routine';
 import {useRouter} from 'next/router'
@@ -13,9 +12,6 @@ const RoutineSection = styled.section`
   justify-content: center;
   flex-direction: row;
   flex-wrap: wrap;
-  margin: 30px;
-  /* border: 2px inset; */
-  /* box-shadow: 0 0 5px 0px; */
 /*     
   @media ( max-width: 768px ) {
   display: flex;
@@ -36,7 +32,7 @@ const AddRoutineButton = styled.button`
   font-size: 2rem;
   position: absolute;
   right: 2%;
-  bottom: 30%;
+  bottom: 5%;
 
   :hover {
     transform: rotate( 45deg );
@@ -45,6 +41,11 @@ const AddRoutineButton = styled.button`
     text-shadow: 1rem;
   }
 `;
+
+const RoutinePageHeader = styled.div`
+  padding: 50px;
+`;
+
 
 function Routine() {
   const router = useRouter();
@@ -79,6 +80,8 @@ function Routine() {
   };
 
   return (
+    <>
+    <RoutinePageHeader></RoutinePageHeader>
     <RoutineSection>
     {routines &&
       routines.map((routine) => (
@@ -94,12 +97,14 @@ function Routine() {
         getRoutine={getRoutine}
         >
         </RoutineLists>
+        
         ))}
     <AddRoutineButton 
       onClick={()=>{addRoutine(userId)}}
       // icon={{ as: 'i', className: 'plus'}}
       >+</AddRoutineButton>
   </RoutineSection>
+  </>
   )
 }
 
