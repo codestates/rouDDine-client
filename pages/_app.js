@@ -10,15 +10,14 @@ config.autoAddCss = false; //폰트어썸
 
 const MyApp = ({ Component, pageProps }) => {
   return (
-
     <>
     <Nav></Nav>
     <HeadInfo/>
       <ParallaxProvider>
+        <Nav />
         <Component {...pageProps} />
       </ParallaxProvider>
     </>
-
   );
 };
 
