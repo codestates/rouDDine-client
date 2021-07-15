@@ -25,7 +25,7 @@ function Workout(ctx) {
   const getWorkout2 = async () => {
   const allCookies = cookies(ctx);
   const token = allCookies;
-  const res = await axios.get('http://localhost:3000/exercise', {
+  const res = await axios.get(`${process.env.NEXT_PUBLIC_url}/exercise`, {
     headers: { Cookie: `accessToken=${token}` },
     withCredentials: true,
   });

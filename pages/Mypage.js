@@ -70,14 +70,14 @@ const MyPage = () => {
   const [selectimage, selectimg] = useState('');
 
   const getMyInfo = () => {
-    axios.get(`http://localhost:3000/user`, {
+    axios.get(`${process.env.NEXT_PUBLIC_url}/user`, {
       withCredentials: true,
     }) 
     .then(res => {
       if (res.status === 200) {
-        let defaultpath = 'http://localhost:3000/defaultimage.png'; //서버에 uploadedfile, defaultimage있어야함
-        let manpath = 'http://localhost:3000/man.jpg';
-        let womanpath = 'http://localhost:3000/woman.jpg';
+        let defaultpath = `${process.env.NEXT_PUBLIC_url}/defaultimage.png`; //서버에 uploadedfile, defaultimage있어야함
+        let manpath = `${process.env.NEXT_PUBLIC_url}/man.jpg`;
+        let womanpath = `${process.env.NEXT_PUBLIC_url}/woman.jpg`;
         setuser(res.data);
         if(res.data.profileimage === 'default'){
           setImg(defaultpath);
@@ -140,7 +140,7 @@ const MyPage = () => {
       }
       console.log(req)
       await axios
-        .patch(`http://localhost:3000/user`, req, {
+        .patch(`${process.env.NEXT_PUBLIC_url}/user`, req, {
           withCredentials: true,
         })
         .then(res => {

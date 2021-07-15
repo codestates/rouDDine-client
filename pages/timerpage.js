@@ -155,8 +155,8 @@ export default function timerpage({ data }) {
     <>
       <Body>
         <Info>
-          <div>{data ? data.name : null}</div>
           <div>{isResting ? '휴식 시간' : taskIds[cur].name}</div>
+          <div>{data ? data.name : ""}</div>
           <div>{taskIds ? `${set} / ${taskIds[cur].set_number} 세트` : null}</div>
         </Info>
 
@@ -181,7 +181,7 @@ export const getInitialProps = async (ctx) => {
   const token = ctx.req.headers.cookie.split(' ')[1].split('=')[1];
   // const allCookies = cookies(ctx);
   // const token = allCookies;
-  const res = await axios.get('http://localhost:3000/routine?routine_id=1', {
+  const res = await axios.get(`${process.env.NEXT_PUBLIC_url}/routine?routine_id=1`, {
     headers: { Cookie: `accessToken=${token}` },
     withCredentials: true,
   });
@@ -196,10 +196,18 @@ export const getInitialProps = async (ctx) => {
 let Body = styled.div`
   display: flex;
   width: 100vw;
-  height: 100vh;
+  height: 70vh;
+  padding: 50px;
   flex-direction: column;
   /* border: 3px solid green; */
   justify-content: space-around;
+  /* flex-wrap: wrap; */
+  border: 5px outset #000035;
+  @media ( max-width: 1024px ) {
+    max-width: 500px;
+    height: 80vh;
+  }
+
 `;
 
 let Info = styled.div`
@@ -207,7 +215,7 @@ let Info = styled.div`
   justify-content: space-around;
   align-items: center;
   padding: 40px 0px 0px 0px;
-  font-size: 3rem;
+  font-size: 2.4rem;
   font-weight: bold;
   > div {
     display: flex;
@@ -223,21 +231,25 @@ let Time = styled.div`
   font-family: 'digital';
   align-self: center;
   width: 100%;
-  font-size: 18em;
+  font-size: 14em;
   text-align: center;
+  @media ( max-width: 1024px ) {
+    max-width: 500px;
+    font-size: 10rem;
+  }
   /* border: 3px solid red; */
 `;
 
 let ButtonContainer = styled.div`
   display: flex;
-  justify-content: space-around;
+  flex-direction: row;
+  justify-content: space-between;
   align-items: center;
-  padding-bottom: 50px;
+  min-width: 8rem;
   .btn {
-    font-size: 4rem;
-    :hover {
-      cursor: pointer;
-    }
+    font-size: 2.4rem;
+    cursor: pointer;
+    margin: 0 20px;
   }
   .btn_center {
     display: flex;
@@ -246,12 +258,7 @@ let ButtonContainer = styled.div`
   .pause {
     margin: 0px 20px 0px 20px;
   }
-  .prev {
-    margin-left: 300px;
-  }
-  .next {
-    margin-right: 300px;
-  }
+
 `;
 let Button = styled.div`
   display: flex;

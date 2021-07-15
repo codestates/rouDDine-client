@@ -13,7 +13,7 @@ export default function Update() {
   const [workoutInfo, setWorkoutInfo] = useState({});
 
   const getUserInfo = async () => {
-    const url = `http://localhost:3000/user?user_id=${userId}`;
+    const url = `${process.env.NEXT_PUBLIC_url}/user?user_id=${userId}`;
   };
 
   const onChange = (e) => {
@@ -26,7 +26,7 @@ export default function Update() {
   }, []);
 
   const getCurWorkout = async () => {
-    const url = `http://localhost:3000/exercise?userid=${userId}`;
+    const url = `${process.env.NEXT_PUBLIC_url}/exercise?userid=${userId}`;
     await axios.get(url).then((res) => {
       // console.log(res)
       const results = res.data.result;
@@ -37,7 +37,7 @@ export default function Update() {
 
   const updateWorkout = async () => {
     console.log('클릭');
-    const url = `http://localhost:3000/exercise`;
+    const url = `${process.env.NEXT_PUBLIC_url}/exercise`;
     const body = {
       workoutid: workoutId,
       name: workoutInfo.name,

@@ -90,7 +90,7 @@ export default function RoutineLists({
     deleteRoutine(routineId)
   }
   const deleteRoutine = async (routineId) => {
-    const url = `http://localhost:3000/testroutine?routine_id=${routineId}`;
+    const url = `${process.env.NEXT_PUBLIC_url}/testroutine?routine_id=${routineId}`;
     const res = await axios.delete(url)
     console.log(`${userId}의 루틴을 삭제했습니다`);
     console.log(res);
@@ -99,7 +99,7 @@ export default function RoutineLists({
   
   const getMyRoutine = async(e) => {
     const id = e.target.id
-    const url = `http://localhost:3000/testroutine?routine_id=${id}`
+    const url = `${process.env.NEXT_PUBLIC_url}/testroutine?routine_id=${id}`
     const res = await axios.get(url, { withCredentials: true });
     console.log(res.data);
     dispatch(routineInfo(res.data.id, res.data.name, res.data.tasks))
@@ -119,7 +119,7 @@ export default function RoutineLists({
         id={routine.id}
         onClick={(e) => {getMyRoutine(e)}}
         >
-        <img id={routine.id} src={`http://localhost:3000/${img}`}></img>
+        <img id={routine.id} src={`${process.env.NEXT_PUBLIC_url}/${img}`}></img>
         <RoutineList id={routine.id}>
           <ItemContainer id={routine.id}>
             <RoutineItem id={routine.id}>

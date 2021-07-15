@@ -27,9 +27,14 @@ export default function Nav() {
 
         <ButtonContainer>
           {accessToken ? (
+            <>
+            <Link href='/routine'>
+              <div className='link main'>메인페이지</div>
+            </Link>
             <Link href='/Mypage'>
               <div className='link mypage'>마이페이지</div>
             </Link>
+            </>
           ) : (
             <div className='link login' onClick={() => setModalLogin(true)}>
               로그인
@@ -74,6 +79,7 @@ export default function Nav() {
               )}
 
               {/* ---------버튼추가 이 아래로---------- */}
+              <div onClick={() => router.push(`/routine`)}>Main</div>
 
               {/* ---------버튼추가 이 위로------------ */}
 
