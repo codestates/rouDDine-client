@@ -1,3 +1,4 @@
+
 import styled from 'styled-components';
 import Image from 'next/image';
 import ReviewContainer from '../src/components/ReviewCard/Container';
@@ -5,17 +6,31 @@ import ReviewCard from '../src/components/ReviewCard/Card';
 // import {Link} from 'react-router-dom'
 
 const Container = styled.div`
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
+  overflow: auto;
+  
 `;
 
 const Logo = styled.span`
   font-size: 2rem;
   padding: 10px;
 `;
+
+
+
+
+const VideoSection= styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  padding-bottom : -300px;
+`;
+
+const Section = styled.div`
 
 const MainSection = styled.div`
   height: 80vh;
@@ -78,6 +93,7 @@ const VideoSection = styled.div`
 `;
 
 const ReviewSection = styled.div`
+
   color: #343a40;
   background-color: #ffffff;
   margin-top: 60px;
@@ -86,7 +102,7 @@ const ReviewSection = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  max-width: 100%;
+  
   div {
     margin: 0 auto;
 
@@ -94,6 +110,9 @@ const ReviewSection = styled.div`
       text-align: center;
       font-family: NanumGothic-ExtraBold;
     }
+  
+  
+  
 
     article {
       text-align: center;
@@ -124,6 +143,11 @@ function App() {
   return (
     <>
       <Container>
+        <VideoSection>
+        <Video/>
+        </VideoSection>
+        <Section>
+
 
         <MainSection>
           <MainArticle>
