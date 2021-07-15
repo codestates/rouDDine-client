@@ -4,16 +4,14 @@ import axios from 'axios';
 import { useState, useEffect } from 'react';
 import { currentRoutine } from '../../redux/reducers/routine';
 import { useDispatch, useSelector } from 'react-redux';
-import { Button, Icon } from 'semantic-ui-react'
+import { Button, Icon } from 'semantic-ui-react';
 import TodayRoutine from '../workout/Dnd';
-import Tabmenu from '../../src/components/Tabmenu'
-import Timer from '../timerpage'
+import Tabmenu from '../../src/components/Tabmenu';
 
 const Sidebar = styled.div`
   width: 100px;
   height: 100px;
 `;
-
 
 const Container = styled.section`
   display: flex;
@@ -35,7 +33,7 @@ const RoutineSection = styled.section`
   margin: 30px;
   /* border: 2px inset; */
   /* box-shadow: 0 0 5px 0px; */
-/*     
+  /*     
   @media ( max-width: 768px ) {
   display: flex;
   flex-direction: column;
@@ -67,7 +65,6 @@ const BodyRightSection = styled.section`
   flex-direction: row;
   justify-content: center;
   width: 50%;
-
 `;
 
 const DndSection = styled.section`
@@ -78,7 +75,7 @@ const DndSection = styled.section`
 //   display: flex;
 //   justify-content: center;
 //   flex-direction: row;
-  
+
 //   @media ( max-width: 768px ) {
 //     display: flex;
 //     flex-direction: column;
@@ -138,41 +135,32 @@ export default function Routine() {
 
   return (
     <>
-    <Container>
-      <HeadSection/>
-      <BodySection>
-        <BodyLeftSection>
-          <RoutineSection>
-            {routines &&
-              routines.map((routine) => (
-                <RoutineLists
-                id={routine.id}
-                workouts={workouts}
-                userId={userId}
-                key={routine.id}
-                routines={routines}
-                routine={routine}
-                routineId={routine.id}
-                getRoutine={getRoutine}
-                />
+      <Container>
+        <HeadSection />
+        <BodySection>
+          <BodyLeftSection>
+            <RoutineSection>
+              {routines &&
+                routines.map((routine) => (
+                  <RoutineLists id={routine.id} workouts={workouts} userId={userId} key={routine.id} routines={routines} routine={routine} routineId={routine.id} getRoutine={getRoutine} />
                 ))}
-            <Button 
-              onClick={()=>{addRoutine(userId)}}
-              icon={{ as: 'i', className: 'plus'}}
+              <Button
+                onClick={() => {
+                  addRoutine(userId);
+                }}
+                icon={{ as: 'i', className: 'plus' }}
               />
-          </RoutineSection>
-          <TabMenuContainer>
-            <Tabmenu></Tabmenu>
-          </TabMenuContainer>
-        </BodyLeftSection>
-        <BodyRightSection>
-          <Timer></Timer>
-        </BodyRightSection>
+            </RoutineSection>
+            <TabMenuContainer>
+              <Tabmenu></Tabmenu>
+            </TabMenuContainer>
+          </BodyLeftSection>
+          <BodyRightSection></BodyRightSection>
         </BodySection>
-    </Container>
+      </Container>
     </>
-          // <DndSection>
-          //   <TodayRoutine></TodayRoutine>
-          // </DndSection>
+    // <DndSection>
+    //   <TodayRoutine></TodayRoutine>
+    // </DndSection>
   );
 }

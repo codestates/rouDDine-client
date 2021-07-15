@@ -3,11 +3,9 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { timerSet, timerRunning, timerReset, timerWorkoutSet, timerCurWorkout, timerIsResting, totalTime } from '../redux/reducers/timer';
 import axios from 'axios';
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPause, faPlay, faStop, faBackward, faForward } from '@fortawesome/free-solid-svg-icons';
 export default function timerpage({ data }) {
-  // const myLoader = ({ src, width, quality }) => {
-  //   return `https://example.com/${src}?w=${width}&q=${quality || 75}`;
-  // };
   const taskIds = [
     //더미
     { id: '1', name: '벤치프레스', set_number: 1, set_time: 1, rest_time: 1 },
@@ -124,6 +122,7 @@ export default function timerpage({ data }) {
 
   const resetTimer = () => {
     dispatch(timerSet(reset.seconds, reset.minutes, reset.hours));
+    dispatch(timerRunning());
   };
   const nextWorkout = (taskIds, cur) => {
     if (cur < taskIds.length - 1) {
@@ -165,12 +164,12 @@ export default function timerpage({ data }) {
           {minutes < 10 ? `0${minutes}` : minutes}:{seconds < 10 ? `0${seconds}` : seconds}
         </Time>
         <ButtonContainer>
-          <Button onClick={() => previousWorkout(taskIds, cur)}>이전</Button>
-          <div>
-            <Button onClick={() => dispatch(timerRunning())}>{isRunning ? '정지' : '시작'}</Button>
-            {!isRunning && <Button onClick={() => resetTimer()}>재시작</Button>}
+          <FontAwesomeIcon icon={faBackward} className='btn prev' onClick={() => previousWorkout(taskIds, cur)} />
+          <div className='btn_center'>
+            <Button onClick={() => dispatch(timerRunning())}>{isRunning ? <FontAwesomeIcon className='btn pause' icon={faPause} /> : <FontAwesomeIcon className='btn play' icon={faPlay} />}</Button>
+            {isRunning && <FontAwesomeIcon className='btn stop' icon={faStop} onClick={() => resetTimer()} />}
           </div>
-          <Button onClick={() => nextWorkout(taskIds, cur)}>다음</Button>
+          <FontAwesomeIcon icon={faForward} className='btn next' onClick={() => nextWorkout(taskIds, cur)} />
         </ButtonContainer>
       </Body>
     </>
@@ -196,8 +195,8 @@ export const getInitialProps = async (ctx) => {
 let Body = styled.div`
   display: flex;
   width: 100vw;
+  height: 100vh;
   flex-direction: column;
-  padding: 7%;
   /* border: 3px solid green; */
   justify-content: space-around;
 `;
@@ -205,15 +204,25 @@ let Body = styled.div`
 let Info = styled.div`
   display: flex;
   justify-content: space-around;
+  align-items: center;
+  padding: 40px 0px 0px 0px;
+  font-size: 3rem;
+  font-weight: bold;
+  > div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 30%;
+    height: 100%;
+  }
   /* border: 3px solid blue; */
 `;
 
 let Time = styled.div`
   font-family: 'digital';
   align-self: center;
-  margin: 5%;
   width: 100%;
-  font-size: 10em;
+  font-size: 18em;
   text-align: center;
   /* border: 3px solid red; */
 `;
@@ -221,23 +230,34 @@ let Time = styled.div`
 let ButtonContainer = styled.div`
   display: flex;
   justify-content: space-around;
-  /* border: 3px solid red; */
-  > div :nth-child(2) {
-    align-self: unset;
-    > div {
-      text-align: center;
+  align-items: center;
+  padding-bottom: 50px;
+  .btn {
+    font-size: 4rem;
+    :hover {
+      cursor: pointer;
     }
+  }
+  .btn_center {
+    display: flex;
+  }
+  .stop,
+  .pause {
+    margin: 0px 20px 0px 20px;
+  }
+  .prev {
+    margin-left: 300px;
+  }
+  .next {
+    margin-right: 300px;
   }
 `;
 let Button = styled.div`
+  display: flex;
   align-self: center;
+  justify-content: center;
+  align-items: center;
   :hover {
     cursor: pointer;
   }
-`;
-
-const ImageBox = styled.img`
-  width: 400px;
-  height: 400px;
-  display: block;
 `;

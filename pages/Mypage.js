@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import Link from 'next/link';
 import axios from 'axios';
+import Cookies from 'js-cookie';
+import router from 'next/router';
 
 let imageUrl = '';
 
@@ -50,6 +52,10 @@ const LinkDiv = styled(Link)`
 `;
 
 const MyPage = () => {
+  const accessToken = Cookies.get('accessToken');
+  if (accessToken) {
+    router.push('/');
+  }
   const [img, setImg] = useState('');
   const [userInfo, setuser] = useState({});
 
