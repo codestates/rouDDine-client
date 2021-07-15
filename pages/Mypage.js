@@ -5,6 +5,7 @@ import axios from "axios";
 import Nav from '../src/components/Nav/Nav';
 
 
+
 let imageUrl = "";
 
 let Body = styled.div`
@@ -52,6 +53,11 @@ const LinkDiv = styled(Link)`
 `;
 
 const MyPage = () => {
+
+  const accessToken = Cookies.get('accessToken');
+  if (accessToken) {
+    router.push('/');
+  }
 
   const [img, setImg] = useState('');
   const [userInfo, setuser] = useState({});

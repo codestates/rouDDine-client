@@ -3,7 +3,6 @@ import GoogleLogin from 'react-google-login';
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
-import { useSelector } from 'react-redux';
 
 export default function login({ modalLogin, setModalLogin }) {
   const router = useRouter();
@@ -60,15 +59,15 @@ export default function login({ modalLogin, setModalLogin }) {
 
   return (
     <>
-      <LoginContainer >
+      <LoginContainer>
         <div className='login_form'>
           <div>로그인</div>
-          <div className='login_input'>
+          <form className='login_input'>
             <span>아이디</span>
             <LoginInput name='email' onChange={(e) => inputHandler(e)} />
             <span>비밀번호</span>
-            <LoginInput name='password' input type="password" onChange={(e) => inputHandler(e)} />
-          </div>
+            <LoginInput name='password' onChange={(e) => inputHandler(e)} />
+          </form>
 
           <div className='login_button'>
             <LoginButton className='login_button button' onClick={() => loginHandler(values)}>
@@ -89,11 +88,12 @@ export default function login({ modalLogin, setModalLogin }) {
 }
 
 const LoginContainer = styled.div`
-display: flex;
-justify-content: center;
-align-items: center;
-flex-direction: column;
-padding-top : 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding-top: 200px;
+  z-index: 103;
   .login_form {
     position: absolute;
     display: flex;
@@ -117,8 +117,6 @@ padding-top : 200px;
         font-size: 0.8rem;
         color: grey;
       }
-     }
-    
     }
     .login_button {
       display: flex;
@@ -140,11 +138,10 @@ const LoginInput = styled.input`
   border-radius: 3px;
   border: 1px solid grey;
   &:hover {
-    transform:translateX(-5px);
-    width: 100%
+    transform: translateX(-5px);
+    width: 100%;
   }
 `;
-
 
 const LoginButton = styled.div`
   border: 0px;

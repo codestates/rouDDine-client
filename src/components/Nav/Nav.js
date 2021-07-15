@@ -20,10 +20,10 @@ export default function Nav() {
         <Link href='/'>
           <div className='link logo'>rouDDine</div>
         </Link>
-        {modalLogin ? <Overlay_modal onClick={()=>setModalLogin(false)} /> : null}
-        {modalSignup ? <Overlay_modal onClick={()=>setModalSignup(false)} /> : null}
-        {modalLogin &&  <Login setModalLogin={setModalLogin} /> }
-        {modalSignup && <SignUp setModalSignup={setModalSignup}  />}
+        {modalLogin ? <Overlay_modal onClick={() => setModalLogin(false)} /> : null}
+        {modalSignup ? <Overlay_modal onClick={() => setModalSignup(false)} /> : null}
+        {modalLogin && <Login setModalLogin={setModalLogin} />}
+        {modalSignup && <SignUp setModalSignup={setModalSignup} />}
 
         <ButtonContainer>
           {accessToken ? (
@@ -59,9 +59,42 @@ export default function Nav() {
         </ButtonContainer>
 
         {modalBuger ? (
-          <BugerModal>
-            <div></div>
-            <div></div>
+          <BugerModal className={modalBuger ? 'active' : 'notActive'}>
+            <div className='buger logo'>rouDDine</div>
+            <div className='buger buttons'>
+              {/* ---------------------------- */}
+              {accessToken ? (
+                <Link href='/Mypage'>
+                  <div className='buger mypage'>마이페이지</div>
+                </Link>
+              ) : (
+                <div className='buger signin' onClick={() => setModalLogin(true)}>
+                  로그인
+                </div>
+              )}
+
+              {/* ---------버튼추가 이 아래로---------- */}
+
+              {/* ---------버튼추가 이 위로------------ */}
+
+              {accessToken ? (
+                <div
+                  className='buger logout'
+                  onClick={() => {
+                    Cookies.remove('accessToken');
+                    router.push('/');
+                    //로그아웃시 랜딩페이지로
+                  }}
+                >
+                  로그아웃
+                </div>
+              ) : (
+                <div className='buger signup' onClick={() => setModalSignup(true)}>
+                  회원가입
+                </div>
+              )}
+              {/* ---------------------------- */}
+            </div>
           </BugerModal>
         ) : null}
       </NavContainer>
@@ -73,6 +106,7 @@ const NavContainer = styled.div`
   display: flex;
   background-color: white;
   justify-content: space-between;
+  position: fixed;
   height: 8vh;
   width: 100%;
   z-index: 103;
@@ -84,6 +118,10 @@ const NavContainer = styled.div`
     align-self: center;
     padding: 10px 20px 10px 20px;
   }
+  .link.logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+  }
   .modal {
     position: fixed;
   }
@@ -94,6 +132,81 @@ const NavContainer = styled.div`
   .mypage,
   .login {
     //로그인,마이페이지
+  }
+`;
+const BugerModal = styled.div`
+  display: flex;
+  position: absolute;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 30px 25px 0;
+  transition: 0.3s ease-in-out;
+  background: rgba(21, 39, 64, 0.9215686274509803);
+  top: 8vh;
+  right: 0;
+  animation-name: 'slidein';
+  animation-duration: 0.3s;
+  z-index: 100;
+  @keyframes slidein {
+    from {
+      top: -100%;
+    }
+
+    to {
+    }
+  }
+
+  .buger.logo {
+    display: flex;
+    justify-content: center;
+    font-size: 3rem;
+    font-weight: bold;
+    color: white;
+    justify-self: center;
+    padding: 10px 10px 60px 10px;
+  }
+  .buger.buttons {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+    /* border: 3px solid white; */
+    > div {
+      display: flex;
+      color: white;
+      justify-content: center;
+      align-items: center;
+      /* background: whitesmoke; */
+      font-size: 1.5rem;
+      font-weight: bold;
+      width: 250px;
+      height: 50px;
+      margin-bottom: 20px;
+      border-radius: 4px;
+      :hover {
+        cursor: pointer;
+      }
+    }
+  }
+  @media all and (min-width: 1024px) {
+    display: none;
+  }
+
+  @media all and (min-width: 768px) and (max-width: 1023px) {
+    display: block;
+    height: 100vh;
+    width: 40%;
+    ButtonContainer {
+      flex-direction: column;
+    }
+  }
+
+  @media all and (max-width: 767px) {
+    display: block;
+    height: 100vh;
+    width: 100%;
   }
 `;
 
@@ -123,32 +236,5 @@ const Overlay_modal = styled.div`
   height: 100%;
   width: 100%;
   background: rgba(0, 0, 0, 0.495);
-  z-index: 99;
-`;
-
-const BugerModal = styled.div`
-  display: none;
-  flex-direction: column;
-  position: absolute;
-  padding: 30px 25px 0;
-  height: 0vh;
-  transition: 0.3s ease-in-out;
-  background: rgba(21, 39, 64, 0.9215686274509803);
-  right: 0;
-  top: 8vh;
-  @media all and (min-width: 1024px) {
-    display: none;
-  }
-
-  @media all and (min-width: 768px) and (max-width: 1023px) {
-    display: block;
-    height: 100vh;
-    width: 50%;
-  }
-
-  @media all and (max-width: 767px) {
-    display: block;
-    height: 100vh;
-    width: 100%;
-  }
+  z-index: 101;
 `;

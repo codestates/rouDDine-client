@@ -4,11 +4,12 @@ import axios from 'axios';
 import { useState, useEffect } from 'react';
 import { currentRoutine } from '../../redux/reducers/routine';
 import { useDispatch, useSelector } from 'react-redux';
-import { Button, Icon } from 'semantic-ui-react'
+import { Button, Icon } from 'semantic-ui-react';
 import TodayRoutine from '../workout/Dnd';
 import Tabmenu from '../../src/components/Tabmenu'
 import Timer from '../timerpage'
 import {routineInfo} from '../../redux/reducers/routineInfo'
+
 
 const Container = styled.section`
   display: flex;
@@ -30,7 +31,7 @@ const RoutineSection = styled.section`
   margin: 30px;
   /* border: 2px inset; */
   /* box-shadow: 0 0 5px 0px; */
-/*     
+  /*     
   @media ( max-width: 768px ) {
   display: flex;
   flex-direction: column;
@@ -64,6 +65,7 @@ const BodyRightSection = styled.section`
   justify-content: center;
   width: 50vw;
   height: 100%;
+
 `;
 
 const DndSection = styled.section`
@@ -74,7 +76,7 @@ const DndSection = styled.section`
 //   display: flex;
 //   justify-content: center;
 //   flex-direction: row;
-  
+
 //   @media ( max-width: 768px ) {
 //     display: flex;
 //     flex-direction: column;
@@ -130,7 +132,7 @@ export default function Main() {
           <Timer/>
         </BodyRightSection>
         </BodySection>
-    </Container>
+      </Container>
     </>
   );
 }

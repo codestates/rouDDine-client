@@ -1,12 +1,12 @@
-import React from 'react'
-import styled from 'styled-components'
+import React from 'react';
+import styled from 'styled-components';
 
 const ReviewCardContainer = styled.li`
-  background: rgba( 255, 255, 255, 0.60 );
-  box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
+  background: rgba(255, 255, 255, 0.6);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
   list-style: none;
-  height:300px;
-  max-width:290px;
+  height: 300px;
+  max-width: 290px;
   min-width: 300px;
   padding: 30px 25px;
   margin-left: 35px;
@@ -57,7 +57,7 @@ const ReviewCardContainer = styled.li`
 `;
 
 
-function ReviewCard({content}) {
+function ReviewCard({ content }) {
   return (
     <ReviewCardContainer>
       <div>
@@ -69,7 +69,7 @@ function ReviewCard({content}) {
       </div>
       <h4>{content.message}</h4>
     </ReviewCardContainer>
-  )
+  );
 }
 
-export default ReviewCard
+export default ReviewCard;
