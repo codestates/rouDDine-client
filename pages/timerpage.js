@@ -6,13 +6,18 @@ import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPause, faPlay, faStop, faBackward, faForward } from '@fortawesome/free-solid-svg-icons';
 export default function timerpage({ data }) {
-
+  // console.log(data);
+  // const taskIds = data.tasks;
+  const total_sec = data.tasks.filter((el) => el.set_time);
+  console.log('초합', total_sec);
   const taskIds = [
     //더미
     { id: '1', name: '벤치프레스', set_number: 1, set_time: 1, rest_time: 1 },
     { id: '2', name: '스쿼트', set_number: 3, set_time: 2, rest_time: 1 },
     { id: '3', name: '데드리프트', set_number: 2, set_time: 1, rest_time: 1 },
   ];
+
+  1;
 
   // const totalTime = (taskIds) => {
   //   //분단위로 운동시간 총합 뽑아내기
@@ -116,7 +121,7 @@ export default function timerpage({ data }) {
             }
           }
         }
-      }, 1000);
+      }, 100);
       return () => clearInterval(timeFlow);
     }
   }, [isRunning, hours, minutes, seconds, set, cur, isResting]);
@@ -155,8 +160,8 @@ export default function timerpage({ data }) {
     <>
       <Body>
         <Info>
+          <div>{data ? data.name : ''}</div>
           <div>{isResting ? '휴식 시간' : taskIds[cur].name}</div>
-          <div>{data ? data.name : ""}</div>
           <div>{taskIds ? `${set} / ${taskIds[cur].set_number} 세트` : null}</div>
         </Info>
 
@@ -177,11 +182,9 @@ export default function timerpage({ data }) {
   );
 }
 
-export const getInitialProps = async (ctx) => {
+export const getServerSideProps = async (ctx) => {
   const token = ctx.req.headers.cookie.split(' ')[1].split('=')[1];
-  // const allCookies = cookies(ctx);
-  // const token = allCookies;
-  const res = await axios.get(`${process.env.NEXT_PUBLIC_url}/routine?routine_id=1`, {
+  const res = await axios.get(`${process.env.NEXT_PUBLIC_url}/testroutine?routine_id=11`, {
     headers: { Cookie: `accessToken=${token}` },
     withCredentials: true,
   });
@@ -203,11 +206,10 @@ let Body = styled.div`
   justify-content: space-around;
   /* flex-wrap: wrap; */
   border: 5px outset #000035;
-  @media ( max-width: 1024px ) {
+  @media (max-width: 1024px) {
     max-width: 500px;
     height: 80vh;
   }
-
 `;
 
 let Info = styled.div`
@@ -233,7 +235,7 @@ let Time = styled.div`
   width: 100%;
   font-size: 14em;
   text-align: center;
-  @media ( max-width: 1024px ) {
+  @media (max-width: 1024px) {
     max-width: 500px;
     font-size: 10rem;
   }
@@ -258,7 +260,6 @@ let ButtonContainer = styled.div`
   .pause {
     margin: 0px 20px 0px 20px;
   }
-
 `;
 let Button = styled.div`
   display: flex;
