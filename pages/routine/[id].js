@@ -1,10 +1,9 @@
 import styled from 'styled-components';
-import RoutineLists from './RoutineLists';
 import axios from 'axios';
 import { useState, useEffect } from 'react';
 import { currentRoutine } from '../../redux/reducers/routine';
 import { useDispatch, useSelector } from 'react-redux';
-import TodayRoutine from '../workout/Dnd';
+import TodayRoutine from '../workout';
 import Tabmenu from '../../src/components/Tabmenu';
 import Timer from '../timerpage';
 import { routineInfo } from '../../redux/reducers/routineInfo';
