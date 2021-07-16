@@ -306,10 +306,10 @@ function TodayRoutine() {
                                     name={item.name}
                                     onClick={(e) => {
                                       console.log(e.target.id);
-                                      // setModalOpen(!modalOpen);
-                                      // dispatch(workoutInfo(e.target.id, e.target.name));
-                                      // console.log('타겟id@@@', e.target.id);
-                                      // console.log('타겟name@@@', e.target.name);
+                                      setModalOpen(!modalOpen);
+                                      dispatch(workoutInfo(e.target.id, e.target.name));
+                                      console.log('타겟id@@@', e.target.id);
+                                      console.log('타겟name@@@', e.target.name);
                                     }}
                                   ></FontAwesomeIcon>
                                 </UpdateButton>
