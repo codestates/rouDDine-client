@@ -139,7 +139,7 @@ export default function Main() {
           <TodayRoutine></TodayRoutine>
         </BodyLeftSection>
         <BodyRightSection>
-          <Timer/>
+          {/* <Timer/> */}
         </BodyRightSection>
         </BodySection>
       </Container>
