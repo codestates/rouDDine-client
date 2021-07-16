@@ -40,8 +40,8 @@ const MainSection = styled.div`
     /* height: 120%; */
     margin-bottom: 200px;
   }
-  
-  @media ( max-width: 768px ) {
+
+  @media (max-width: 768px) {
     box-sizing: auto;
     padding: 10px 0px;
     flex-direction: column;
@@ -99,7 +99,7 @@ const TitleContents = styled.h3`
     box-sizing: auto;
   }
 
-  @media ( max-width: 768px ) {
+  @media (max-width: 768px) {
     box-sizing: auto;
   }
 `;
@@ -123,12 +123,11 @@ const TitleWrapper = styled.div`
   display: flex;
 `;
 
-
 const UsingSection = styled.div`
   height: 80vh;
   background-color: #000036;
   max-width: 100%;
-  `;
+`;
 
 const VideoSection = styled.div`
   margin-left: 40px;
@@ -169,10 +168,9 @@ const ReviewSection = styled.div`
   justify-content: center;
   max-width: 100%;
 
-  
   div {
     margin: 0 auto;
-    
+
     h2 {
       text-align: center;
       font-family: NanumGothic-ExtraBold;
@@ -184,13 +182,11 @@ const ReviewSection = styled.div`
       font-size: 1.5rem;
       margin-bottom: 50px;
     }
-
   }
-  @media ( max-width: 768px ) {
+  @media (max-width: 768px) {
     padding: 10px 0px;
   }
-  `;
-
+`;
 
 const Footer = styled.footer`
   height: 20vh;
@@ -198,15 +194,12 @@ const Footer = styled.footer`
   display: flex;
   flex-direction: row;
   max-width: 100%;
-
 `;
 
-const ReactiveSection= styled.div`
+const ReactiveSection = styled.div`
   height: 80vh;
   max-width: 100%;
 `;
-
-
 
 function App() {
   const router = useRouter();
@@ -235,8 +228,7 @@ function App() {
           {/* <Image src='/../public/main.jpeg' width='800' height='600'></Image> */}
         </MainSection>
 
-        <UsingSection>
-        </UsingSection>
+        <UsingSection></UsingSection>
 
 
         <ReviewSection>
@@ -244,17 +236,14 @@ function App() {
             <h2>rouDDine을 사용한 많은 분들이 목표 달성에 성공하셨습니다.</h2>
             <article>하루의 시작도, 하루의 끝도 우리에겐 너무나 소중하니까, 정해진 시간 안에 최고의 효율을 경험해 보세요! 당신도 할 수 있습니다!</article>
           </div>
-          <ReviewContainer>
-          </ReviewContainer>
+          <ReviewContainer></ReviewContainer>
         </ReviewSection>
 
         <ReactiveSection></ReactiveSection>
-
       </Container>
-      <Footer>
-      </Footer>
+      <Footer></Footer>
     </>
-  )
+  );
 }
 
 export default App;
