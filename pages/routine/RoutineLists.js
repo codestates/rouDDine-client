@@ -101,20 +101,6 @@ export default function RoutineLists({
   
   return (
     <>
-    <Link href={`/routine/${routine.id}`}>
-     <a>
-       <RoutineContainer
-        id={routine.id}
-        onClick={(e) => {getMyRoutine(e)}}
-        >
-        <img id={routine.id} src={`${process.env.NEXT_PUBLIC_url}/${img}`}></img>
-          <RoutineItem id={routine.id}>
-            <RoutineTitle id={routine.id}>{routine.name}</RoutineTitle>
-          </RoutineItem>
-        </RoutineContainer>
-      </a>
-    </Link>
-    <DeleteButton id={routine.id} onClick={() => deleteHandler(routine.id)}>-</DeleteButton>
     </>
   );
 }
