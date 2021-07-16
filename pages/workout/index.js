@@ -5,14 +5,14 @@ import ReactDOM from "react-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrashAlt, faEdit } from '@fortawesome/free-solid-svg-icons';
 import styled from 'styled-components'
-import Modal from '../../../src/components/ex_update_Modal'
+import Modal from '../../src/components/ex_update_Modal'
 import {useDispatch, useSelector} from 'react-redux'
-import {workoutInfo} from '../../../redux/reducers/workoutInfo'
-import {ModalOpenAction} from '../../../redux/reducers/modal'
-import {deleteWorkout} from '../../../redux/reducers/workout'
-import {dndUpdate} from '../../../redux/reducers/workout'
-import {routineInfo} from '../../../redux/reducers/routineInfo'
-import WorkoutItem from '../../../src/components/WorkoutItem.js'
+import {workoutInfo} from '../../redux/reducers/workoutInfo'
+import {ModalOpenAction} from '../../redux/reducers/modal'
+import {deleteWorkout} from '../../redux/reducers/workout'
+import {dndUpdate} from '../../redux/reducers/workout'
+import {routineInfo} from '../../redux/reducers/routineInfo'
+import WorkoutItem from '../../src/components/WorkoutItem.js/index.js'
 resetServerContext();
 
 const DndContainer = styled.div`
