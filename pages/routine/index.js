@@ -109,8 +109,6 @@ const getMyRoutine = async(e) => {
 
 
 
-
-
   return (
     <>
     <RoutinePageHeader></RoutinePageHeader>
@@ -124,7 +122,7 @@ const getMyRoutine = async(e) => {
             id={routine.id}
             onClick={(e) => {getMyRoutine(e)}}
             >
-            {/* <img id={routine.id} src={`${process.env.NEXT_PUBLIC_url}/${img}`}></img> */}
+            <img id={routine.id} src={`${process.env.NEXT_PUBLIC_url}/${routine.routineimage}`}></img>
               <RoutineItem id={routine.id}>
                 <RoutineTitle id={routine.id}>{routine.name}</RoutineTitle>
               </RoutineItem>
