@@ -8,16 +8,16 @@ import { faPause, faPlay, faStop, faBackward, faForward } from '@fortawesome/fre
 export default function timerpage({ data }) {
   // console.log(data);
   // const taskIds = data.tasks;
-  const total_sec = data.tasks.filter((el) => el.set_time);
+  const total_sec = data.tasks.map((el) => el.set_time);
+
   console.log('초합', total_sec);
+
   const taskIds = [
     //더미
     { id: '1', name: '벤치프레스', set_number: 1, set_time: 1, rest_time: 1 },
     { id: '2', name: '스쿼트', set_number: 3, set_time: 2, rest_time: 1 },
     { id: '3', name: '데드리프트', set_number: 2, set_time: 1, rest_time: 1 },
   ];
-
-  1;
 
   // const totalTime = (taskIds) => {
   //   //분단위로 운동시간 총합 뽑아내기
