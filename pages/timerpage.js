@@ -3,11 +3,10 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { timerSet, timerRunning, timerReset, timerWorkoutSet, timerCurWorkout, timerIsResting, totalTime } from '../redux/reducers/timer';
 import axios from 'axios';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPause, faPlay, faStop, faBackward, faForward } from '@fortawesome/free-solid-svg-icons';
+export default function timerpage({ data }) {
 
-export default function Timer({ data }) {
-  // const myLoader = ({ src, width, quality }) => {
-  //   return `https://example.com/${src}?w=${width}&q=${quality || 75}`;
-  // };
   const taskIds = [
     //더미
     { id: '1', name: '벤치프레스', set_number: 1, set_time: 1, rest_time: 1 },
@@ -124,6 +123,7 @@ export default function Timer({ data }) {
 
   const resetTimer = () => {
     dispatch(timerSet(reset.seconds, reset.minutes, reset.hours));
+    dispatch(timerRunning());
   };
   const nextWorkout = (taskIds, cur) => {
     if (cur < taskIds.length - 1) {
@@ -155,8 +155,8 @@ export default function Timer({ data }) {
     <>
       <Body>
         <Info>
-          <div>{data ? data.name : null}</div>
           <div>{isResting ? '휴식 시간' : taskIds[cur].name}</div>
+          {/* <div>{data ? data.name : ""}</div> */}
           <div>{taskIds ? `${set} / ${taskIds[cur].set_number} 세트` : null}</div>
         </Info>
 
@@ -165,12 +165,12 @@ export default function Timer({ data }) {
           {minutes < 10 ? `0${minutes}` : minutes}:{seconds < 10 ? `0${seconds}` : seconds}
         </Time>
         <ButtonContainer>
-          <Button onClick={() => previousWorkout(taskIds, cur)}>이전</Button>
-          <div>
-            <Button onClick={() => dispatch(timerRunning())}>{isRunning ? '정지' : '시작'}</Button>
-            {!isRunning && <Button onClick={() => resetTimer()}>재시작</Button>}
+          <FontAwesomeIcon icon={faBackward} className='btn prev' onClick={() => previousWorkout(taskIds, cur)} />
+          <div className='btn_center'>
+            <Button onClick={() => dispatch(timerRunning())}>{isRunning ? <FontAwesomeIcon className='btn pause' icon={faPause} /> : <FontAwesomeIcon className='btn play' icon={faPlay} />}</Button>
+            {isRunning && <FontAwesomeIcon className='btn stop' icon={faStop} onClick={() => resetTimer()} />}
           </div>
-          <Button onClick={() => nextWorkout(taskIds, cur)}>다음</Button>
+          <FontAwesomeIcon icon={faForward} className='btn next' onClick={() => nextWorkout(taskIds, cur)} />
         </ButtonContainer>
       </Body>
     </>
@@ -181,7 +181,7 @@ export const getInitialProps = async (ctx) => {
   const token = ctx.req.headers.cookie.split(' ')[1].split('=')[1];
   // const allCookies = cookies(ctx);
   // const token = allCookies;
-  const res = await axios.get('http://localhost:3000/routine?routine_id=1', {
+  const res = await axios.get(`${process.env.NEXT_PUBLIC_url}/routine?routine_id=1`, {
     headers: { Cookie: `accessToken=${token}` },
     withCredentials: true,
   });
@@ -195,49 +195,113 @@ export const getInitialProps = async (ctx) => {
 
 let Body = styled.div`
   display: flex;
-  width: 100vw;
+  width: 90%;
+  height: 70vh;
+  padding: 50px;
   flex-direction: column;
-  padding: 7%;
-  /* border: 3px solid green; */
-  justify-content: space-around;
+  justify-content: space-between;
+  background-color: #fff8fd;
+  color: #3e3e3e;
+  border-radius: 20px;
+  -webkit-backdrop-filter: blur(50px);
+  backdrop-filter: blur(50px);
+
+  @media ( max-width: 1280px ) {
+    max-width: 100%;
+    height: 80%;
+    margin-top: 15px;
+    padding: 30px;
+  }
+
+  @media ( max-width: 768px ) {
+    max-width: 100%;
+    height: 80%;
+    margin-top: 15px;
+    padding: 30px;
+  }
 `;
 
 let Info = styled.div`
   display: flex;
   justify-content: space-around;
+  align-items: center;
+  padding: 40px 0px 0px 0px;
+  font-size: 2.0rem;
+  font-weight: bold;
+  > div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2.2rem;
+    min-width: 45%;
+    height: 100%;
+
+    @media ( max-width: 1280px ) {
+    width: 70%;
+    font-size: 1.5rem;
+    justify-content: space-around;
+    }
+  }
+
+  @media ( max-width: 768px ) {
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+  }
   /* border: 3px solid blue; */
 `;
 
 let Time = styled.div`
   font-family: 'digital';
+  background-color: #ffffff;
   align-self: center;
-  margin: 5%;
   width: 100%;
-  font-size: 10em;
+  border: 1px solid black;
+  border-radius: 20px;
+  font-family: OpenSans-Bold;
+  /* margin: 30px 0; */
+  font-size: 8em;
   text-align: center;
-  /* border: 3px solid red; */
+
+  @media ( max-width: 1280px ) {
+    /* max-width: 80%; */
+    width: 100%;
+    font-size: 6rem;
+  }
+
+  @media ( max-width: 768px ) {
+    /* max-width: 80%; */
+    width: 100%;
+    font-size: 6rem;
+  }
 `;
 
 let ButtonContainer = styled.div`
   display: flex;
-  justify-content: space-around;
-  /* border: 3px solid red; */
-  > div :nth-child(2) {
-    align-self: unset;
-    > div {
-      text-align: center;
-    }
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  min-width: 8rem;
+  .btn {
+    font-size: 2.4rem;
+    cursor: pointer;
+    margin: 0 20px;
   }
+  .btn_center {
+    display: flex;
+  }
+  .stop,
+  .pause {
+    margin: 0px 20px 0px 20px;
+  }
+
 `;
 let Button = styled.div`
+  display: flex;
   align-self: center;
+  justify-content: center;
+  align-items: center;
   :hover {
     cursor: pointer;
   }
-`;
-
-const ImageBox = styled.img`
-  width: 400px;
-  height: 400px;
-  display: block;
 `;

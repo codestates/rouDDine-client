@@ -9,6 +9,8 @@ const Container = styled.div`
   display: flex;
   flex-direction:column;
   align-items: right;
+  box-sizing: border-box;
+  justify-content: center;
   height: 400x;
   /* position: absolute; */
 `;
@@ -16,48 +18,40 @@ const Container = styled.div`
 const Button = styled.ul`
   display: flex;
   justify-content: center;
+  flex-direction: column;
   padding-left: 0;
-  margin: 0 15px;
-  width: 300px;
+  margin-top: 30px;
+  margin-left: 20px;
+  width: 150px;
+  text-align: center;
   align-items: stretch;
 `;
 
 const List = styled.li`
   border: 1px solid lightgrey;
   list-style: none;
-  font-size: 0.8rem;
+  text-align: center;
+  font-size: 1.2rem;
+  color: lightgrey;
+  font-weight: bold;
   padding: 0 25px;
+  height: 30px;
+  border: none;
+  /* background-color: lightgrey; */
   :hover {
     background-color: rgba(0, 0, 255, .2);
     border: 0;
   }
 `;
 
-const Contents = styled.div`
-`;
 
 const First = styled.div`
-  padding: 0 5px;
-  width: 200px;
-  height: 500px;
-  /* overflow-y: auto; */
-  margin: 0 15px;
-
 `;
+
 const Second = styled.div`
-  padding: 0 5px;
-  width: 200px;
-  height: 500px;
-  /* overflow-y: auto; */
-  margin: 0 15px;
 `;
 
 const Third = styled.div`
-  padding: 0 5px;
-  width: 200px;
-  height: 500px;
-  /* overflow-y: auto; */
-  margin: 0 15px;
 `;
 
 function Tabmenu() {
@@ -77,14 +71,12 @@ function Tabmenu() {
   
   return (
     <Container>
-      <Contents>
-        <Button>
-          {arr.map((num, idx) => (
-            <List menuNum={menuNum} key={idx} onClick={()=>{clickHandler(idx)}}>{num}</List>
-            ))}
-        </Button>
-        {obj[menuNum]}
-      </Contents>
+      <Button>
+        {arr.map((num, idx) => (
+          <List menuNum={menuNum} key={idx} onClick={()=>{clickHandler(idx)}}>{num}</List>
+          ))}
+      </Button>
+      {obj[menuNum]}
     </Container>
   )
 }

@@ -1,6 +1,6 @@
-import React, {useEffect} from 'react'
-import styled from 'styled-components'
-import ReviewCard from './Card'
+import React, { useEffect } from 'react';
+import styled from 'styled-components';
+import ReviewCard from './Card';
 
 const Container = styled.ul`
   display: flex;
@@ -46,16 +46,17 @@ function ReviewContainer() {
       name: "헬린이",
       score: "⭐⭐⭐⭐⭐",
       message: "운동을 처음 시작했을 땐 모든게 어려웠습니다. 세트 시간은 어떻게 잡아야 하는지, 휴식은 얼마나 하는게 좋은지, 또는 물이나 보충제 등은 언제 먹어야 하는지도요. 루띤과 함께 하면서 드디어 저만의 운동법을 만들 수 있게 되었고, 이제 어느덧 목표달성을 눈앞에 두고 있습니다!"
+
     },
   ];
 
   return (
     <Container>
-      {contents.map((content) => (
-        <ReviewCard key={content.id} content={content}/>
+      {contents.map((content, index) => (
+        <ReviewCard content={content} key={index} />
       ))}
     </Container>
-  )
+  );
 }
 
-export default ReviewContainer
+export default ReviewContainer;
