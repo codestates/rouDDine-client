@@ -1,10 +1,10 @@
-import styled from 'styled-components';
-import Image from 'next/image';
-import Nav from '../src/components/Nav/Nav';
-import { useRouter } from 'next/router';
-import ReviewContainer from '../src/components/ReviewCard/Container';
-import ReviewCard from '../src/components/ReviewCard/Card';
-import WorkoutVideo from '../src/components/video/video';
+import styled from 'styled-components'
+import Image from 'next/image'
+import Nav from '../src/components/Nav/Nav'
+import {useRouter} from 'next/router';
+import ReviewContainer from '../src/components/ReviewCard/Container'
+import ReviewCard from '../src/components/ReviewCard/Card'
+import WorkoutVideo from '../src/components/video';
 // import {Link} from 'react-router-dom'
 
 const Container = styled.div`
@@ -29,9 +29,9 @@ const MainSection = styled.div`
   justify-content: center;
   max-width: 100%;
   color: #000036;
-  padding: 40px;
-
-  @media (min-width: 768px) and (max-width: 1023px) {
+  padding: 0 40px;
+  
+  @media (max-width:1280px) { 
     box-sizing: auto;
     display: flex;
     flex-direction: column;
@@ -52,6 +52,7 @@ const StartButton = styled.button`
   width: 250px;
   height: 90px;
   margin-top: 20px;
+  margin: 0 100px;
   color: lightgrey;
   font-size: 1.8rem;
   font-family: NanumGothic-ExtraBold;
@@ -68,20 +69,33 @@ const StartButton = styled.button`
 
 const TitleContainer = styled.div`
   margin-left: 30px;
-  display: block;
-  flex-wrap: wrap;
+  display: flex;
+  flex-direction:column;
+  justify-content: center;
+  /* flex-wrap: wrap; */
 
-  @media (max-width: 768px) {
-    box-sizing: auto;
-    max-height: 20%;
-    padding: 10px 0px;
+  @media ( max-width: 768px ) {
+    margin: 0;
   }
+
+div {
+  font-size: 10rem;
+  font-family: DoHyeon-Regular;
+  text-align: center;
+}
+p {
+  font-size: 2.8rem;
+  margin: 0;
+  text-align: center;
+}
+
 `;
 
 const TitleContents = styled.h3`
   padding: 60px 50px;
-
-  @media (min-width: 768px) and (max-width: 1023px) {
+  text-align: center;
+  
+  @media (min-width:768px) and (max-width:1280px) { 
     box-sizing: auto;
   }
 
@@ -94,28 +108,19 @@ const MainArticle = styled.article`
   display: flex;
   flex-direction: row;
   max-height: 300px;
+  justify-content: center;
+  /* text-align: center; */
   /* margin: 0 20px; */
 `;
 
 const TitleStrong = styled.strong`
   font-size: 8rem;
-  padding-top: 120px;
 `;
 
 const TitleWrapper = styled.div`
   font-size: 3.2rem;
-  padding-top: 120px;
-
-  p {
-    font-size: 2rem;
-    margin: 0;
-    text-align: center;
-  }
-
-  strong {
-    font-size: 5rem;
-    margin: 0 25px;
-  }
+  padding-top: 30px;
+  display: flex;
 `;
 
 const UsingSection = styled.div`
@@ -125,13 +130,31 @@ const UsingSection = styled.div`
 `;
 
 const VideoSection = styled.div`
-  /* padding:15%; */
+  margin-left: 40px;
   display: flex;
   flex: row;
   justify-content: center;
   align-items: center;
   vertical-align: middle;
-  border-radius: 10px;
+  border-radius: 50%;
+  overflow: hidden;
+  /* border: 3px solid black; */
+
+  @media (min-width:768px) and (max-width:1280px) { 
+    /* box-sizing: auto; */
+    /* width: 90%; */
+    height: auto;
+    border: 0;
+  }
+
+  @media ( max-width: 768px ) {
+    /* box-sizing: auto; */
+    /* width: 90%; */
+    /* display: none; */
+    margin: 0;
+    border-radius: 0;
+    height: auto;
+  }
 `;
 
 const ReviewSection = styled.div`
@@ -188,28 +211,25 @@ function App() {
             <MainArticle>
               <TitleStrong>내</TitleStrong>
               <TitleWrapper>
-                <p>
-                  마음대로 만드는 <br />손 안의 트레이너
-                </p>
-                <strong>루띤</strong>
+                <p>마음대로 만드는 <br/>손 안의 트레이너</p>
               </TitleWrapper>
             </MainArticle>
+                <div>루띤</div>
             <TitleContents>
-              남이 시켜서 하는 운동은 이제 그만!! <br />
-              내가 만든 나만의 루틴으로 운동하고 <br />
-              당신의 목표를 달성을 공유해 보세요.
-              <br />
-              <StartButton onClick={() => router.push('/routine')}>운동 시작하기</StartButton>
+              남이 시켜서 하는 운동은 이제 그만!! <br/>
+              내가 만든 나만의 루틴으로 운동하고 <br /> 
+              당신의 목표를 달성을 공유해 보세요.<br/>
             </TitleContents>
+            <StartButton onClick={() => router.push('/routine')}>운동 시작하기</StartButton>
           </TitleContainer>
-          <Image src='/../public/main.jpeg' width='800' height='600'></Image>
+        <VideoSection>
+              <WorkoutVideo/>
+        </VideoSection>
+          {/* <Image src='/../public/main.jpeg' width='800' height='600'></Image> */}
         </MainSection>
 
         <UsingSection></UsingSection>
 
-        <VideoSection>
-          <WorkoutVideo></WorkoutVideo>
-        </VideoSection>
 
         <ReviewSection>
           <div>

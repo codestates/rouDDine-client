@@ -71,7 +71,7 @@ const SignUpContainer = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  padding-top: 200px;
+  padding-top : 200px;
   margin-top: 100px;
   z-index: 103;
   .signup_form {

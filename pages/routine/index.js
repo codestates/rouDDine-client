@@ -6,6 +6,7 @@ import axios from 'axios'
 import { currentRoutine } from '../../redux/reducers/routine';
 import {useRouter} from 'next/router'
 import Link from 'next/link'
+import {routineInfo} from '../../redux/reducers/routineInfo'
 
 const RoutineSection = styled.section`
   display: flex;
@@ -56,14 +57,15 @@ function Routine() {
   console.log(routines);
 
   useEffect(() => {
-    getRoutine(userId);
+    getRoutine();
   }, []);
 
-  const getRoutine = async (userId) => {
-    const url = `${process.env.NEXT_PUBLIC_url}/testroutine`;
+  const getRoutine = async () => {
+    console.log("실행");
+    const url = `${process.env.NEXT_PUBLIC_url}/testroutine`
+    // const url = `${process.env.NEXT_PUBLIC_url}/testroutine`;
     const res = await axios.get(url, { withCredentials: true });
     dispatch(currentRoutine(res.data));
-    // setRoutines(res.data.result)
     console.log(res);
   };
 
@@ -107,8 +109,6 @@ const getMyRoutine = async(e) => {
 
 
 
-
-
   return (
     <>
     <RoutinePageHeader></RoutinePageHeader>
@@ -116,13 +116,13 @@ const getMyRoutine = async(e) => {
     {routines &&
       routines.map((routine) => (
         <>
-        <Link href={`/routine/${routine.id}`}>
+        <Link href={`/routine/${routine.id}`} key={routine.id}>
          <a>
            <RoutineContainer
             id={routine.id}
             onClick={(e) => {getMyRoutine(e)}}
             >
-            {/* <img id={routine.id} src={`${process.env.NEXT_PUBLIC_url}/${img}`}></img> */}
+            <img id={routine.id} src={`${process.env.NEXT_PUBLIC_url}/${routine.routineimage}`}></img>
               <RoutineItem id={routine.id}>
                 <RoutineTitle id={routine.id}>{routine.name}</RoutineTitle>
               </RoutineItem>
