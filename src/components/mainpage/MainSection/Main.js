@@ -39,21 +39,19 @@ const MainSection = styled.div`
   flex: row;
   justify-content: center;
   align-items: center;
-  max-width: 100%;
   color: #000036;
   padding: 0 40px;
   
   @media (max-width:1280px) { 
-    box-sizing: auto;
     display: flex;
     flex-direction: column;
     padding: 10px 0px;
     margin-bottom: 200px;
     margin-top: 50px;
   }
-
+  
   @media (max-width: 768px) {
-    box-sizing: auto;
+    max-width: 440px;
     padding: 10px 0px;
     flex-direction: column;
   }
@@ -62,9 +60,9 @@ const MainSection = styled.div`
 const StartButton = styled.div`
   width: 250px;
   height: 90px;
-  margin : 0 200px;
   text-align: center;
   font-size: 1.8rem;
+  margin: 0 95px;
   padding: 30px 0;
   font-family: GmarketSansTTFBold;
   background-color: #000035;
@@ -84,21 +82,19 @@ const StartButton = styled.div`
 `;
 
 const TitleContainer = styled.div`
-  margin-left: 30px;
   display: flex;
   flex-direction:column;
   justify-content: center;
   flex-wrap: wrap;
-
+  
   @media ( max-width: 768px ) {
     margin: 0;
   }
 `;
 
 const TitleChild = styled.p`
-  min-width: 350px;
-  padding-left: 10px;
-  font-size: 2.5rem;
+  /* padding: 0 10px; */
+  font-size: 2.3rem;
   margin: 0;
   text-align: left;
   font-family: tway-sky;
@@ -120,7 +116,7 @@ const RoutineTitle = styled.div`
 `;
 
 const TitleContents = styled.h3`
-  padding: 60px 50px;
+  padding: 60px 0;
   text-align: center;
   font-family: GmarketSansTTFLight;
   line-height: 150%;
@@ -148,7 +144,7 @@ const TitleStrong = styled.strong`
 
   @media (max-width: 768px) {
     font-size: 6rem;
-    padding-left: 70px;
+    /* padding-left: 0px; */
   }
 `;
 
