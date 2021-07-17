@@ -6,21 +6,17 @@ const Container = styled.ul`
   display: flex;
   flex-direction: row;
   justify-content: center;
+  flex-wrap : wrap;
   padding: 0;
   width: 100%;
   box-sizing: border-box;
   margin-bottom: 50px;
-  /* @media (min-width: 768px) and (max-width: 1024px) {
-  flex-direction: column;
-  align-items: stretch;
-} */
+
   @media (max-width: 768px) {
     display: flex;
     flex-direction: column;
     align-items: center;
-    /* margin: 15px auto; */
     flex-wrap: wrap;
-    /* max-width: 768px; */
   }
 `;
 
