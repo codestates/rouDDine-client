@@ -268,9 +268,8 @@ const getListStyle = isDraggingOver => ({
   return (
     <>
       <DndContainer>
-        {editMode ? <RotateButton onClick={endEditMode}>저장</RotateButton> : (
-          <RotateButton onClick={triggerEditMode}>운동의 순서를 바꾸어 보세요!</RotateButton>
-        )}
+        <RotateButton onClick={endEditMode}>저장</RotateButton>
+          <RotateButton onClick={triggerEditMode}>순서 바꾸기</RotateButton>
         <DragDropContext onDragEnd={onDragEnd}>
           <Droppable droppableId="droppable" direction="vertical">
             {(provided, snapshot) => (

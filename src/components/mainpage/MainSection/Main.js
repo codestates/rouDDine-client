@@ -1,9 +1,12 @@
 import React from 'react'
 import styled from 'styled-components';
 import WorkoutVideo from '../../video';
+import {useRouter} from 'next/router';
+
 
 
 function First() {
+  const router = useRouter();
   return (
     <MainSection>
           <TitleContainer>

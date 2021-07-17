@@ -83,24 +83,6 @@ const BodyRightSection = styled.div`
   }
 `;
 
-const DndSection = styled.div`
-  /* width: 50vw; */
-`;
-// const RoutineSection = styled.div`
-//   margin: 10px;
-//   display: flex;
-//   justify-content: center;
-//   flex-direction: row;
-
-//   @media ( max-width: 768px ) {
-//     display: flex;
-//     flex-direction: column;
-//     flex-wrap: wrap;
-//     max-width: 300px;
-//     /* justify-content: start; */
-//     /* align-items: center; */
-//   }
-// `;
 
 export default function Main() {
   const routines = useSelector((state) => state.routine.result);
@@ -136,7 +118,7 @@ export default function Main() {
           <BodyLeftSection>
             <TodayRoutine></TodayRoutine>
           </BodyLeftSection>
-          <BodyRightSection>{/* <Timer/> */}</BodyRightSection>
+          <BodyRightSection><Timer/></BodyRightSection>
         </BodySection>
       </Container>
     </>

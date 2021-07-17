@@ -37,6 +37,7 @@ const List = styled.li`
   padding: 0 25px;
   height: 30px;
   border: none;
+  cursor: pointer;
   /* background-color: lightgrey; */
   :hover {
     background-color: rgba(0, 0, 255, .2);
