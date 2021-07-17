@@ -51,7 +51,7 @@ const MainSection = styled.div`
   }
   
   @media (max-width: 768px) {
-    max-width: 440px;
+    /* max-width: 440px; */
     padding: 10px 0px;
     flex-direction: column;
   }
