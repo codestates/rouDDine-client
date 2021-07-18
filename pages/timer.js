@@ -8,10 +8,7 @@ import { faPause, faPlay, faStop, faBackward, faForward } from '@fortawesome/fre
 import { useRouter } from 'next/router';
 
 
-function TimerModal({
-  setTimerOpen, 
-  timerOpen, 
-  data}) {
+function TimerModal({data}) {
   const router = useRouter();
   const dispatch = useDispatch();
   const isRunning = useSelector((state) => state.timer.isRunning);
