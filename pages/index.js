@@ -3,6 +3,7 @@ import Image from 'next/image'
 import Nav from '../src/components/Nav/Nav'
 import {useRouter} from 'next/router';
 import Using from '../src/components/mainpage/UsingSection/Using';
+import Using2 from '../src/components/mainpage/UsingSection2/Using';
 import Main from '../src/components/mainpage/MainSection/Main';
 import Footer from '../src/components/mainpage/Footer/Footer';
 import Review from '../src/components/mainpage/ReviewSection/Review';
@@ -95,8 +96,6 @@ function App() {
         <Main/>
         <Using/>
         <Review/>
-
-        <ReactiveSection></ReactiveSection>
       </Container>
       <Footer/>
     </>

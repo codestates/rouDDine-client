@@ -3,12 +3,13 @@ import styled from 'styled-components'
 import axios from 'axios';
 import {useDispatch} from 'react-redux';
 import {routineInfo} from '../../../redux/reducers/routineInfo';
-
+import { useSelector } from 'react-redux';
 
 
 function NewTabmenu() {
+  const routineId = useSelector(state => state.routineInfo.id)
+  const userId = 5;
   const dispatch = useDispatch();
-  const routineId = 1;
   const [trainingOne, setTrainingOne] = useState([])
   const [trainingTwo, setTrainingTwo] = useState([])
   const [trainingThree, setTrainingThree] = useState([])
@@ -59,7 +60,7 @@ function NewTabmenu() {
   const addWorkout = async(itemTitle) => {
     const url = `${process.env.NEXT_PUBLIC_url}/testexercise`
     const body = {
-      userid: 1,
+      userid: userId,
       routine_id: routineId,
       name: itemTitle,
     }
@@ -72,6 +73,7 @@ function NewTabmenu() {
     
   const newWorkoutHandler = (e) => {
     const itemTitle = e.target.parentElement.children[0].innerText;
+    console.log(itemTitle);
     addWorkout(itemTitle);
   };
   
@@ -173,7 +175,7 @@ const TrainingOneList = styled.ul`
   margin-top: 93px;
   position:absolute;
   top: ${(props) => (props.trainingOneToggle ? "15%" : "-1000px" )};
-  user-select: ${(props) => (props.trainingOneToggle ? "all" : "none" )};
+  /* user-select: ${(props) => (props.trainingOneToggle ? "all" : "none" )}; */
   opacity: ${(props) => (props.trainingOneToggle ? "100%" : "0" )};
 `;
 
@@ -185,7 +187,7 @@ const TrainingTwoList = styled.ul`
   margin-top: 90px;
   position:absolute;
   top: ${(props) => (props.trainingTwoToggle ? "15%" : "-1000px" )};
-  user-select: ${(props) => (props.trainingTwoToggle ? "all" : "none" )};
+  /* user-select: ${(props) => (props.trainingTwoToggle ? "all" : "none" )}; */
   opacity: ${(props) => (props.trainingTwoToggle ? "100%" : "0" )};
 `;
 
@@ -197,7 +199,7 @@ const TrainingThreeList = styled.ul`
   margin-top: 95px;
   position:absolute;
   top: ${(props) => (props.trainingThreeToggle ? "15%" : "-1000px" )};
-  user-select: ${(props) => (props.trainingOneToggle ? "all" : "none" )};
+  /* user-select: ${(props) => (props.trainingOneToggle ? "all" : "none" )}; */
   opacity: ${(props) => (props.trainingThreeToggle ? "100%" : "0" )};
 `;
 

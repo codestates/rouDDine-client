@@ -10,7 +10,7 @@ const Container = styled.ul`
   padding: 0;
   width: 100%;
   box-sizing: border-box;
-  margin-bottom: 50px;
+  margin-bottom: 100px;
 
   @media (max-width: 768px) {
     display: flex;

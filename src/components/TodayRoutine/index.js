@@ -206,7 +206,7 @@ const handleFollow = () => {
                             <span>운동시간: {Math.floor(item.rest_time/60)}분 {(item.rest_time % 60)}초</span>
                             <span>세트 간 휴식: {Math.floor(item.rest_time/60)}분 {(item.rest_time % 60)}초</span>
                           </InfoContainer>
-                        <ItemMemo>{item.memo}</ItemMemo>
+                        {/* <ItemMemo>{item.memo}</ItemMemo> */}
                       </Item>
                     </div>
                     )}

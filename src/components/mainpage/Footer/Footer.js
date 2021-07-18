@@ -19,7 +19,7 @@ const Copyright = styled.p`
 const GithubSection = styled.div`
   background-color: #000035;
   color: #ffffff;
-  margin: 0 20px;
+  margin: 60px 20px 0 20px;
   border-radius: 20px;
   list-style: none;
   padding: 20px;

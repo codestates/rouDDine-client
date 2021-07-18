@@ -8,8 +8,9 @@ const ReviewSection = styled.div`
   color: #343a40;
   background-color: #ffffff;
   margin-top: 60px;
+  /* padding-bottom: 50vh; */
   /* padding: 100px 120px; */
-  height: 100%;
+  height: 130vh;
   display: flex;
   align-items: center;
   flex-direction: column;
@@ -22,6 +23,10 @@ const ReviewSection = styled.div`
       font-family: Army_Bold;
       margin-bottom: 50px;
     }
+
+  @media (max-width:768px) {
+    height: 200vh;
+  }
 `;
 
 const ReviewArticle = styled.article`

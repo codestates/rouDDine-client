@@ -6,22 +6,20 @@ import TodayRoutine from '../../src/components/TodayRoutine';
 import { routineInfo } from '../../redux/reducers/routineInfo';
 import Tabmenu from '../../src/components/newTabMenu';
 import TimerModal from '../../src/components/TimerModal/';
-// import TimerModal from '../../src/components/TimerModal';
-
 
 function New() {
-  const routineId = useSelector((state) => state.routineInfo.id);
-  const routines = useSelector((state) => state.routine.result);
   const [timerOpen, setTimerOpen] = useState(false)
+  // const routineId = useSelector((state) => state.routineInfo.id);
+  const routines = useSelector((state) => state.routine.result);
   const [workouts, setWorkouts] = useState(null);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    getMyRoutine(routineId);
+    getMyRoutine();
   }, []);
 
-  const getMyRoutine = async () => {
-    const url = `${process.env.NEXT_PUBLIC_url}/testroutine?routine_id=1`;
+  const getMyRoutine = async (routineId) => {
+    const url = `${process.env.NEXT_PUBLIC_url}/testroutine?routine_id=7`;
     const res = await axios.get(url, { withCredentials: true });
     console.log('겟루틴new@@@@@@@@');
     dispatch(routineInfo(res.data.id, res.data.name, res.data.tasks));
@@ -43,7 +41,7 @@ function New() {
           <TodayRoutine TimerOpenHandler={TimerOpenHandler}></TodayRoutine>
         </SecondSection>
       </SectionContainer>
-      <TimerModal setTimerOpen={setTimerOpen} timerOpen={timerOpen}></TimerModal>
+      {/* <TimerModal setTimerOpen={setTimerOpen} timerOpen={timerOpen}></TimerModal> */}
     </Container>
     </>
   )
