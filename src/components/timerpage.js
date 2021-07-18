@@ -7,7 +7,6 @@ import { faPause, faPlay, faStop, faBackward, faForward } from '@fortawesome/fre
 import { useRouter } from 'next/router';
 export default function timerpage({ taskIds }) {
   const router = useRouter();
-  // const taskIds = data;
 
   const dispatch = useDispatch();
   const isRunning = useSelector((state) => state.timer.isRunning);
@@ -174,20 +173,6 @@ export default function timerpage({ taskIds }) {
     </>
   );
 }
-
-// export const getServerSideProps = async (ctx) => {
-//   const token = ctx.req.headers.cookie.split(' ')[1].split('=')[1];
-//   const res = await axios.get(`${process.env.NEXT_PUBLIC_url}/testroutine?routine_id=11`, {
-//     headers: { Cookie: `accessToken=${token}` },
-//     withCredentials: true,
-//   });
-//   const data = res.data;
-//   return {
-//     props: {
-//       data,
-//     },
-//   };
-// };
 
 let Body = styled.div`
   display: flex;
