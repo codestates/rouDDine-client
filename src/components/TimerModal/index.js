@@ -10,36 +10,6 @@ import { useRouter } from 'next/router';
 
 function TimerModal({setTimerOpen, timerOpen}) {
   const router = useRouter();
-  console.log('쿼리', router.query);
-  // console.log(data);
-  // const taskIds = data.tasks;
-  // const total_sec = data.tasks.map((el) => el.set_time);
-
-  // console.log('초합', total_sec);
-  // total_sec.map((el) => console.log(el));
-  const taskIds = [
-    //더미
-    { id: '1', name: '벤치프레스', set_number: 1, set_time: 1, rest_time: 1 },
-    { id: '2', name: '스쿼트', set_number: 3, set_time: 2, rest_time: 1 },
-    { id: '3', name: '데드리프트', set_number: 2, set_time: 1, rest_time: 1 },
-  ];
-  // set_time -
-  // //////////
-  // total_sec % 60
-  // parseInt(total_sec / 60)
-  // //////////
-
-  // const totalTime = (taskIds) => {
-  //   //분단위로 운동시간 총합 뽑아내기
-  //   const total = taskIds.reduce((acc, el) => {
-  //     return acc + (el.set_time * el.set_number + el.set_time * el.rest_time);
-  //   }, 0);
-  //   const hour = parseInt(total / 60);
-  //   const min = total % 60;
-  //   dispatch(timerSet(0, min, hour));
-  //   dispatch(timerReset(0, min, hour));
-  // };
-
   const dispatch = useDispatch();
   const isRunning = useSelector((state) => state.timer.isRunning);
   const hours = useSelector((state) => state.timer.hours);
@@ -49,6 +19,7 @@ function TimerModal({setTimerOpen, timerOpen}) {
   const set = useSelector((state) => state.timer.workout_set);
   const cur = useSelector((state) => state.timer.workout_cur);
   const isResting = useSelector((state) => state.timer.isResting);
+  const taskIds = useSelector((state) => state.routineInfo.tasks);
 
   useEffect(() => {
     // 최초 한번

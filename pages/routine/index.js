@@ -12,7 +12,7 @@ function Routine() {
   const router = useRouter();
   const dispatch = useDispatch();
   const routines = useSelector((state) => state.routine.result);
-  const userId = router.query.id;
+  const routineId = router.query.id;
 
   useEffect(() => {
     getRoutine();

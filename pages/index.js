@@ -19,10 +19,6 @@ const Container = styled.div`
   justify-content: space-evenly;
 `;
 
-
-
-
-
 const ReactiveSection = styled.div`
   height: 80vh;
   max-width: 100%;
