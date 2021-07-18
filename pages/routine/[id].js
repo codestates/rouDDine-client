@@ -1,29 +1,12 @@
 import styled from 'styled-components';
 import axios from 'axios';
-import { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import TodayRoutine from '../../src/components/TodayRoutine';
-import { routineInfo } from '../../redux/reducers/routineInfo';
-import Tabmenu from '../../src/components/newTabMenu';
-import TimerModal from '../../src/components/TimerModal/';
+import TodayRoutine from '../../src/components/workout.js';
+import Tabmenu from '../../src/components/Tabmenu';
+import Timer from '../../src/components/timerpage';
 
-function New() {
-  const [timerOpen, setTimerOpen] = useState(false)
-  // const routineId = useSelector((state) => state.routineInfo.id);
-  const routines = useSelector((state) => state.routine.result);
-  const [workouts, setWorkouts] = useState(null);
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    getMyRoutine();
-  }, []);
-
-  const getMyRoutine = async (routineId) => {
-    const url = `${process.env.NEXT_PUBLIC_url}/testroutine?routine_id=7`;
-    const res = await axios.get(url, { withCredentials: true });
-    console.log('겟루틴new@@@@@@@@');
-    dispatch(routineInfo(res.data.id, res.data.name, res.data.tasks));
-  };
+export default function Main(ctx) {
+  const taskIds = ctx.data.tasks;
+  const data = ctx.data;
 
   const TimerOpenHandler = () => {
     setTimerOpen(!timerOpen)
@@ -31,23 +14,49 @@ function New() {
 
   return (
     <>
-    <Container>
-      <ContainerTitle>나만의 루틴을 완성한 후 운동을 시작하세요</ContainerTitle>
-      <SectionContainer>
-        <FirstSection>
-          <Tabmenu></Tabmenu>
-        </FirstSection>
-        <SecondSection>
-          <TodayRoutine TimerOpenHandler={TimerOpenHandler}></TodayRoutine>
-        </SecondSection>
-      </SectionContainer>
-      {/* <TimerModal setTimerOpen={setTimerOpen} timerOpen={timerOpen}></TimerModal> */}
-    </Container>
+      <Container>
+        <HeadSection />
+        <BodySection>
+          <TraningSection>
+            <Tabmenu></Tabmenu>
+          </TraningSection>
+          <BodyLeftSection>
+            <TodayRoutine data={data} />
+          </BodyLeftSection>
+          <BodyRightSection>
+            <Timer taskIds={taskIds} />
+          </BodyRightSection>
+        </BodySection>
+      </Container>
     </>
   )
 }
 
-export default New
+export async function getStaticProps(ctx) {
+  const res = await axios.get(`${process.env.NEXT_PUBLIC_url}/testroutine?routine_id=${ctx.params.id}`, { withCredentials: true });
+  const data = res.data;
+  return {
+    props: {
+      data: data,
+    },
+  };
+}
+
+export async function getStaticPaths() {
+  return {
+    paths: [
+      { params: { id: '1' } },
+      // { params: { id: '2' } },
+      // { params: { id: '3' } },
+      // { params: { id: '4' } },
+      // { params: { id: '5' } },
+      // { params: { id: '6' } },
+      // { params: { id: '7' } },
+      // { params: { id: '8' } },
+    ],
+    fallback: false,
+  };
+}
 
 const Container = styled.div`
   display: flex;
