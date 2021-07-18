@@ -5,8 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import TodayRoutine from '../../src/components/TodayRoutine';
 import { routineInfo } from '../../redux/reducers/routineInfo';
 import Tabmenu from '../../src/components/newTabMenu';
-import TimerModal from '../../src/components/TimerModal/';
-// import TimerModal from '../../src/components/TimerModal';
+// import TimerModal from '../../src/components/TimerModal/[id]';
 
 
 function New() {
@@ -43,7 +42,7 @@ function New() {
           <TodayRoutine TimerOpenHandler={TimerOpenHandler}></TodayRoutine>
         </SecondSection>
       </SectionContainer>
-      <TimerModal setTimerOpen={setTimerOpen} timerOpen={timerOpen}></TimerModal>
+      {/* <TimerModal setTimerOpen={setTimerOpen} timerOpen={timerOpen}></TimerModal> */}
     </Container>
     </>
   )
@@ -85,16 +84,4 @@ const SecondSection = styled.div`
   width:30%;
   /* background-color: pink; */
   border-radius: 30px;
-`;
-
-const ThirdSection = styled.div`
-  height: 100%;
-  width: 40%;
-  background-color: lightblue;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  padding-top: 50px;
-
 `;
