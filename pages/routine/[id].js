@@ -8,6 +8,48 @@ import Tabmenu from '../../src/components/Tabmenu';
 import Timer from '../timerpage';
 import { routineInfo } from '../../redux/reducers/routineInfo';
 
+export default function Main() {
+  const routines = useSelector((state) => state.routine.result);
+  const routineId = useSelector((state) => state.routineInfo.id);
+  const [workouts, setWorkouts] = useState(null);
+  const dispatch = useDispatch();
+  // const userId = 5;
+  // console.log(userId);
+  console.log('루틴목록', routines);
+  console.log('루틴아이디', routineId);
+
+  useEffect(() => {
+    getMyRoutine(routineId);
+  }, []);
+
+  const getMyRoutine = async (routineId) => {
+    const url = `${process.env.NEXT_PUBLIC_url}/testroutine?routine_id=${routineId}`;
+    const res = await axios.get(url, { withCredentials: true });
+    console.log('겟마이루틴', res.data);
+    dispatch(routineInfo(res.data.id, res.data.name, res.data.tasks));
+    // dispatch(dndUpdate(res.data.tasks))
+  };
+
+  return (
+    <>
+      <Container>
+        <HeadSection />
+        <BodySection>
+          <TraningSection>
+            <Tabmenu></Tabmenu>
+          </TraningSection>
+          <BodyLeftSection>
+            <TodayRoutine></TodayRoutine>
+          </BodyLeftSection>
+          <BodyRightSection>
+            <Timer />
+          </BodyRightSection>
+        </BodySection>
+      </Container>
+    </>
+  );
+}
+
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -101,44 +143,3 @@ const DndSection = styled.div`
 //     /* align-items: center; */
 //   }
 // `;
-
-export default function Main() {
-  const routines = useSelector((state) => state.routine.result);
-  const routineId = useSelector((state) => state.routineInfo.id);
-  const [workouts, setWorkouts] = useState(null);
-  const dispatch = useDispatch();
-  // const userId = 5;
-  // console.log(userId);
-  console.log('루틴목록', routines);
-  console.log('루틴아이디', routineId);
-
-  useEffect(() => {
-    getMyRoutine(routineId);
-  }, []);
-
-  const getMyRoutine = async (routineId) => {
-    const url = `${process.env.NEXT_PUBLIC_url}/testroutine?routine_id=${routineId}`;
-    const res = await axios.get(url, { withCredentials: true });
-    // console.log(res.data);
-    console.log('겟루틴');
-    dispatch(routineInfo(res.data.id, res.data.name, res.data.tasks));
-    // dispatch(dndUpdate(res.data.tasks))
-  };
-
-  return (
-    <>
-      <Container>
-        <HeadSection />
-        <BodySection>
-          <TraningSection>
-            <Tabmenu></Tabmenu>
-          </TraningSection>
-          <BodyLeftSection>
-            <TodayRoutine></TodayRoutine>
-          </BodyLeftSection>
-          <BodyRightSection>{/* <Timer/> */}</BodyRightSection>
-        </BodySection>
-      </Container>
-    </>
-  );
-}

@@ -6,38 +6,8 @@ import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPause, faPlay, faStop, faBackward, faForward } from '@fortawesome/free-solid-svg-icons';
 import { useRouter } from 'next/router';
-export default function timerpage({ data }) {
+export default function timerpage() {
   const router = useRouter();
-  console.log('쿼리', router.query);
-  // console.log(data);
-  // const taskIds = data.tasks;
-  // const total_sec = data.tasks.map((el) => el.set_time);
-
-  // console.log('초합', total_sec);
-  // total_sec.map((el) => console.log(el));
-  const taskIds = [
-    //더미
-    { id: '1', name: '벤치프레스', set_number: 1, set_time: 1, rest_time: 1 },
-    { id: '2', name: '스쿼트', set_number: 3, set_time: 2, rest_time: 1 },
-    { id: '3', name: '데드리프트', set_number: 2, set_time: 1, rest_time: 1 },
-  ];
-  // set_time -
-  // //////////
-  // total_sec % 60
-  // parseInt(total_sec / 60)
-  // //////////
-
-  // const totalTime = (taskIds) => {
-  //   //분단위로 운동시간 총합 뽑아내기
-  //   const total = taskIds.reduce((acc, el) => {
-  //     return acc + (el.set_time * el.set_number + el.set_time * el.rest_time);
-  //   }, 0);
-  //   const hour = parseInt(total / 60);
-  //   const min = total % 60;
-  //   dispatch(timerSet(0, min, hour));
-  //   dispatch(timerReset(0, min, hour));
-  // };
-
   const dispatch = useDispatch();
   const isRunning = useSelector((state) => state.timer.isRunning);
   const hours = useSelector((state) => state.timer.hours);
@@ -47,20 +17,14 @@ export default function timerpage({ data }) {
   const set = useSelector((state) => state.timer.workout_set);
   const cur = useSelector((state) => state.timer.workout_cur);
   const isResting = useSelector((state) => state.timer.isResting);
-
+  const taskIds = useSelector((state) => state.routineInfo.tasks);
   useEffect(() => {
     // 최초 한번
-    // totalTime(taskIds); //총합운동시간
     convertTime(taskIds);
-    // dispatch(timerSet(0, taskIds[0].set_time));
-    // dispatch(timerReset(0, taskIds[0].set_time));
   }, []);
 
   useEffect(() => {
-    console.log('cur', cur);
-    console.log('set', set);
-    dispatch(timerSet(taskIds[cur].set_time % 60, parseInt(taskIds[cur].set_time / 60)));
-    dispatch(timerReset(taskIds[cur].set_time % 60, taskIds[cur].set_time / 60));
+    convertTime(taskIds);
   }, [cur]);
 
   const convertTime = (taskIds) => {
@@ -68,8 +32,8 @@ export default function timerpage({ data }) {
     const time = taskIds[cur].set_time;
     const min = parseInt(time / 60); //분
     const sec = time % 60; // 초
-    console.log(taskIds[cur].name, min, '분', sec, '초');
     dispatch(timerSet(sec, min));
+    dispatch(timerReset(sec, min));
   };
 
   const finishedTotalTime = (taskIds, cur) => {
@@ -87,11 +51,8 @@ export default function timerpage({ data }) {
       if (set === taskIds[cur].set_number) {
         //각 운동 마지막세트엔 휴식시간 없이 바로 다음 운동
         if (cur < taskIds.length - 1) {
-          console.log(cur, '변경전');
           dispatch(timerCurWorkout(cur + 1));
           dispatch(timerWorkoutSet(1));
-          // dispatch(timerSet(0, taskIds[cur].set_time));
-          // dispatch(timerReset(0, taskIds[cur].set_time));
           return;
         }
       }
@@ -110,19 +71,12 @@ export default function timerpage({ data }) {
     if (taskIds[cur].set_number < set + 1) {
       //다음 운동 으로 넘어가기 , 세트 1로 세팅
       dispatch(timerCurWorkout(cur + 1));
-      console.log('현재운동 : ', taskIds[cur].name, parseInt(taskIds[cur].set_time / 60), '분', taskIds[cur].set_time % 60, '초');
       dispatch(timerWorkoutSet(1));
       convertTime(taskIds);
-      // dispatch(timerSet(seconds, taskIds[cur].set_time));
-      // dispatch(timerReset(seconds, taskIds[cur].set_time));
     } else {
       // 세트 올리기
-      console.log('세트 변경전', set);
       dispatch(timerWorkoutSet(set + 1));
       convertTime(taskIds);
-      console.log('세트 변경후', set);
-      // dispatch(timerSet(seconds, taskIds[cur].set_time));
-      // dispatch(timerReset(seconds, taskIds[cur].set_time));
     }
   };
   // 쉬는건 토글식으로
@@ -164,8 +118,6 @@ export default function timerpage({ data }) {
     dispatch(timerRunning());
   };
   const nextWorkout = (taskIds, cur) => {
-    console.log('다음운동 클릭!!!!!!!');
-    console.log(taskIds[cur].name, '현재운동', parseInt(taskIds[cur].set_time / 60), '분', taskIds[cur].set_time % 60, '초');
     if (cur < taskIds.length - 1) {
       if (isResting) {
         dispatch(timerIsResting());
@@ -173,14 +125,9 @@ export default function timerpage({ data }) {
       if (isRunning) {
         dispatch(timerRunning());
       }
-      console.log(cur, '변경전');
-      console.log('cur+1 = ', cur + 1);
       dispatch(timerCurWorkout(cur + 1));
       dispatch(timerWorkoutSet(1));
-      console.log(cur, '변경후');
       convertTime(taskIds);
-      // dispatch(timerSet(0, taskIds[cur].set_time));
-      // dispatch(timerReset(0, taskIds[cur].set_time));
     } else {
       return;
     }
@@ -196,8 +143,6 @@ export default function timerpage({ data }) {
       dispatch(timerCurWorkout(cur - 1));
       dispatch(timerWorkoutSet(1));
       convertTime(taskIds);
-      // dispatch(timerSet(0, taskIds[cur].set_time));
-      // dispatch(timerReset(0, taskIds[cur].set_time));
     } else {
       return;
     }
@@ -209,8 +154,9 @@ export default function timerpage({ data }) {
           {/* <div>{data ? data.name : ''}</div> */}
           <div>{isResting ? '휴식 시간' : taskIds[cur].name}</div>
           <div>{taskIds ? `${set} / ${taskIds[cur].set_number} 세트` : null}</div>
+          <div>{isResting ? '휴식 시간' : taskIds[cur].name}</div>
         </Info>
-
+        <Memo>{taskIds[cur].memo ? taskIds[cur].memo : ' '}</Memo>
         <Time>
           {hours ? `${hours}:` : null}
           {minutes < 10 ? `0${minutes}` : minutes}:{seconds < 10 ? `0${seconds}` : seconds}
@@ -282,10 +228,14 @@ let Info = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 2.2rem;
+    font-size: 20px;
     min-width: 45%;
     height: 100%;
     padding: 10px 0;
+
+    :nth-child(2) {
+      font-size: 40px;
+    }
 
     @media (max-width: 1280px) {
       width: 70%;
@@ -301,7 +251,16 @@ let Info = styled.div`
   }
   /* border: 3px solid blue; */
 `;
-
+const Memo = styled.div`
+  width: 300px;
+  height: 100px;
+  border-radius: 4px;
+  /* border: 1px solid grey; */
+  margin: 10px 0px 10px 0px;
+  padding: 10px;
+  align-self: center;
+  overflow: auto;
+`;
 let Time = styled.div`
   font-family: 'digital';
   background-color: #ffffff;
@@ -334,8 +293,9 @@ let ButtonContainer = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  align-items: center;
-  min-width: 8rem;
+  padding: 40px;
+  margin-top: auto;
+  bottom: 0;
   .btn {
     font-size: 2.4rem;
     cursor: pointer;
