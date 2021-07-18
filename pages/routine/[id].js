@@ -1,34 +1,12 @@
 import styled from 'styled-components';
 import axios from 'axios';
-import { useState, useEffect } from 'react';
-import { currentRoutine } from '../../redux/reducers/routine';
-import { useDispatch, useSelector } from 'react-redux';
-import TodayRoutine from '../workout';
+import TodayRoutine from '../../src/components/workout.js';
 import Tabmenu from '../../src/components/Tabmenu';
-import Timer from '../timerpage';
-import { routineInfo } from '../../redux/reducers/routineInfo';
+import Timer from '../../src/components/timerpage';
 
-export default function Main() {
-  const routines = useSelector((state) => state.routine.result);
-  const routineId = useSelector((state) => state.routineInfo.id);
-  const [workouts, setWorkouts] = useState(null);
-  const dispatch = useDispatch();
-  // const userId = 5;
-  // console.log(userId);
-  console.log('루틴목록', routines);
-  console.log('루틴아이디', routineId);
-
-  useEffect(() => {
-    getMyRoutine(routineId);
-  }, []);
-
-  const getMyRoutine = async (routineId) => {
-    const url = `${process.env.NEXT_PUBLIC_url}/testroutine?routine_id=${routineId}`;
-    const res = await axios.get(url, { withCredentials: true });
-    console.log('겟마이루틴', res.data);
-    dispatch(routineInfo(res.data.id, res.data.name, res.data.tasks));
-    // dispatch(dndUpdate(res.data.tasks))
-  };
+export default function Main(ctx) {
+  const taskIds = ctx.data.tasks;
+  const data = ctx.data;
 
   return (
     <>
@@ -39,15 +17,41 @@ export default function Main() {
             <Tabmenu></Tabmenu>
           </TraningSection>
           <BodyLeftSection>
-            <TodayRoutine></TodayRoutine>
+            <TodayRoutine data={data} />
           </BodyLeftSection>
           <BodyRightSection>
-            <Timer />
+            <Timer taskIds={taskIds} />
           </BodyRightSection>
         </BodySection>
       </Container>
     </>
   );
+}
+
+export async function getStaticProps(ctx) {
+  const res = await axios.get(`${process.env.NEXT_PUBLIC_url}/testroutine?routine_id=${ctx.params.id}`, { withCredentials: true });
+  const data = res.data;
+  return {
+    props: {
+      data: data,
+    },
+  };
+}
+
+export async function getStaticPaths() {
+  return {
+    paths: [
+      { params: { id: '1' } },
+      // { params: { id: '2' } },
+      // { params: { id: '3' } },
+      // { params: { id: '4' } },
+      // { params: { id: '5' } },
+      // { params: { id: '6' } },
+      // { params: { id: '7' } },
+      // { params: { id: '8' } },
+    ],
+    fallback: false,
+  };
 }
 
 const Container = styled.div`

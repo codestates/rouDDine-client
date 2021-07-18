@@ -7,46 +7,33 @@ import { workoutInfo } from '../../redux/reducers/workoutInfo';
 import { routineInfo } from '../../redux/reducers/routineInfo';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrashAlt, faEdit } from '@fortawesome/free-solid-svg-icons';
-import Modal from '../../src/components/ex_update_Modal';
+import Modal from './ex_update_Modal';
 
 resetServerContext();
 
-function TodayRoutine() {
+function TodayRoutine({ data }) {
   const dispatch = useDispatch();
-  const routineId = useSelector((state) => state.routineInfo.id);
-  const currentWorkouts = useSelector((state) => state.routineInfo.tasks);
-  const isOpen = useSelector((state) => state.modal);
-  const [workouts, setWorkouts] = useState(null);
-  // const routineId = useSelector((state) => state.routineInfo.id)
+  const [workouts, setWorkouts] = useState(data.tasks); //@@@@@@@@@@@
+  const [editMode, setEditMode] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
+  const routineId = data.id; //루틴아이디
 
-  //드래그앤드롭으로 순서 바꾸기
+  // 드래그앤드롭으로 순서 바꾸기
   const orderChangeHandler = async (routineId, workouts) => {
-    const url = `${process.env.NEXT_PUBLIC_url}/testroutine`;
-    const body = {
-      routine_id: routineId,
-      exercise_array: workouts,
-    };
-    const res = await axios.patch(url, body, { withCredentials: true });
-    getMyRoutine(routineId);
+    await axios.patch(
+      `${process.env.NEXT_PUBLIC_url}/testroutine`,
+      {
+        routine_id: routineId,
+        exercise_array: workouts,
+      },
+      { withCredentials: true }
+    );
   };
-
-  const getMyRoutine = async (routineId) => {
-    const url = `${process.env.NEXT_PUBLIC_url}/testroutine?routine_id=${routineId}`;
-    const res = await axios.get(url, { withCredentials: true });
-    dispatch(routineInfo(res.data.id, res.data.name, res.data.tasks));
-    // dispatch(dndUpdate(res.data.tasks))
-  };
-
-  useEffect(() => {
-    setWorkouts(currentWorkouts);
-  }, []);
 
   const getListStyle = (isDraggingOver) => ({
     background: isDraggingOver ? 'lightblue' : '#fff9f9',
     display: 'flex',
   });
-
-  const [editMode, setEditMode] = useState(false);
 
   const onDragEnd = (result) => {
     if (!result.destination) {
@@ -60,66 +47,28 @@ function TodayRoutine() {
 
       return result;
     };
-    // dispatch(dndUpdate(reorder(result))
     setWorkouts(reorder(workouts, result.source.index, result.destination.index));
   };
 
-  const workoutUpdateHandler = (id) => {
+  const workoutUpdateHandler = () => {
     setModalOpen(!modalOpen);
-    dispatch(workoutInfo(id));
   };
 
-  const [modalOpen, setModalOpen] = useState(false);
   const triggerEditMode = () => {
     setEditMode(true);
-    // console.log("editMode: ",editMode);
   };
 
-  const endEditMode = () => {
+  const endEditMode = async () => {
+    await orderChangeHandler(routineId, workouts);
     setEditMode(false);
-    orderChangeHandler(routineId, workouts);
-    // console.log("editMode: ", editMode);
   };
 
-  const workoutDeleteHandler = async (e, routineId) => {
-    // const id = e.target.parentElement.parentElement.id
-    const targetId = e.target.parentElement.parentElement.id;
-    const url = `${process.env.NEXT_PUBLIC_url}/testexercise?workoutid=${targetId}`;
-    const res = await axios.delete(url, { withCredentials: true });
-
-    console.log(res);
-    // console.log(routineId);
-    getMyRoutine(routineId);
+  const workoutDeleteHandler = (workoutId, routineId) => {
+    axios
+      .delete(`${process.env.NEXT_PUBLIC_url}/testexercise?workoutid=${workoutId}`, { withCredentials: true })
+      .then(() => console.log('workout의 workout삭제 성공'))
+      .catch(() => console.log('workout의 workout삭제 실패'));
   };
-
-  const updateWorkout = async (routineId) => {
-    const url = `${process.env.NEXT_PUBLIC_url}/testexercise`;
-    const res = await axios.patch(url, { withCredentials: true });
-  };
-  const workoutIds = workouts && workouts.map((workout) => workout.id);
-  // const workoutIds = useSelector((state) => state.routineInfo.tasks.)
-  // console.log(currentWorkouts)
-  console.log(currentWorkouts);
-
-  // const workoutIds = currentWorkouts.map((curWorkout) => (curWorkout.id))
-  // console.log(workoutIds);
-
-  useEffect(() => {
-    setWorkouts(currentWorkouts);
-  }, [currentWorkouts]);
-  // console.log(workouts)
-  // console.log(workoutIds);
-  // console.log(routineId);
-
-  // const routineUpdateHandler = async(workoutIds) => {
-  //   const url = `${process.env.NEXT_PUBLIC_url}/testroutine`
-  //   const body = {
-  //     routine_id : routineId,
-  //     exercise_array : [...workoutIds]
-  //   }
-  //   const res = await axios.patch(url, body)
-  //   console.log(res);
-  // }
 
   return (
     <>
@@ -134,6 +83,8 @@ function TodayRoutine() {
                     <Draggable isDragDisabled={!editMode} key={item.id} draggableId={String(item.id)} index={index}>
                       {(provided, snapshot) => (
                         <div>
+                          {modalOpen && <ModalBackground key={index} onClick={() => setModalOpen(false)} />}
+                          <Modal key={index} workoutid={item.id} setModalOpen={setModalOpen} modalOpen={modalOpen}></Modal>
                           <Item
                             id={item.id}
                             index={index}
@@ -160,7 +111,7 @@ function TodayRoutine() {
                                     icon={faTrashAlt}
                                     id={item.id}
                                     onClick={(e) => {
-                                      workoutDeleteHandler(e, routineId);
+                                      workoutDeleteHandler(item.id, routineId);
                                     }}
                                   ></FontAwesomeIcon>
                                 </UpdateButton>
@@ -187,12 +138,9 @@ function TodayRoutine() {
           </Droppable>
         </DragDropContext>
       </DndContainer>
-      {modalOpen && <ModalBackground onClick={() => setModalOpen(false)} />}
-      <Modal setModalOpen={setModalOpen} modalOpen={modalOpen}></Modal>
     </>
   );
 }
-
 export default TodayRoutine;
 
 const DndContainer = styled.div`
