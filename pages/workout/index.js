@@ -15,16 +15,10 @@ import {routineInfo} from '../../redux/reducers/routineInfo'
 resetServerContext();
 
 const DndContainer = styled.div`
-  margin-top: 5vh;
   display: flex;
   flex-direction: column;
   align-items: center;
-  height: 100%;
-
-  div{
-    margin-left: 0;
-    text-align : center;
-  }
+  max-height: 90vh;
   @media (max-width: 1280px) {
     overflow-y: auto;
   }
@@ -34,6 +28,8 @@ const ItemContainer = styled.div`
   display: flex; 
   flex-direction: column;
   border-radius: 6px;
+  overflow-y: scroll;
+  max-height: 70%;
   width: 450px;
   background-color: ${(props) => (props.isDraggingOver ? 'lightblue' : '#4665d9')};
   background-color: ${(props) => (props.editMode ? '#000' : 'white')};
@@ -43,6 +39,11 @@ const ItemContainer = styled.div`
   @media (max-width: 1280px) {
     max-width: 360px;
     min-width: 280px;
+  }
+
+  div {
+    padding: 5px;
+    /* background-color: #ffffff; */
   }
 `;
 
@@ -54,26 +55,29 @@ const Item = styled.ul`
   justify-content: center;
   user-select: none;
   margin: 5px 5px;
-  font-family: Stylish-Regular;
-  background: #fff8fd;
+  font-family: esamanru_Light;
+  /* background: #fff8fd; */
   color: #000036;
+  opacity: 0.8;
   box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.22 );
   -webkit-backdrop-filter: blur(50px);
-  backdrop-filter: blur(50px);
-
-  :hover{
-    color: lightgrey;
-    background: ${(props) => (props.isDragging ? '#2ac1bc' : '#000035;')};
-    box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.8 );
-    -webkit-backdrop-filter: blur( 22.0px );
-    backdrop-filter: blur(22px);
-  }
+  backdrop-filter: blur(40px);
 
   div {
     display: flex;
     flex-direction: row;
     width: 100%;
+
+    :hover {
+
+    }
   }
+  :hover{
+    color: lightgrey;
+    background: ${(props) => (props.isDragging ? '#2ac1bc' : '#000035;')};
+    box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.8 );
+  }
+
 
   span {
     text-align: left;
@@ -90,20 +94,21 @@ const InfoContainer = styled.ul`
 
 const ButtonContainer = styled.div`
   display:flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: flex-end;
-  position: relative;
+  /* position: relative; */
 `;
 
-const ItemName = styled.h2`
-  list-style: none;
+
+const ItemName = styled.div`
+  font-size: 1.5rem;
+  margin: 10px 0 5px;
   text-align: left;
-  flex : 4 0 auto;
 `;
 
 const ItemMemo = styled.li`
   list-style: none;
-`;
+  `;
 
 const UpdateButton = styled.a`
   /* margin-right: 10px; */
@@ -113,31 +118,69 @@ const UpdateButton = styled.a`
   cursor: pointer;
   font-family: NanumGothic-Bold;
   /* font-weight: 800; */
+  `;
+
+const ButtonContainer2 = styled.div`
+  display:flex;
+  flex-direction: column;
+  position: fixed; 
+  right: 120px;
+  bottom: 40px;
 `;
 
 const RotateButton = styled.div`
   background-color: #000035;
+  font-family: esamanru_Medium;
   opacity: 0.9;
   color: lightgrey;
-  font-size: 1.0rem;
   padding: 10px;
-  /* border: 2px outset lightgreen; */
-  border-radius: 10px;
-  height: 40px;
-  width: 80%;
+  border-radius: 20px;
+  height: 80px;
+  width: 180px;
+  text-align: center;
+  margin : 10px;
+  font-size: 1.5rem;
+  /* vertical-align: middle; */
+  padding: 25px 0;
+  cursor: pointer;
   
   :hover {
-    /* border: 5px outset #2ac1bc; */
     box-shadow: 3px 5px;
-    background-color: #000035;
-    opacity: 0.7;
+    background-color: #ff001d;
+    opacity: 0.9;
     border: #000035 2px;
     font-weight: 600;
     color: white;
   }
 `;
 
-function TodayRoutine() {
+const StartButton = styled.div`
+  background-color: #e4b200;
+  font-family: esamanru_Medium;
+  opacity: 0.9;
+  color: #ffffff;
+  padding: 10px;
+  border-radius: 20px;
+  height: 80px;
+  width: 180px;
+  text-align: center;
+  margin : 10px;
+  font-size: 1.5rem;
+  /* vertical-align: middle; */
+  padding: 25px 0;
+  cursor: pointer;
+  
+  :hover {
+    background-color: #ff001d;
+    box-shadow: 3px 5px;
+    opacity: 0.9;
+    border: #000035 2px;
+    font-weight: 600;
+    color: white;
+  }
+`;
+
+function TodayRoutine({TimerOpenHandler}) {
   const dispatch = useDispatch();
   const routineId = useSelector((state) => state.routineInfo.id)
   const currentWorkouts = useSelector((state) => state.routineInfo.tasks)
@@ -265,30 +308,46 @@ const getListStyle = isDraggingOver => ({
 //   console.log(res);
 // }
 
+const [btnStatus, setBtnStatus] = useState(false);
+const [scrollY, setScrollY] = useState(0);
+
+useEffect(() =>{
+  const watch = () => {
+    window.addEventListener('scroll', handleFollow);
+  }
+  watch();
+  return () => {
+    window.removeEventListener('scroll', handleFollow);
+  }
+})
+const handleFollow = () => {
+  setScrollY(window.pageYOffset);
+  setBtnStatus(true);
+}
+
+
   return (
     <>
       <DndContainer>
-        <RotateButton onClick={endEditMode}>저장</RotateButton>
-          <RotateButton onClick={triggerEditMode}>순서 바꾸기</RotateButton>
         <DragDropContext onDragEnd={onDragEnd}>
           <Droppable droppableId="droppable" direction="vertical">
             {(provided, snapshot) => (
               <ItemContainer
-                editMode={editMode}
-                ref={provided.innerRef}
-                style={getListStyle(snapshot.isDraggingOver)}
-                {...provided.droppableProps}
-                isDraggingOver={snapshot.isDraggingOver}
+              editMode={editMode}
+              ref={provided.innerRef}
+              style={getListStyle(snapshot.isDraggingOver)}
+              {...provided.droppableProps}
+              isDraggingOver={snapshot.isDraggingOver}
               >
                 {workouts && workouts.map((item, index) => (
                   <Draggable
-                    isDragDisabled={!editMode}
-                    key={item.id}
-                    draggableId={String(item.id)}
-                    index={index}
+                  isDragDisabled={!editMode}
+                  key={item.id}
+                  draggableId={String(item.id)}
+                  index={index}
                   >
                     {(provided, snapshot) => (
-                        <div>
+                      <div>
                           <Item
                             id={item.id}
                             index={index}
@@ -319,7 +378,7 @@ const getListStyle = isDraggingOver => ({
                             </ButtonContainer>
                           </div>
                           <InfoContainer>
-                            <span>총{item.set_number}세트</span>
+                            <span>총 {item.set_number}세트</span>
                             <span>운동시간: {Math.floor(item.rest_time/60)}분 {(item.rest_time % 60)}초</span>
                             <span>세트 간 휴식: {Math.floor(item.rest_time/60)}분 {(item.rest_time % 60)}초</span>
                           </InfoContainer>
@@ -335,9 +394,20 @@ const getListStyle = isDraggingOver => ({
           </Droppable>
         </DragDropContext>
       </DndContainer>
+      <ButtonContainer2 >
+       <RotateButton onClick={triggerEditMode}>순서 변경</RotateButton>
+        <RotateButton onClick={endEditMode}>저장</RotateButton>
+        <StartButton onClick={TimerOpenHandler}>시작</StartButton>
+      </ButtonContainer2>
     <Modal setModalOpen={setModalOpen} modalOpen={modalOpen} ></Modal>
   </>
   )
 }
 
 export default TodayRoutine;
+
+
+const ImageContainer = styled.img`
+  height: 100%;
+  width: 100%;
+`;

@@ -1,12 +1,14 @@
 import styled from 'styled-components';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { timerSet, timerRunning, timerReset, timerWorkoutSet, timerCurWorkout, timerIsResting, totalTime } from '../redux/reducers/timer';
+import { timerSet, timerRunning, timerReset, timerWorkoutSet, timerCurWorkout, timerIsResting, totalTime } from '../../../redux/reducers/timer';
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPause, faPlay, faStop, faBackward, faForward } from '@fortawesome/free-solid-svg-icons';
 import { useRouter } from 'next/router';
-export default function timerpage({ data }) {
+
+
+function TimerModal({setTimerOpen, timerOpen}) {
   const router = useRouter();
   console.log('쿼리', router.query);
   // console.log(data);
@@ -203,7 +205,7 @@ export default function timerpage({ data }) {
     }
   };
   return (
-    <>
+    <ModalContainer timerOpen={timerOpen} onClick={() => setTimerOpen(!timerOpen)}>
       <Body>
         <Info>
           {/* <div>{data ? data.name : ''}</div> */}
@@ -224,35 +226,41 @@ export default function timerpage({ data }) {
           <FontAwesomeIcon icon={faForward} className='btn next' onClick={() => nextWorkout(taskIds, cur)} />
         </ButtonContainer>
       </Body>
-    </>
-  );
+    </ModalContainer>
+  )
 }
 
-// export const getServerSideProps = async (ctx) => {
-//   const token = ctx.req.headers.cookie.split(' ')[1].split('=')[1];
-//   const res = await axios.get(`${process.env.NEXT_PUBLIC_url}/testroutine?routine_id=11`, {
-//     headers: { Cookie: `accessToken=${token}` },
-//     withCredentials: true,
-//   });
-//   const data = res.data;
-//   return {
-//     props: {
-//       data,
-//     },
-//   };
-// };
+export default TimerModal
+
+const ModalContainer = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  z-index: 999;
+
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  background: rgba( 0, 0, 0, 0.60 );
+  /* background-color: #0b0b0b; */
+  opacity: ${(props) => (props.timerOpen ? "100%" : "0%")};
+  top: ${(props) => (props.timerOpen ? "0" : "-100%")};
+  `;
 
 let Body = styled.div`
+  z-index: 999;
   display: flex;
-  width: 35vw;
-  height: 85vh;
-  padding: 80px;
+  min-width: 40vw;
+  height: 90vh;
+  padding: 20px;
   flex-direction: column;
   justify-content: space-between;
   color: #3e3e3e;
   border-radius: 20px;
-  -webkit-backdrop-filter: blur(50px);
-  backdrop-filter: blur(50px);
+  background-color: #ffffff;
+  opacity: 0.95;
+  box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
+  backdrop-filter: blur( 12.0px );
 
   @media (max-width: 1280px) {
     max-width: 100%;
@@ -274,7 +282,7 @@ let Info = styled.div`
   flex-direction: column;
   justify-content: space-around;
   align-items: center;
-  padding: 40px 0px 0px 0px;
+  padding: 30px 0px 0px 0px;
   font-size: 2rem;
   font-weight: bold;
   font-family: esamanru_Light;
@@ -305,11 +313,11 @@ let Info = styled.div`
 let Time = styled.div`
   font-family: 'digital';
   background-color: #ffffff;
-  padding: 32% 0;
-  margin-top: 40px;
+  margin-top: 30px;
+  padding-top: 150px;
   align-self: center;
-  width: 380px;
-  height: 380px;
+  width: 27rem;
+  height: 27rem;
   border: 4px solid #ffd951;
   border-radius: 50%;
   font-family: esamanru_Medium;
@@ -330,10 +338,10 @@ let Time = styled.div`
 `;
 
 let ButtonContainer = styled.div`
-  margin-top: 50px;
+  margin: 40px 0 70px 0;
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: space-evenly;
   align-items: center;
   min-width: 8rem;
   .btn {

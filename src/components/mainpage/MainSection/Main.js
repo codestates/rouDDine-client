@@ -100,7 +100,7 @@ const TitleChild = styled.p`
   font-size: 2.3rem;
   margin: 0;
   text-align: left;
-  font-family: tway-sky;
+  font-family: tway_sky;
 
   @media ( max-width: 768px ) {
     font-size: 2.0rem;
@@ -109,7 +109,7 @@ const TitleChild = styled.p`
 
 const RoutineTitle = styled.div`
   font-size: 8rem;
-  font-family: tway-sky;
+  font-family: tway_sky;
   text-align: center;
   padding-left: 40px;
 
@@ -142,7 +142,7 @@ const MainArticle = styled.article`
 
 const TitleStrong = styled.strong`
   font-size: 7rem;
-  font-family: tway-sky;
+  font-family: tway_sky;
   padding-top: 35px;
 
   @media (max-width: 768px) {

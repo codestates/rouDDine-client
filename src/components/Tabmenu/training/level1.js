@@ -44,24 +44,6 @@ const ItemTitle = styled.h4`
   text-align: center;
 `;
 
-const ItemList = styled.li`
-  list-style: none;
-  text-align: center;
-  font-size: 1.2em;
-`;
-
-const AddButton = styled.div`
-  border-radius: 20%;
-  font-size: 1.4rem;
-  color: gray;
-  margin-right: 10px;
-  margin: 0;
-
-  :hover {
-    color: #000035;
-  }
-`;
-
 
 function List1({getRoutine}) {
   const dispatch = useDispatch();
@@ -88,20 +70,6 @@ function List1({getRoutine}) {
   }, [])
   const routineId = useSelector((state) => state.routineInfo.id)
 
-  const addWorkout = async(itemTitle) => {
-    const url = `${process.env.NEXT_PUBLIC_url}/testexercise`
-    const body = {
-      userid: 1,
-      routine_id: routineId,
-      name: itemTitle,
-    }
-    const res = await axios.post(url, body, { withCredentials: true })
-    console.log(res);
-    const data = res.data
-
-    getMyRoutine(routineId) 
-    // dispatch(addWorkoutArray(data))
-  };
   
   const getMyRoutine = async(routineId) => {
     const url = `${process.env.NEXT_PUBLIC_url}/testroutine?routine_id=${routineId}`
@@ -109,11 +77,25 @@ function List1({getRoutine}) {
     console.log(res.data);
     dispatch(routineInfo(res.data.id, res.data.name, res.data.tasks))
   }
-
+  
   // useEffect(() => {
-  //   getRoutine()
-  // }, [])
-
+    //   getRoutine()
+    // }, [])
+    const addWorkout = async(itemTitle) => {
+      const url = `${process.env.NEXT_PUBLIC_url}/testexercise`
+      const body = {
+        userid: 1,
+        routine_id: routineId,
+        name: itemTitle,
+      }
+      const res = await axios.post(url, body, { withCredentials: true })
+      console.log(res);
+      const data = res.data
+  
+      getMyRoutine(routineId) 
+      // dispatch(addWorkoutArray(data))
+    };
+    
   const newWorkoutHandler = (e) => {
     const itemTitle = e.target.parentElement.children[0].innerText;
     // const itemSetTime = e.target.parentElement.children[1].innerText
@@ -134,12 +116,7 @@ function List1({getRoutine}) {
           newWorkoutHandler(e);
         }}
         >
-
           <ItemTitle>{item.name}</ItemTitle>
-          {/* <AddButton
-          >
-            +
-          </AddButton> */}
         </ItemContainer>
       ))}
     </Container>

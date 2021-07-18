@@ -8,6 +8,8 @@ import {routineInfo} from '../../../../redux/reducers/routineInfo'
 const Container = styled.div`
   display: flex;
   flex-direction: column;
+  width: 400px;
+
 
   @media ( max-width: 768px ) {
     display:none;
@@ -44,23 +46,6 @@ const ItemTitle = styled.h4`
   text-align: center;
 `;
 
-const ItemList = styled.li`
-  list-style: none;
-  text-align: center;
-  font-size: 1.2em;
-`;
-
-const AddButton = styled.div`
-  border-radius: 20%;
-  font-size: 1.4rem;
-  color: gray;
-  margin-right: 10px;
-  margin: 0;
-
-  :hover {
-    color: #000035;
-  }
-`;
 
 function List3({getRoutine}) {
   const dispatch = useDispatch();

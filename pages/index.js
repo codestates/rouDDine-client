@@ -2,6 +2,7 @@ import styled from 'styled-components'
 import Image from 'next/image'
 import Nav from '../src/components/Nav/Nav'
 import {useRouter} from 'next/router';
+import Using from '../src/components/mainpage/UsingSection/Using';
 import Main from '../src/components/mainpage/MainSection/Main';
 import Footer from '../src/components/mainpage/Footer/Footer';
 import Review from '../src/components/mainpage/ReviewSection/Review';
@@ -19,11 +20,6 @@ const Container = styled.div`
 `;
 
 
-const UsingSection = styled.div`
-  height: 80vh;
-  background-color: #000036;
-  max-width: 100%;
-`;
 
 
 
@@ -75,7 +71,7 @@ function App() {
   }
 
   useEffect(() => {
-    console.log("ScrollY", scrollY);
+    // console.log("ScrollY", scrollY);
   }, [scrollY])
 
   useEffect(() =>{
@@ -101,7 +97,7 @@ function App() {
             ></TopButtonImage>
           </ButtonWrapper>
         <Main/>
-        <UsingSection></UsingSection>
+        <Using/>
         <Review/>
 
         <ReactiveSection></ReactiveSection>

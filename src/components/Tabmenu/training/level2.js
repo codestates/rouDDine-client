@@ -45,23 +45,6 @@ const ItemTitle = styled.h4`
   text-align: center;
 `;
 
-const ItemList = styled.li`
-  list-style: none;
-  text-align: center;
-  font-size: 1.2em;
-`;
-
-const AddButton = styled.div`
-  border-radius: 20%;
-  font-size: 1.4rem;
-  color: gray;
-  margin-right: 10px;
-  margin: 0;
-
-  :hover {
-    color: #000035;
-  }
-`;
 
 function List2({getRoutine}) {
   const dispatch = useDispatch();
