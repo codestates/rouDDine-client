@@ -1,51 +1,20 @@
 import styled from 'styled-components';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { timerSet, timerRunning, timerReset, timerWorkoutSet, timerCurWorkout, timerIsResting, totalTime } from '../../../redux/reducers/timer';
-import axios from 'axios';
+import { timerSet, timerRunning, timerReset, timerWorkoutSet, timerCurWorkout, timerIsResting, totalTime } from '../../redux/reducers/timer';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPause, faPlay, faStop, faBackward, faForward } from '@fortawesome/free-solid-svg-icons';
-<<<<<<< HEAD:pages/timerpage.js
-export default function timerpage({ data }) {
-  // console.log(data);
-  const taskIds = data.tasks;
-  const total_sec = data.tasks.map((el) => el.set_time);
-
-  // console.log('초합', total_sec);
-  // total_sec.map((el) => console.log(el));
-  // const taskIds = [
-  //   //더미
-  //   { id: '1', name: '벤치프레스', set_number: 1, set_time: 1, rest_time: 1 },
-  //   { id: '2', name: '스쿼트', set_number: 3, set_time: 2, rest_time: 1 },
-  //   { id: '3', name: '데드리프트', set_number: 2, set_time: 1, rest_time: 1 },
-  // ];
-  // set_time -
-  ////////////
-  // total_sec % 60
-  // parseInt(total_sec / 60)
-  ////////////
-
-  // const totalTime = (taskIds) => {
-  //   //분단위로 운동시간 총합 뽑아내기
-  //   const total = taskIds.reduce((acc, el) => {
-  //     return acc + (el.set_time * el.set_number + el.set_time * el.rest_time);
-  //   }, 0);
-  //   const hour = parseInt(total / 60);
-  //   const min = total % 60;
-  //   dispatch(timerSet(0, min, hour));
-  //   dispatch(timerReset(0, min, hour));
-  // };
-
-=======
 import { useRouter } from 'next/router';
-
-
-function TimerModal({
-  setTimerOpen, 
-  timerOpen, 
-  data}) {
+<<<<<<< HEAD:pages/timer.js
+=======
+export default function timerpage({ taskIds }) {
   const router = useRouter();
->>>>>>> 9a99388a74a08bb37422658493a576d50378593f:src/components/TimerModal/[id].js
+  // const taskIds = data;
+>>>>>>> 371e6abdde3c149ca6331929fce9506864452eaa:src/components/timerpage.js
+
+
+function TimerModal({data}) {
+  const router = useRouter();
   const dispatch = useDispatch();
   const isRunning = useSelector((state) => state.timer.isRunning);
   const hours = useSelector((state) => state.timer.hours);
@@ -55,17 +24,9 @@ function TimerModal({
   const set = useSelector((state) => state.timer.workout_set);
   const cur = useSelector((state) => state.timer.workout_cur);
   const isResting = useSelector((state) => state.timer.isResting);
-<<<<<<< HEAD:src/components/TimerModal/[id].js
-<<<<<<< HEAD:pages/timerpage.js
-console.log('초기값 :', cur)
-=======
-  const taskIds = useSelector((state) => state.routineInfo.tasks);
-
->>>>>>> 9a99388a74a08bb37422658493a576d50378593f:src/components/TimerModal/[id].js
-=======
+<<<<<<< HEAD:pages/timer.js
   // const taskIds = useSelector((state) => state.routineInfo.tasks);
   const taskIds = data;
->>>>>>> cf2f4b2ca449c98e89c5323c1dee1641226d24ca:src/components/TimerModal/index.js
   useEffect(() => {
     // 최초 한번
     // totalTime(taskIds); //총합운동시간
@@ -74,28 +35,34 @@ console.log('초기값 :', cur)
     // dispatch(timerReset(0, taskIds[0].set_time));
   }, []);
 
-<<<<<<< HEAD:pages/timerpage.js
-=======
   useEffect(() => {
     console.log('cur', cur);
     console.log('set', set);
     dispatch(timerSet(taskIds[cur].set_time % 60, parseInt(taskIds[cur].set_time / 60)));
     dispatch(timerReset(taskIds[cur].set_time % 60, taskIds[cur].set_time / 60));
   }, [cur]);
+=======
 
->>>>>>> 9a99388a74a08bb37422658493a576d50378593f:src/components/TimerModal/[id].js
+  console.log(taskIds);
+>>>>>>> 371e6abdde3c149ca6331929fce9506864452eaa:src/components/timerpage.js
+
   const convertTime = (taskIds) => {
     //초로만 받은걸 분, 초 로
     const time = taskIds[cur].set_time;
     const min = parseInt(time / 60); //분
     const sec = time % 60; // 초
-<<<<<<< HEAD:pages/timerpage.js
-    // console.log(min, '분', sec, '초');
-=======
     console.log(taskIds[cur].name, min, '분', sec, '초');
->>>>>>> 9a99388a74a08bb37422658493a576d50378593f:src/components/TimerModal/[id].js
     dispatch(timerSet(sec, min));
   };
+
+  useEffect(() => {
+    // 최초 한번
+    convertTime(taskIds);
+  }, []);
+
+  useEffect(() => {
+    convertTime(taskIds);
+  }, [cur]);
 
   const finishedTotalTime = (taskIds, cur) => {
     //운동시간 끝내면 세트마다 운동한 시간 축적시키기
@@ -104,11 +71,7 @@ console.log('초기값 :', cur)
 
   // convertTime(taskIds);
 
-<<<<<<< HEAD:pages/timerpage.js
-  const afterTheEnd = (taskIds, cur, set) => {
-=======
   const afterTheEnd = (taskIds) => {
->>>>>>> 9a99388a74a08bb37422658493a576d50378593f:src/components/TimerModal/[id].js
     //workout_cur - cur , taskIds - 받아올 요청 데이터 , set
     //인덱스(현재운동), 루틴데이터
     if (!isResting) {
@@ -118,13 +81,7 @@ console.log('초기값 :', cur)
         if (cur < taskIds.length - 1) {
           console.log(cur, '변경전');
           dispatch(timerCurWorkout(cur + 1));
-<<<<<<< HEAD:pages/timerpage.js
-          console.log(cur, '변경후');
-          dispatch(timerSet(1));
-          convertTime(taskIds, cur);
-=======
           dispatch(timerWorkoutSet(1));
->>>>>>> 9a99388a74a08bb37422658493a576d50378593f:src/components/TimerModal/[id].js
           // dispatch(timerSet(0, taskIds[cur].set_time));
           // dispatch(timerReset(0, taskIds[cur].set_time));
           return;
@@ -155,10 +112,7 @@ console.log('초기값 :', cur)
       console.log('세트 변경전', set);
       dispatch(timerWorkoutSet(set + 1));
       convertTime(taskIds);
-<<<<<<< HEAD:pages/timerpage.js
-=======
       console.log('세트 변경후', set);
->>>>>>> 9a99388a74a08bb37422658493a576d50378593f:src/components/TimerModal/[id].js
       // dispatch(timerSet(seconds, taskIds[cur].set_time));
       // dispatch(timerReset(seconds, taskIds[cur].set_time));
     }
@@ -212,11 +166,7 @@ console.log('초기값 :', cur)
         dispatch(timerRunning());
       }
       console.log(cur, '변경전');
-<<<<<<< HEAD:pages/timerpage.js
-      // 현재 운동의 인덱스 1을 넣어서 바꿔라.. 다음동으로 넘어감. 
-=======
       console.log('cur+1 = ', cur + 1);
->>>>>>> 9a99388a74a08bb37422658493a576d50378593f:src/components/TimerModal/[id].js
       dispatch(timerCurWorkout(cur + 1));
       dispatch(timerWorkoutSet(1));
       console.log(cur, '변경후');
@@ -246,19 +196,11 @@ console.log('초기값 :', cur)
   };
   return (
     <>
-    <ModalContainer timerOpen={timerOpen} setTimerOpen={setTimerOpen}>
+    {/* <ModalContainer timerOpen={timerOpen} setTimerOpen={setTimerOpen}> */}
       <Body>
         <CloseButton onClick={() => setTimerOpen(!timerOpen)}>x</CloseButton>
         <Info>
-<<<<<<< HEAD:src/components/TimerModal/[id].js
-<<<<<<< HEAD:pages/timerpage.js
           <div>{data ? data.name : ''}</div>
-=======
-          {/* <div>{data ? data.name : ''}</div> */}
->>>>>>> 9a99388a74a08bb37422658493a576d50378593f:src/components/TimerModal/[id].js
-=======
-          <div>{data ? data.name : ''}</div>
->>>>>>> cf2f4b2ca449c98e89c5323c1dee1641226d24ca:src/components/TimerModal/index.js
           <div>{isResting ? '휴식 시간' : taskIds[cur].name}</div>
           <div>{taskIds ? `${set} / ${taskIds[cur].set_number} 세트` : null}</div>
         </Info>
@@ -275,26 +217,11 @@ console.log('초기값 :', cur)
           <FontAwesomeIcon icon={faForward} className='btn next' onClick={() => nextWorkout(taskIds, cur)} />
         </ButtonContainer>
       </Body>
-    </ModalContainer>
+    {/* </ModalContainer> */}
     </>
   )
 }
 
-<<<<<<< HEAD:pages/timerpage.js
-export const getServerSideProps = async (ctx) => {
-  const token = ctx.req.headers.cookie.split(' ')[1].split('=')[1];
-  const res = await axios.get(`${process.env.NEXT_PUBLIC_url}/testroutine?routine_id=11`, {
-    headers: { Cookie: `accessToken=${token}` },
-    withCredentials: true,
-  });
-  const data = res.data;
-  return {
-    props: {
-      data,
-    },
-  };
-};
-=======
 export default TimerModal
 
 export const getServerSideProps = async (ctx) => {
@@ -336,12 +263,7 @@ const ModalContainer = styled.div`
   /* background-color: #0b0b0b; */
   opacity: ${(props) => (props.timerOpen ? "100%" : "0%")};
   top: ${(props) => (props.timerOpen ? "0" : "-100%")};
-<<<<<<< HEAD:src/components/TimerModal/[id].js
-  `;
->>>>>>> 9a99388a74a08bb37422658493a576d50378593f:src/components/TimerModal/[id].js
-=======
 `;
->>>>>>> cf2f4b2ca449c98e89c5323c1dee1641226d24ca:src/components/TimerModal/index.js
 
 let Body = styled.div`
   z-index: 999;
@@ -382,11 +304,7 @@ let Info = styled.div`
   flex-direction: column;
   justify-content: space-around;
   align-items: center;
-<<<<<<< HEAD:pages/timerpage.js
-  padding: 40px 0px 0px 0px;
-=======
   padding: 30px 0px 0px 0px;
->>>>>>> 9a99388a74a08bb37422658493a576d50378593f:src/components/TimerModal/[id].js
   font-size: 2rem;
   font-weight: bold;
   font-family: esamanru_Light;

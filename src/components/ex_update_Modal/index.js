@@ -4,17 +4,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { routineInfo } from '../../../redux/reducers/routineInfo';
 import axios from 'axios';
 
-function Modal({ setModalOpen, modalOpen, id, name }) {
+function Modal({ setModalOpen, modalOpen }) {
   const routineId = useSelector((state) => state.routineInfo.id);
   const workoutId = useSelector((state) => state.workoutInfo.id);
   const dispatch = useDispatch();
-  // const routineId = 11;
-  console.log(workoutId);
-  console.log(routineId);
   const [values, setValues] = useState({ name: '', set_number: '', minutes: '', seconds: '', rest_minutes: '', rest_seconds: '', memo: '' });
   const inputHandler = (e) => {
     //input value 핸들링 함수
-    console.log(e);
     const { name, value } = e.target;
     setValues({ ...values, [name]: value });
   };

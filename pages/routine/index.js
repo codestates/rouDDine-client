@@ -1,13 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-// import RoutineLists from './RoutineLists'
 import styled from 'styled-components';
 import axios from 'axios';
-import { currentRoutine } from '../../redux/reducers/routine';
-import { useRouter } from 'next/router';
 import Link from 'next/link';
-import { routineInfo } from '../../redux/reducers/routineInfo';
 
+<<<<<<< HEAD
 function Routine() {
   const router = useRouter();
   const dispatch = useDispatch();
@@ -21,17 +17,22 @@ function Routine() {
   const getRoutine = () => {
     axios.get(`${process.env.NEXT_PUBLIC_url}/testroutine`, { withCredentials: true }).then((res) => dispatch(currentRoutine(res.data)));
   };
+=======
+function Routine({ data }) {
+  const routines = data;
+  const userId = data.userid;
+>>>>>>> 371e6abdde3c149ca6331929fce9506864452eaa
 
   const addRoutine = async (userId) => {
-    const url = `${process.env.NEXT_PUBLIC_url}/testroutine`;
-    const body = {
-      userid: userId,
-      routine_name: '새 루틴',
-      share: 'false',
-    };
-    const res = await axios.post(url, body, { withCredentials: true });
-    console.log(res);
-    await getRoutine(userId);
+    const res = await axios.post(
+      `${process.env.NEXT_PUBLIC_url}/testroutine`,
+      {
+        userid: userId,
+        routine_name: '새 루틴',
+        share: 'false',
+      },
+      { withCredentials: true }
+    );
   };
 
   const deleteRoutine = async (routineId) => {
@@ -41,11 +42,6 @@ function Routine() {
     getRoutine(userId, routineId);
   };
 
-  const getMyRoutine = async (e) => {
-    const res = await axios.get(`${process.env.NEXT_PUBLIC_url}/testroutine?routine_id=${e.target.id}`, { withCredentials: true });
-    dispatch(routineInfo(res.data.id, res.data.name, res.data.tasks));
-  };
-
   return (
     <>
       <RoutinePageHeader></RoutinePageHeader>
@@ -53,20 +49,14 @@ function Routine() {
         {routines &&
           routines.map((routine, index) => (
             <>
-              <Link href={`/routine/${routine.id}`} key={index}>
-                <RoutineContainer
-                  id={routine.id}
-                  key={index}
-                  onClick={(e) => {
-                    getMyRoutine(e);
-                  }}
-                >
-                  <img id={routine.id} src={`${process.env.NEXT_PUBLIC_url}/${routine.routineimage}`}></img>
-                  <RoutineItem id={routine.id}>
-                    <DeleteButton className='delete_btn' id={routine.id} onClick={() => deleteRoutine(routineId)}>
+              <Link href={`/routine/${routine.id}`}>
+                <RoutineContainer key={index}>
+                  <img src={`${process.env.NEXT_PUBLIC_url}/${routine.routineimage}`}></img>
+                  <RoutineItem>
+                    <DeleteButton className='delete_btn' onClick={() => deleteRoutine(routineId)}>
                       -
                     </DeleteButton>
-                    <RoutineTitle id={routine.id}>{routine.name}</RoutineTitle>
+                    <RoutineTitle>{routine.name}</RoutineTitle>
                   </RoutineItem>
                 </RoutineContainer>
               </Link>
@@ -76,7 +66,6 @@ function Routine() {
           onClick={() => {
             addRoutine(userId);
           }}
-          // icon={{ as: 'i', className: 'plus'}}
         >
           +
         </AddRoutineButton>
@@ -86,6 +75,16 @@ function Routine() {
 }
 
 export default Routine;
+
+export async function getStaticProps(ctx) {
+  const res = await axios.get(`${process.env.NEXT_PUBLIC_url}/testroutine`, { withCredentials: true });
+  const data = res.data;
+  return {
+    props: {
+      data: data,
+    },
+  };
+}
 
 const RoutineSection = styled.section`
   display: flex;

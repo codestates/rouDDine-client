@@ -1,11 +1,16 @@
 import styled from 'styled-components';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { timerSet, timerRunning, timerReset, timerWorkoutSet, timerCurWorkout, timerIsResting, totalTime } from '../redux/reducers/timer';
-import axios from 'axios';
+import { timerSet, timerRunning, timerReset, timerWorkoutSet, timerCurWorkout, timerIsResting, totalTime } from '../../redux/reducers/timer';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPause, faPlay, faStop, faBackward, faForward } from '@fortawesome/free-solid-svg-icons';
 import { useRouter } from 'next/router';
+<<<<<<< HEAD:pages/timer.js
+=======
+export default function timerpage({ taskIds }) {
+  const router = useRouter();
+  // const taskIds = data;
+>>>>>>> 371e6abdde3c149ca6331929fce9506864452eaa:src/components/timerpage.js
 
 
 function TimerModal({data}) {
@@ -19,6 +24,7 @@ function TimerModal({data}) {
   const set = useSelector((state) => state.timer.workout_set);
   const cur = useSelector((state) => state.timer.workout_cur);
   const isResting = useSelector((state) => state.timer.isResting);
+<<<<<<< HEAD:pages/timer.js
   // const taskIds = useSelector((state) => state.routineInfo.tasks);
   const taskIds = data;
   useEffect(() => {
@@ -35,6 +41,10 @@ function TimerModal({data}) {
     dispatch(timerSet(taskIds[cur].set_time % 60, parseInt(taskIds[cur].set_time / 60)));
     dispatch(timerReset(taskIds[cur].set_time % 60, taskIds[cur].set_time / 60));
   }, [cur]);
+=======
+
+  console.log(taskIds);
+>>>>>>> 371e6abdde3c149ca6331929fce9506864452eaa:src/components/timerpage.js
 
   const convertTime = (taskIds) => {
     //초로만 받은걸 분, 초 로
@@ -44,6 +54,15 @@ function TimerModal({data}) {
     console.log(taskIds[cur].name, min, '분', sec, '초');
     dispatch(timerSet(sec, min));
   };
+
+  useEffect(() => {
+    // 최초 한번
+    convertTime(taskIds);
+  }, []);
+
+  useEffect(() => {
+    convertTime(taskIds);
+  }, [cur]);
 
   const finishedTotalTime = (taskIds, cur) => {
     //운동시간 끝내면 세트마다 운동한 시간 축적시키기
