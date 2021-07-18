@@ -40,7 +40,10 @@ export default function timerpage({ data }) {
 import { useRouter } from 'next/router';
 
 
-function TimerModal({setTimerOpen, timerOpen}) {
+function TimerModal({
+  setTimerOpen, 
+  timerOpen, 
+  data}) {
   const router = useRouter();
 >>>>>>> 9a99388a74a08bb37422658493a576d50378593f:src/components/TimerModal/[id].js
   const dispatch = useDispatch();
@@ -52,12 +55,17 @@ function TimerModal({setTimerOpen, timerOpen}) {
   const set = useSelector((state) => state.timer.workout_set);
   const cur = useSelector((state) => state.timer.workout_cur);
   const isResting = useSelector((state) => state.timer.isResting);
+<<<<<<< HEAD:src/components/TimerModal/[id].js
 <<<<<<< HEAD:pages/timerpage.js
 console.log('초기값 :', cur)
 =======
   const taskIds = useSelector((state) => state.routineInfo.tasks);
 
 >>>>>>> 9a99388a74a08bb37422658493a576d50378593f:src/components/TimerModal/[id].js
+=======
+  // const taskIds = useSelector((state) => state.routineInfo.tasks);
+  const taskIds = data;
+>>>>>>> cf2f4b2ca449c98e89c5323c1dee1641226d24ca:src/components/TimerModal/index.js
   useEffect(() => {
     // 최초 한번
     // totalTime(taskIds); //총합운동시간
@@ -237,18 +245,23 @@ console.log('초기값 :', cur)
     }
   };
   return (
-    <ModalContainer timerOpen={timerOpen} onClick={() => setTimerOpen(!timerOpen)}>
+    <>
+    <ModalContainer timerOpen={timerOpen} setTimerOpen={setTimerOpen}>
       <Body>
+        <CloseButton onClick={() => setTimerOpen(!timerOpen)}>x</CloseButton>
         <Info>
+<<<<<<< HEAD:src/components/TimerModal/[id].js
 <<<<<<< HEAD:pages/timerpage.js
           <div>{data ? data.name : ''}</div>
 =======
           {/* <div>{data ? data.name : ''}</div> */}
 >>>>>>> 9a99388a74a08bb37422658493a576d50378593f:src/components/TimerModal/[id].js
+=======
+          <div>{data ? data.name : ''}</div>
+>>>>>>> cf2f4b2ca449c98e89c5323c1dee1641226d24ca:src/components/TimerModal/index.js
           <div>{isResting ? '휴식 시간' : taskIds[cur].name}</div>
           <div>{taskIds ? `${set} / ${taskIds[cur].set_number} 세트` : null}</div>
         </Info>
-
         <Time>
           {hours ? `${hours}:` : null}
           {minutes < 10 ? `0${minutes}` : minutes}:{seconds < 10 ? `0${seconds}` : seconds}
@@ -263,6 +276,7 @@ console.log('초기값 :', cur)
         </ButtonContainer>
       </Body>
     </ModalContainer>
+    </>
   )
 }
 
@@ -283,12 +297,38 @@ export const getServerSideProps = async (ctx) => {
 =======
 export default TimerModal
 
+export const getServerSideProps = async (ctx) => {
+  const token = ctx.req.headers.cookie.split(' ')[1].split('=')[1];
+  const res = await axios.get(`${process.env.NEXT_PUBLIC_url}/testroutine?routine_id=11`, {
+    headers: { Cookie: `accessToken=${token}` },
+    withCredentials: true,
+  });
+  const data = res.data;
+  return {
+    props: {
+      data,
+    },
+  };
+};
+
+
+
+
+const CloseButton = styled.span`
+  width: 20px;
+  height: 20px;;
+  position: fixed;
+  right: 20px;
+  top: 20px;
+  text-align: center;
+  cursor: pointer;
+`;
+
 const ModalContainer = styled.div`
   width: 100%;
   height: 100%;
   display: flex;
-  z-index: 999;
-
+  z-index: 998;
   justify-content: center;
   align-items: center;
   position: fixed;
@@ -296,8 +336,12 @@ const ModalContainer = styled.div`
   /* background-color: #0b0b0b; */
   opacity: ${(props) => (props.timerOpen ? "100%" : "0%")};
   top: ${(props) => (props.timerOpen ? "0" : "-100%")};
+<<<<<<< HEAD:src/components/TimerModal/[id].js
   `;
 >>>>>>> 9a99388a74a08bb37422658493a576d50378593f:src/components/TimerModal/[id].js
+=======
+`;
+>>>>>>> cf2f4b2ca449c98e89c5323c1dee1641226d24ca:src/components/TimerModal/index.js
 
 let Body = styled.div`
   z-index: 999;
@@ -307,12 +351,16 @@ let Body = styled.div`
   padding: 20px;
   flex-direction: column;
   justify-content: space-between;
+  align-items: center;
   color: #3e3e3e;
   border-radius: 20px;
   background-color: #ffffff;
+  position: fixed;
   opacity: 0.95;
   box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
   backdrop-filter: blur( 12.0px );
+  /* opacity: ${(props) => (props.timerOpen ? "100%" : "0%")};
+  top: ${(props) => (props.timerOpen ? "0" : "-100%")}; */
 
   @media (max-width: 1280px) {
     max-width: 100%;
