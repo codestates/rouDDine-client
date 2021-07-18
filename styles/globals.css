@@ -4,12 +4,9 @@ body {
   height: 100%;
   padding: 0;
   margin: 0;
-  font-family: -apple-system, InkLipquid, BlinkMacSystemFont, Segoe UI, 
-  Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif, 
-  NanumGothic-Bold, DoHyeon-Regular, NanumGothic-ExtraBold, NanumGothic-Regular, OpenSans
-  GmarketSansTTFLight, GmarketSansTTFBold, GmarketSansTTFMedium,
-  ELAND-choice-B, ELAND-choice-L, ELAND-choice-M, tway-sky
-  NEXONLv1GothicBold, NEXONLv1GothicLight, NEXONLv1GothicRegular, Army_Medium, Army_Bold;
+  font-family: -apple-system, InkLipquid, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif, NanumGothic-Bold, DoHyeon-Regular,
+    NanumGothic-ExtraBold, NanumGothic-Regular, OpenSans GmarketSansTTFLight, GmarketSansTTFBold, GmarketSansTTFMedium, ELAND-choice-B, ELAND-choice-L, ELAND-choice-M, tway-sky NEXONLv1GothicBold,
+    NEXONLv1GothicLight, NEXONLv1GothicRegular, Army_Medium, Army_Bold;
 }
 
 a {
