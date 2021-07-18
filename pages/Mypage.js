@@ -26,6 +26,7 @@ let Profile = styled.div`
 
 let Container = styled.div`
   border: 1px solid black;
+  border-radius: 30px;
   display: flex;
   justify-content: center;
   align-items : center;
@@ -33,19 +34,19 @@ let Container = styled.div`
   width: 30%;
   height: 100%;
   padding :7%;
-  margin: 50px;
+  margin: 30px;
 
 .cover{
   object-fit: cover;
   width: 80px;
-  height: 70px;
+  height: 60px;
 }
 
 .form-email{
   padding : 1%
 }
 .form-inputs {
-  margin-bottom: 0.5rem;
+  /* margin-bottom: 0.5rem; */
   width: 100%;
   margin-bottom : 10;
 }  
@@ -54,21 +55,42 @@ let Container = styled.div`
   font-size: 0.8rem;
   margin-bottom: 6px;
   font-size: 1rem;
+  font-family: GmarketSansTTFLight;
+  font-weight : bold;
   }
 
-  .form-input-btn {
-   margin : 10px; 
+.form-input-btn {
+  display: flex;
+  width: 80px;
+  height: 40px;
+  justify-content: center;
+  /* align-items : center; */
+  text-align: center;
+  font-size: 1rem;
+  padding: 10px 5px;
+  font-family: GmarketSansTTFBold;
+  background-color: #000035;
+  border-radius: 15px;
+  border: none;
+  color: #ffffff;
+  cursor: po0inter;
+  margin-bottom : 20px;
   }
-  :hover {
-  cursor: pointer;
-  /* background: linear-gradient(
-    90deg,
-    rgb(39, 143, 255) 0%,
-    rgb(12, 99, 250) 100%
-  );
-  transition: all 0.4s ease-out; */
-}
+
+  @media (min-width:700px) { 
+    margin-bottom: 100px;
+  }
+
 `;
+
+
+
+// @media (max-width:1280px) { 
+//   margin-bottom: 100px;
+// }
+
+
+// `;
 
 const InputBox = styled.input `
   display: block;
@@ -180,7 +202,7 @@ const MyPage = () => {
         </select>
         
           <div className="form-email">
-            <label>{userInfo.email} </label>
+            <label className='form-label'>{userInfo.email} </label>
           </div>
           
           <div className='form-inputs'>

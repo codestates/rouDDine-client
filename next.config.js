@@ -10,8 +10,12 @@ module.exports = {
   },
 };
 
-const withImages = require('next-images');
-module.exports = withImages();
+const withImages = require('next-images')
+module.exports = withImages({
+  webpack(config, { webpack }) {
+    return config
+  }
+})
 
 const withVideos = require('next-videos')
 module.exports = withVideos()
