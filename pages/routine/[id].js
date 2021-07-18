@@ -5,7 +5,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import TodayRoutine from '../../src/components/TodayRoutine';
 import { routineInfo } from '../../redux/reducers/routineInfo';
 import Tabmenu from '../../src/components/newTabMenu';
-import TimerModal from '../../src/components/TimerModal';
+import TimerModal from '../../src/components/TimerModal/';
+// import TimerModal from '../../src/components/TimerModal';
 
 
 function New() {
@@ -41,12 +42,9 @@ function New() {
         <SecondSection>
           <TodayRoutine TimerOpenHandler={TimerOpenHandler}></TodayRoutine>
         </SecondSection>
-        {/* <ThirdSection>
-          <Timer></Timer>
-        </ThirdSection> */}
       </SectionContainer>
+      <TimerModal setTimerOpen={setTimerOpen} timerOpen={timerOpen}></TimerModal>
     </Container>
-    <TimerModal setTimerOpen={setTimerOpen} timerOpen={timerOpen}></TimerModal>
     </>
   )
 }
