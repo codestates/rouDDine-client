@@ -3,6 +3,12 @@ import styled from 'styled-components';
 import axios from 'axios';
 import Link from 'next/link';
 
+
+
+
+
+
+
 function Routine({ data }) {
   const routines = data;
   const userId = data.userid;

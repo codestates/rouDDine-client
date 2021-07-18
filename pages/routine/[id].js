@@ -8,6 +8,10 @@ export default function Main(ctx) {
   const taskIds = ctx.data.tasks;
   const data = ctx.data;
 
+  const TimerOpenHandler = () => {
+    setTimerOpen(!timerOpen)
+  }
+
   return (
     <>
       <Container>
@@ -25,7 +29,7 @@ export default function Main(ctx) {
         </BodySection>
       </Container>
     </>
-  );
+  )
 }
 
 export async function getStaticProps(ctx) {
@@ -57,93 +61,47 @@ export async function getStaticPaths() {
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  height: 100%;
+  justify-content: flex-start;
+  /* padding-top: 5%; */
+  height: 100vh;
+  width: 100vw;
 `;
 
-const HeadSection = styled.div`
+const ContainerTitle = styled.div`
+  text-align: center;
+  font-size: 2.4rem;
+  font-family: DoHyeon-Regular;
+  margin: 120px 0 50px 0;
+`;
+
+
+const SectionContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+`;
+const FirstSection = styled.div`
+  height: 100%;
+  width: 30%;
+  display: flex;
+  flex-direction: row;
+`;
+
+const SecondSection = styled.div`
+  max-height: 85vh;
+  width:30%;
+  /* background-color: pink; */
+  border-radius: 30px;
+`;
+
+const ThirdSection = styled.div`
+  height: 100%;
+  width: 40%;
+  background-color: lightblue;
   display: flex;
   flex-direction: column;
-  margin-bottom: 50px;
-`;
-
-const BodySection = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  height: 100vh;
-`;
-
-const BodyLeftSection = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  border-right: 1px dotted;
-  min-width: 50vw;
-  margin-top: 15px;
-  height: 100%;
-  overflow-y: auto;
-
-  @media (max-width: 1280px) {
-    min-width: 30%;
-  }
-
-  @media (max-width: 768px) {
-    display: none;
-  }
-`;
-
-const TraningSection = styled.div`
-  background-color: #000035;
-  height: 100%;
-  min-width: 220px;
-  box-sizing: border-box;
-  margin-top: 15px;
-
-  @media (max-width: 1280px) {
-    display: none;
-  }
-`;
-
-const BodyRightSection = styled.div`
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
   align-items: center;
-  justify-content: center;
-  background-color: #000035;
-  margin-top: 15px;
-  width: 45vw;
-  padding-bottom: 50px;
-  height: 100%;
+  justify-content: flex-start;
+  padding-top: 50px;
 
-  @media (max-width: 1280px) {
-    max-width: 90%;
-  }
-
-  @media (max-width: 768px) {
-    width: 100%;
-    height: 100%;
-    font-size: 11em;
-    font-size: 8rem;
-    padding-bottom: 30px;
-  }
 `;
-
-const DndSection = styled.div`
-  /* width: 50vw; */
-`;
-// const RoutineSection = styled.div`
-//   margin: 10px;
-//   display: flex;
-//   justify-content: center;
-//   flex-direction: row;
-
-//   @media ( max-width: 768px ) {
-//     display: flex;
-//     flex-direction: column;
-//     flex-wrap: wrap;
-//     max-width: 300px;
-//     /* justify-content: start; */
-//     /* align-items: center; */
-//   }
-// `;

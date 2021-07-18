@@ -21,18 +21,16 @@ export default function login({ modalLogin, setModalLogin }) {
         .post(
           `${process.env.NEXT_PUBLIC_url}/login`,
           {
-            email: email,
-            password: password,
+            email,
+            password,
             social: null,
           },
           { withCredentials: true }
         )
         .then((res) => {
-          console.log('로그인성공');
-          if (modalLogin) {
+          console.log('로그인 성공 : ', res.data.data);
             setModalLogin(false);
-          }
-          router.push('/');
+            router.push('/');
         })
         .catch((e) => console.log('로그인 실패', e));
     }
