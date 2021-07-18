@@ -4,10 +4,13 @@ import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 
+
+console.log(process.env.NEXT_PUBLIC_url)
 export default function login({ modalLogin, setModalLogin }) {
   const router = useRouter();
   //input value 핸들링 state
   const [values, setValues] = useState({ email: '', password: '' });
+
   const inputHandler = (e) => {
     //input value 핸들링 함수
     const { name, value } = e.target;
@@ -21,18 +24,16 @@ export default function login({ modalLogin, setModalLogin }) {
         .post(
           `${process.env.NEXT_PUBLIC_url}/login`,
           {
-            email: email,
-            password: password,
+            email,
+            password,
             social: null,
           },
           { withCredentials: true }
         )
         .then((res) => {
-          console.log('로그인성공');
-          if (modalLogin) {
+          console.log('로그인 성공 : ', res.data.data);
             setModalLogin(false);
-          }
-          router.push('/');
+            router.push('/');
         })
         .catch((e) => console.log('로그인 실패', e));
     }
@@ -49,8 +50,12 @@ export default function login({ modalLogin, setModalLogin }) {
       })
       .then((res) => {
         if (res.status === 200) {
+          setModalLogin(false);
+          router.push("/Mypage");
           alert('로그인에 성공했습니다.');
+  
         } else if (res.status === 201) {
+          setModalLogin(false);
           alert('회원가입에 성공했습니다.');
         }
       })
@@ -94,7 +99,7 @@ const LoginContainer = styled.div`
   flex-direction: column;
   padding-top: 200px;
   margin-top: 100px;
-  z-index: 103;
+  z-index: 102;
   .login_form {
     position: absolute;
     display: flex;
@@ -138,10 +143,6 @@ const LoginInput = styled.input`
   height: 1.5rem;
   border-radius: 3px;
   border: 1px solid grey;
-  &:hover {
-    transform: translateX(-5px);
-    width: 100%;
-  }
 `;
 
 const LoginButton = styled.div`

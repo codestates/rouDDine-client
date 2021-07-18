@@ -3,9 +3,25 @@ import styled from 'styled-components';
 import axios from 'axios';
 import Link from 'next/link';
 
+<<<<<<< HEAD
+function Routine() {
+  const router = useRouter();
+  const dispatch = useDispatch();
+  const routines = useSelector((state) => state.routine.result);
+  const routineId = router.query.id;
+
+  useEffect(() => {
+    getRoutine();
+  }, []);
+
+  const getRoutine = () => {
+    axios.get(`${process.env.NEXT_PUBLIC_url}/testroutine`, { withCredentials: true }).then((res) => dispatch(currentRoutine(res.data)));
+  };
+=======
 function Routine({ data }) {
   const routines = data;
   const userId = data.userid;
+>>>>>>> 371e6abdde3c149ca6331929fce9506864452eaa
 
   const addRoutine = async (userId) => {
     const res = await axios.post(

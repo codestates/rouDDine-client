@@ -29,32 +29,30 @@ const ItemContainer = styled.ul`
   min-width: 95%;
   padding: 0 10px;
   border-radius: 8px;
+<<<<<<< HEAD
+  cursor: pointer;
+  
+  @media ( max-width: 768px ) {
+    display:none;
+  }
+=======
   box-shadow: 4px 3px 2px 1px #fce8f8;
+>>>>>>> 371e6abdde3c149ca6331929fce9506864452eaa
 
   &:hover {
     color: #000035;
   }
 `;
 
+<<<<<<< HEAD
+const ItemTitle = styled.h4`
+=======
 const ItemTitle = styled.h4``;
 
 const ItemList = styled.li`
   list-style: none;
+>>>>>>> 371e6abdde3c149ca6331929fce9506864452eaa
   text-align: center;
-  font-size: 1.2em;
-`;
-
-const AddButton = styled.div`
-  border-radius: 20%;
-  font-size: 1.4rem;
-  color: gray;
-  margin-right: 10px;
-  margin: 0;
-
-  :hover {
-    /* background-color: rgba(0, 0, 255, 0.2); */
-    color: #000035;
-  }
 `;
 
 function List2({ getRoutine }) {
@@ -102,8 +100,20 @@ function List2({ getRoutine }) {
   return (
     <Container>
       {data.map((item) => (
-        <ItemContainer key={item.id} name={item.name} set_time={item.set_time} rest_time={item.rest_time}>
+        <ItemContainer 
+        key={item.id} 
+        name={item.name} 
+        set_time={item.set_time} 
+        rest_time={item.rest_time}
+        onClick={(e) => {
+          newWorkoutHandler(e);
+        }}
+        >
+
           <ItemTitle>{item.name}</ItemTitle>
+<<<<<<< HEAD
+          {/* <AddButton
+=======
           {/* <img id={item.id} src={`${process.env.NEXT_PUBLIC_url}/${item.workoutimage}`}></img> */}
           {/* <ItemList>세트 시간 {item.set_time}</ItemList>
           <ItemList>휴식 시간 {item.rest_time}</ItemList>
@@ -112,9 +122,10 @@ function List2({ getRoutine }) {
             onClick={(e) => {
               newWorkoutHandler(e);
             }}
+>>>>>>> 371e6abdde3c149ca6331929fce9506864452eaa
           >
             +
-          </AddButton>
+          </AddButton> */}
         </ItemContainer>
       ))}
     </Container>

@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/router';
+import { set } from 'js-cookie';
 
 export default function SignUp() {
   const router = useRouter();
@@ -13,32 +14,39 @@ export default function SignUp() {
     //input값 저장
     setUserInfo({ ...userInfo, [name]: value });
   };
+
   const OnClickSignUp = (userInfo) => {
-    if (userInfo) {
-      const { username, email, password, pwdConfirm } = userInfo;
-      //입력정보
-      if (!username || !email || !password || !pwdConfirm) {
-        return setMsg('정보를 모두 입력하세요');
-      }
-      if (!email.includes('@')) {
-        return setMsg('이메일 주소에 `@`가 있는지 확인해주세요');
-      }
-      if (password !== pwdConfirm) {
-        return setMsg('두 비밀번호가 일치하는지 확인하세요');
-      }
-      console.log(userInfo);
-      console.log(username, email, password);
-      axios
-        .post(
-          `${process.env.NEXT_PUBLIC_url}/user`,
-          { username, email, password, social: null }, //social: null로 필수
-          { withCredentials: true }
-        )
-        .then(() => router.push('/login'))
-        .catch(() => setMsg('이미 존재하는 이메일입니다'));
-    } else {
-      console.log('안됨');
+    const { username, email, password, pwdConfirm } = userInfo;
+    if (!username || !email || !password || !pwdConfirm) {
+      return setMsg('정보를 모두 입력하세요');
     }
+    else if(!email.includes('@')){
+      return setMsg('이메일 주소에 "@"가 있는지 확인해주세요')
+    }
+    else if(password !==pwdConfirm) {
+      return setMsg('두 비밀번호가 일치하는지 확인하세요')
+    }
+
+    axios.post(
+      `${process.env.NEXT_PUBLIC_url}/user`,
+      {
+        username,
+        email,
+        password,
+        social : null
+      },
+      {
+        withCredentials : true
+      }
+    )
+    axios
+    .post(
+      `${process.env.NEXT_PUBLIC_url}/user`,
+      { username, email, password, social: null }, //social: null로 필수
+      { withCredentials: true }
+    )
+    .then(() => setMsg('회원가입이 완료되었습니다.'))
+    .catch(() => setMsg('이미 존재하는 이메일입니다'));
   };
 
   return (
@@ -109,6 +117,7 @@ const SignUpContainer = styled.div`
       display: flex;
       flex-direction: column;
       align-items: center;
+      padding-bottom : 50px;
     }
     .msg {
       display: flex;
