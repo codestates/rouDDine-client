@@ -3,8 +3,6 @@ import styled from 'styled-components';
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { resetServerContext, DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
-import { workoutInfo } from '../../redux/reducers/workoutInfo';
-import { routineInfo } from '../../redux/reducers/routineInfo';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrashAlt, faEdit } from '@fortawesome/free-solid-svg-icons';
 import Modal from './ex_update_Modal';

@@ -18,8 +18,6 @@ export default function timerpage({ taskIds }) {
   const cur = useSelector((state) => state.timer.workout_cur);
   const isResting = useSelector((state) => state.timer.isResting);
 
-  console.log(taskIds);
-
   const convertTime = (taskIds) => {
     //초로만 받은걸 분, 초 로
     const time = taskIds[cur].set_time;
