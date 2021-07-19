@@ -4,13 +4,7 @@ body {
   height: 100%;
   padding: 0;
   margin: 0;
-<<<<<<< HEAD
-  font-family: -apple-system, InkLipquid, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif, NanumGothic-Bold, DoHyeon-Regular,
-    NanumGothic-ExtraBold, NanumGothic-Regular, OpenSans GmarketSansTTFLight, GmarketSansTTFBold, GmarketSansTTFMedium, ELAND-choice-B, ELAND-choice-L, ELAND-choice-M, tway-sky NEXONLv1GothicBold,
-    NEXONLv1GothicLight, NEXONLv1GothicRegular, Army_Medium, Army_Bold;
-=======
-  font-family: -apple-system
->>>>>>> ae916b9c76cf3c1d3db3ed18abd40270fa110483
+  font-family: -apple-system;
 }
 
 a {
@@ -81,10 +75,9 @@ a:hover {
 }
 
 @font-face {
-    font-family: 'digital';
-    src: url('../src/font/DS-DIGIB.TTF');
-  }
-
+  font-family: 'digital';
+  src: url('../src/font/DS-DIGIB.TTF');
+}
 
 @font-face {
   font-family: 'OpenSans-Regular';
@@ -97,8 +90,8 @@ a:hover {
 }
 
 @font-face {
-font-family: 'OpenSOpenSans-Bold';
-src: url('../src/font/OpenSans-Bold.ttf');
+  font-family: 'OpenSOpenSans-Bold';
+  src: url('../src/font/OpenSans-Bold.ttf');
 }
 
 @font-face {
