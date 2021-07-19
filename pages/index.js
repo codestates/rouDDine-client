@@ -19,10 +19,6 @@ const Container = styled.div`
   justify-content: space-evenly;
 `;
 
-
-
-
-
 const ReactiveSection = styled.div`
   height: 80vh;
   max-width: 100%;
@@ -54,7 +50,7 @@ function App() {
 
   const handleFollow = () => {
     setScrollY(window.pageYOffset);
-    if(scrollY > 2000) {
+    if(scrollY > 1000) {
       setBtnStatus(true);
     } else {
       setBtnStatus(false);
@@ -99,7 +95,6 @@ function App() {
         <Main/>
         <Using/>
         <Review/>
-
         <ReactiveSection></ReactiveSection>
       </Container>
       <Footer/>
