@@ -1,145 +1,83 @@
 import styled from 'styled-components';
 import axios from 'axios';
-import { useState, useEffect } from 'react';
-import { currentRoutine } from '../../redux/reducers/routine';
-import { useDispatch, useSelector } from 'react-redux';
-import TodayRoutine from '../workout';
-import Tabmenu from '../../src/components/Tabmenu';
-import Timer from '../timerpage';
-import { routineInfo } from '../../redux/reducers/routineInfo';
+import { useState } from 'react';
+import TodayRoutine from '../../src/components/workout';
+import Tabmenu from '../../src/components/newTabMenu';
+import TimerModal from '../../src/components/TimerModal';
 
-export default function Main() {
-  const routines = useSelector((state) => state.routine.result);
-  const routineId = useSelector((state) => state.routineInfo.id);
-  const [workouts, setWorkouts] = useState(null);
-  const dispatch = useDispatch();
-  // const userId = 5;
-  // console.log(userId);
-  console.log('루틴목록', routines);
-  console.log('루틴아이디', routineId);
-
-  useEffect(() => {
-    getMyRoutine(routineId);
-  }, []);
-
-  const getMyRoutine = async (routineId) => {
-    const url = `${process.env.NEXT_PUBLIC_url}/testroutine?routine_id=${routineId}`;
-    const res = await axios.get(url, { withCredentials: true });
-    console.log('겟마이루틴', res.data);
-    dispatch(routineInfo(res.data.id, res.data.name, res.data.tasks));
-    // dispatch(dndUpdate(res.data.tasks))
-  };
+function New({ data }) {
+  const routineId = data[0].id;
+  const [currentWorkouts, setCurrentWorkouts] = useState(data[0].tasks);
+  const [timerOpen, setTimerOpen] = useState(false);
+  console.log(data);
 
   return (
     <>
       <Container>
-        <HeadSection />
-        <BodySection>
-          <TraningSection>
-            <Tabmenu></Tabmenu>
-          </TraningSection>
-          <BodyLeftSection>
-            <TodayRoutine></TodayRoutine>
-          </BodyLeftSection>
-          <BodyRightSection>
-            <Timer />
-          </BodyRightSection>
-        </BodySection>
+        <ContainerTitle>나만의 루틴을 완성한 후 운동을 시작하세요</ContainerTitle>
+        <SectionContainer>
+          <FirstSection>
+            <Tabmenu data={data[1]} routineId={routineId} currentWorkouts={currentWorkouts} setCurrentWorkouts={setCurrentWorkouts} />
+          </FirstSection>
+          <SecondSection>
+            <TodayRoutine timerOpen={timerOpen} setTimerOpen={setTimerOpen} routineId={routineId} currentWorkouts={currentWorkouts} setCurrentWorkouts={setCurrentWorkouts} />
+          </SecondSection>
+        </SectionContainer>
       </Container>
+      <TimerModal taskIds={data[0].tasks} timerOpen={timerOpen} setTimerOpen={setTimerOpen}></TimerModal>
     </>
   );
+}
+
+export default New;
+
+export async function getServerSideProps(ctx) {
+  //하나의 루틴 불러오기
+  const token = ctx.req.headers.cookie.split(' ')[1].split('=')[1];
+  const res1 = await axios.get(`${process.env.NEXT_PUBLIC_url}/testroutine?routine_id=${ctx.params.id}`, { headers: { Cookie: `accessToken=${token}` } });
+  const data = res1.data;
+  //모든 루틴 불러오기
+  const res2 = await axios.get(`${process.env.NEXT_PUBLIC_url}/testexercise`, { headers: { Cookie: `accessToken=${token}` } });
+  const items = res2.data.result;
+
+  return {
+    props: {
+      data: [data, items],
+    },
+  };
 }
 
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  height: 100%;
-`;
-
-const HeadSection = styled.div`
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 50px;
-`;
-
-const BodySection = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
+  justify-content: flex-start;
+  /* padding-top: 5%; */
   height: 100vh;
+  width: 100vw;
 `;
 
-const BodyLeftSection = styled.div`
+const ContainerTitle = styled.div`
+  text-align: center;
+  font-size: 2.4rem;
+  font-family: DoHyeon-Regular;
+  margin: 120px 0 50px 0;
+`;
+
+const SectionContainer = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
-  border-right: 1px dotted;
-  min-width: 50vw;
-  margin-top: 15px;
-  height: 100%;
-  overflow-y: auto;
-
-  @media (max-width: 1280px) {
-    min-width: 30%;
-  }
-
-  @media (max-width: 768px) {
-    display: none;
-  }
 `;
-
-const TraningSection = styled.div`
-  background-color: #000035;
+const FirstSection = styled.div`
   height: 100%;
-  min-width: 220px;
-  box-sizing: border-box;
-  margin-top: 15px;
-
-  @media (max-width: 1280px) {
-    display: none;
-  }
-`;
-
-const BodyRightSection = styled.div`
+  width: 30%;
   display: flex;
   flex-direction: row;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: center;
-  background-color: #000035;
-  margin-top: 15px;
-  width: 45vw;
-  padding-bottom: 50px;
-  height: 100%;
-
-  @media (max-width: 1280px) {
-    max-width: 90%;
-  }
-
-  @media (max-width: 768px) {
-    width: 100%;
-    height: 100%;
-    font-size: 11em;
-    font-size: 8rem;
-    padding-bottom: 30px;
-  }
 `;
 
-const DndSection = styled.div`
-  /* width: 50vw; */
+const SecondSection = styled.div`
+  max-height: 85vh;
+  width: 30%;
+  /* background-color: pink; */
+  border-radius: 30px;
 `;
-// const RoutineSection = styled.div`
-//   margin: 10px;
-//   display: flex;
-//   justify-content: center;
-//   flex-direction: row;
-
-//   @media ( max-width: 768px ) {
-//     display: flex;
-//     flex-direction: column;
-//     flex-wrap: wrap;
-//     max-width: 300px;
-//     /* justify-content: start; */
-//     /* align-items: center; */
-//   }
-// `;
