@@ -6,17 +6,13 @@ import Link from 'next/link';
 function Routine({ data }) {
   const routines = data;
   const userId = data.userid;
+  console.log(routines);
 
-  const addRoutine = async (userId) => {
-    const res = await axios.post(
-      `${process.env.NEXT_PUBLIC_url}/testroutine`,
-      {
-        userid: userId,
-        routine_name: '새 루틴',
-        share: 'false',
-      },
-      { withCredentials: true }
+  const addRoutine = async () => {
+    const url = `${process.env.NEXT_PUBLIC_url}/testroutine`
+    const res = await axios.post(url, null, { withCredentials: true }
     );
+    console.log(res);
   };
 
   const deleteRoutine = async (routineId) => {
@@ -48,7 +44,7 @@ function Routine({ data }) {
           ))}
         <AddRoutineButton
           onClick={() => {
-            addRoutine(userId);
+            addRoutine();
           }}
         >
           +
@@ -96,6 +92,8 @@ const AddRoutineButton = styled.button`
   position: absolute;
   right: 2%;
   bottom: 5%;
+  cursor: pointer;
+
   :hover {
     transform: rotate(45deg);
     box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
