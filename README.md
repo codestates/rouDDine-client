@@ -14,7 +14,7 @@
 <img src="https://i.imgur.com/oXEx8si.jpg"/></a> &nbsp;
 
 # rouDDine엿보기
-<img src="https://i.imgur.com/NcBXuBH.gif"/></a> &nbsp;
+<a href="https://ibb.co/ZYH04rb"><img src="https://i.ibb.co/qW0vq82/image.gif" alt="image" border="0" /></a>;
 
 # rouDDine의 멤버
 [박지훈(Frontend)](https://github.com/z1Hoon)<br>
