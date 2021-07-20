@@ -32,13 +32,10 @@ const Copyright = styled.p`
   flex-direction: row;
   justify-content: space-around;
   line-height: 200%;
-
-  div {
-    margin-bottom: 60px;
-  }
 `;
 
 const Contact = styled.div`
+  padding-top: 40px;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
