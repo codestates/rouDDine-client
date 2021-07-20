@@ -1,15 +1,23 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components';
+import Login2 from '../../login&signup/login2';
 
 function Reactive() {
+  const [modalLogin2, setModalLogin2] = useState(false)
+
   return (
-    <ReactSection>
-      <h1>루띤과 함께 시작해보세요!</h1>
-      <ButtonContainer>
-        <StartButton>회원가입</StartButton>
-        <StartButton>비회원으로 시작하기</StartButton>
-      </ButtonContainer>
-    </ReactSection>
+    <>
+      <ReactSection>
+        <h1>루띤과 함께 시작해보세요!</h1>
+        <ButtonContainer>
+          <StartButton>회원가입</StartButton>
+          <StartButton onClick={() => setModalLogin2(!modalLogin2)}>비회원으로 시작하기</StartButton>
+        </ButtonContainer>
+      </ReactSection>
+      { modalLogin2 ?
+        <Login2 modalLogin2={modalLogin2} setModalLogin2={setModalLogin2}></Login2> : null
+      }
+    </>
   )
 }
 
@@ -31,6 +39,8 @@ const ReactSection = styled.div`
 const ButtonContainer = styled.div`
   display: flex;
   flex-direction: row;
+  width: 40%;
+  justify-content: space-around;
 
   @media (max-width:768px) { 
     flex-direction: column;
@@ -45,7 +55,7 @@ const StartButton = styled.div`
   height: 90px;
   text-align: center;
   font-size: 1.5rem;
-  margin: 0 95px;
+  /* margin: 0 95px; */
   padding: 30px 0;
   font-family: GmarketSansTTFBold;
   background-color: #000035;
