@@ -5,17 +5,15 @@ import { routineInfo } from '../../../redux/reducers/routineInfo';
 import axios from 'axios';
 import { faBorderStyle } from '@fortawesome/free-solid-svg-icons';
 
-function Modal({ currentWorkouts, setCurrentWorkouts, setModalOpen, modalOpen, workoutId }) {
+function Modal({ setCurrentWorkouts, setModalOpen, modalOpen, workoutId }) {
   const [values, setValues] = useState({ name: '', set_number: '', minutes: '', seconds: '', rest_minutes: '', rest_seconds: '', memo: '' });
   const inputHandler = (e) => {
     //input value 핸들링 함수
     const { name, value } = e.target;
     setValues({ ...values, [name]: value });
   };
-  console.log(values);
 
   const updateWorkoutInfo = async (workoutId, values) => {
-    console.log('요청');
     const url = `${process.env.NEXT_PUBLIC_url}/testexercise`;
     let body = {
       workoutid: workoutId,
@@ -44,24 +42,9 @@ function Modal({ currentWorkouts, setCurrentWorkouts, setModalOpen, modalOpen, w
     }
 
     const res = await axios.patch(url, body, { withCredential: true });
-    console.log(body);
-    console.log(res);
-    setModalOpen(!modalOpen);
+    setModalOpen(false);
     setCurrentWorkouts(res.data.result);
-    console.log(currentWorkouts);
   };
-
-  // const getMyRoutine = async (routineId) => {
-  //   const url = `${process.env.NEXT_PUBLIC_url}/testroutine?routine_id=${routineId}`;
-  //   const res = await axios.get(url, { withCredentials: true });
-  //   console.log(res.data);
-  //   dispatch(routineInfo(res.data.id, res.data.name, res.data.tasks));
-  // };
-
-  // useEffect(() => {
-  //   // setModalOpen(false);
-  //   getMyRoutine(routineId);
-  // }, []);
 
   return (
     <ModalSection modalOpen={modalOpen}>
@@ -154,43 +137,38 @@ function Modal({ currentWorkouts, setCurrentWorkouts, setModalOpen, modalOpen, w
 
 export default Modal;
 
-export const ModalContainer = styled.section`
-  height: 40vh;
-  width: 20vw;
-  top: 0;
-  display: flex;
-  justify-content: center;
-  padding: 50%;
-  align-items: center;
-  position: fixed;
-  z-index: 101;
-`;
+// export const ModalContainer = styled.section`
+//   height: 40vh;
+//   width: 20vw;
+//   top: 0;
+//   display: flex;
+//   justify-content: center;
+//   padding: 50%;
+//   align-items: center;
+//   position: fixed;
+//   z-index: 101;
+// `;
 
 export const ModalSection = styled.section`
-  /* background: rgba(255, 255, 255, 0.6); */
   background-color: white;
   box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
   /* -webkit-backdrop-filter: blur(12px); */
   border-radius: 10px;
   margin: 10% 30%;
   border: 1px solid rgba(255, 255, 255, 0.18);
-  /* position: absolute; */
-  position: fixed;
+  position: absolute;
 
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
   align-items: center;
   z-index: 999;
-  left: 0;
   opacity: ${(props) => (props.modalOpen ? '100%' : '0')};
   top: ${(props) => (props.modalOpen ? '0' : '-1500%')};
+  left: 20%;
   height: 580px;
-  /* right: 100px;
-  top: 50px; */
   width: 400px;
   .input_container {
-    /* border: 1px solid red; */
     display: flex;
     flex-direction: column;
     height: 70%;

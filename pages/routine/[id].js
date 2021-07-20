@@ -9,7 +9,6 @@ function New({ data }) {
   const routineId = data[0].id;
   const [currentWorkouts, setCurrentWorkouts] = useState(data[0].tasks);
   const [timerOpen, setTimerOpen] = useState(false);
-  console.log(data);
 
   return (
     <>

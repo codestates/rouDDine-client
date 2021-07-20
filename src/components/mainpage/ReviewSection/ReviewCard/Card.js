@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import {motion} from 'framer-motion';
 
 const ReviewCardContainer = styled.li`
   background: rgba(255, 255, 255, 0.6);
@@ -16,7 +15,6 @@ const ReviewCardContainer = styled.li`
   color: #343a40;
   border-radius: 15px;
 
-
   @media (max-width: 1024px) {
     box-sizing: auto;
     min-width: 500px;
@@ -26,7 +24,6 @@ const ReviewCardContainer = styled.li`
   }
   /* margin: 0; */
   /* box-shadow: 2px 1px 5px #343a40; */
-  
 
   @media (max-width: 768px) {
     box-sizing: auto;
@@ -37,7 +34,7 @@ const ReviewCardContainer = styled.li`
     box-sizing: border-box;
   }
   /* 🎖🎖🎖🎖🎖 */
-  `;
+`;
 
 const ReviewCardHeader = styled.div`
   display: flex;
@@ -46,7 +43,6 @@ const ReviewCardHeader = styled.div`
   margin: 15px 0;
   padding: 0 10px;
 `;
-
 
 const ReviewerName = styled.div`
   font-family: NanumGothic-Bold;

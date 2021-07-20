@@ -15,9 +15,8 @@ function TodayRoutine() {
   const dispatch = useDispatch();
   const routineId = useSelector((state) => state.routineInfo.id);
   const currentWorkouts = useSelector((state) => state.routineInfo.tasks);
-  const isOpen = useSelector((state) => state.modal);
   const [workouts, setWorkouts] = useState(null);
-  // const routineId = useSelector((state) => state.routineInfo.id)
+  const [modalOpen, setModalOpen] = useState(false);
 
   //드래그앤드롭으로 순서 바꾸기
   const orderChangeHandler = async (routineId, workouts) => {
@@ -65,11 +64,10 @@ function TodayRoutine() {
   };
 
   const workoutUpdateHandler = (id) => {
-    setModalOpen(!modalOpen);
+    setModalOpen(true);
     dispatch(workoutInfo(id));
   };
 
-  const [modalOpen, setModalOpen] = useState(false);
   const triggerEditMode = () => {
     setEditMode(true);
     // console.log("editMode: ",editMode);
@@ -187,8 +185,7 @@ function TodayRoutine() {
           </Droppable>
         </DragDropContext>
       </DndContainer>
-      {modalOpen && <ModalBackground onClick={() => setModalOpen(false)} />}
-      <Modal setModalOpen={setModalOpen} modalOpen={modalOpen}></Modal>
+      {modalOpen && <Modal setModalOpen={setModalOpen} modalOpen={modalOpen}></Modal>}
     </>
   );
 }

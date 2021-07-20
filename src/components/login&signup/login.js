@@ -29,8 +29,8 @@ export default function login({ modalLogin, setModalLogin }) {
         )
         .then((res) => {
           console.log('로그인 성공 : ', res.data.data);
-            setModalLogin(false);
-            router.push('/');
+          setModalLogin(false);
+          router.push('/');
         })
         .catch((e) => console.log('로그인 실패', e));
     }
@@ -72,7 +72,6 @@ export default function login({ modalLogin, setModalLogin }) {
               로그인
             </LoginButton>
             <GoogleLogin
-              //  buttonText="GoogleLogin"
               clientId={`982420892016-vr0bn99ieuuaoucnhc5e2qiarg50mh2e.apps.googleusercontent.com`}
               onSuccess={(result) => handlegoogleLogin(result)}
               onFailure={(result) => console.log(result)}
@@ -136,10 +135,6 @@ const LoginInput = styled.input`
   height: 1.5rem;
   border-radius: 3px;
   border: 1px solid grey;
-  &:hover {
-    transform: translateX(-5px);
-    width: 100%;
-  }
 `;
 
 const LoginButton = styled.div`

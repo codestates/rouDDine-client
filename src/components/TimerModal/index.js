@@ -7,7 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPause, faPlay, faStop, faBackward, faForward, faWindowClose } from '@fortawesome/free-solid-svg-icons';
 import { useRouter } from 'next/router';
 
-function TimerModal({setTimerOpen, timerOpen, taskIds}) {
+function TimerModal({ setTimerOpen, timerOpen, taskIds }) {
   const router = useRouter();
   const dispatch = useDispatch();
   const isRunning = useSelector((state) => state.timer.isRunning);
@@ -21,51 +21,37 @@ function TimerModal({setTimerOpen, timerOpen, taskIds}) {
 
   useEffect(() => {
     // 최초 한번
-    // totalTime(taskIds); //총합운동시간
-    // if(isRunning) {
-    //   dispatch(timerRunning())
-    // }
     convertTime(taskIds);
-    // dispatch(timerSet(0, taskIds[0].set_time));
-    // dispatch(timerReset(0, taskIds[0].set_time));
   }, []);
 
   useEffect(() => {
-    console.log('cur', cur);
-    console.log('set', set);
     dispatch(timerSet(taskIds[cur].set_time_sec, taskIds[cur].set_time_min));
     dispatch(timerReset(taskIds[cur].set_time_sec, taskIds[cur].set_time_min));
   }, [cur]);
 
   const convertTime = (taskIds) => {
     //초로만 받은걸 분, 초 로
-    // const time = taskIds[cur].set_time;
-    // const min = parseInt(time / 60); //분
-    // const sec = time % 60; // 초
-    const min = taskIds[cur].set_time_min
-    const sec = taskIds[cur].set_time_sec
+    const min = taskIds[cur].set_time_min;
+    const sec = taskIds[cur].set_time_sec;
 
     console.log(taskIds[cur].name, min, '분', sec, '초');
     dispatch(timerSet(sec, min));
-    dispatch(timerReset(sec, min))
+    dispatch(timerReset(sec, min));
   };
 
-  // const finishedTotalTime = (taskIds, cur) => {
-    //운동시간 끝내면 세트마다 운동한 시간 축적시키기
-    // dispatch(totalTime(taskIds[cur].set_time));
-  // };
-
-  // convertTime(taskIds);
-
+  //0시0분0초시 아래에서 운동변경, 휴식시간으로 변경 등등
   const afterTheEnd = (taskIds) => {
     //workout_cur - cur , taskIds - 받아올 요청 데이터 , set
     //인덱스(현재운동), 루틴데이터
+    if (cur + 1 > taskIds.length - 1) {
+      //더이상 할 운동이 없는경우
+      return;
+    }
     if (!isResting) {
       //마지막 세트이후 휴식 없음
       if (set === taskIds[cur].set_number) {
         //각 운동 마지막세트엔 휴식시간 없이 바로 다음 운동
         if (cur < taskIds.length - 1) {
-          console.log(cur, '변경전');
           dispatch(timerCurWorkout(cur + 1));
           dispatch(timerWorkoutSet(1));
           // dispatch(timerSet(0, taskIds[cur].set_time));
@@ -96,7 +82,8 @@ function TimerModal({setTimerOpen, timerOpen, taskIds}) {
       convertTime(taskIds);
     }
   };
-  // 쉬는건 토글식으로
+
+  // 시간흐름 함수
   useEffect(() => {
     if (isRunning) {
       const timeFlow = setInterval(() => {
@@ -125,7 +112,7 @@ function TimerModal({setTimerOpen, timerOpen, taskIds}) {
             }
           }
         }
-      }, 100);
+      }, 1000);
       return () => clearInterval(timeFlow);
     }
   }, [isRunning, hours, minutes, seconds, set, cur, isResting]);
@@ -135,7 +122,6 @@ function TimerModal({setTimerOpen, timerOpen, taskIds}) {
     dispatch(timerRunning());
   };
   const nextWorkout = (taskIds, cur) => {
-    console.log('다음운동 클릭!!!!!!!');
     if (cur < taskIds.length - 1) {
       if (isResting) {
         dispatch(timerIsResting());
@@ -143,11 +129,8 @@ function TimerModal({setTimerOpen, timerOpen, taskIds}) {
       if (isRunning) {
         dispatch(timerRunning());
       }
-      console.log(cur, '변경전');
-      console.log('cur+1 = ', cur + 1);
       dispatch(timerCurWorkout(cur + 1));
       dispatch(timerWorkoutSet(1));
-      console.log(cur, '변경후');
       convertTime(taskIds);
       // dispatch(timerSet(0, taskIds[cur].set_time));
       // dispatch(timerReset(0, taskIds[cur].set_time));
@@ -166,8 +149,6 @@ function TimerModal({setTimerOpen, timerOpen, taskIds}) {
       dispatch(timerCurWorkout(cur - 1));
       dispatch(timerWorkoutSet(1));
       convertTime(taskIds);
-      // dispatch(timerSet(0, taskIds[cur].set_time));
-      // dispatch(timerReset(0, taskIds[cur].set_time));
     } else {
       return;
     }
@@ -175,13 +156,13 @@ function TimerModal({setTimerOpen, timerOpen, taskIds}) {
   return (
     <ModalContainer timerOpen={timerOpen}>
       <Body>
-      <CloseBtn onClick={()=>setTimerOpen(!timerOpen)}>
-        <FontAwesomeIcon icon={faWindowClose}></FontAwesomeIcon>
-      </CloseBtn>
+        <CloseBtn onClick={() => setTimerOpen(!timerOpen)}>
+          <FontAwesomeIcon icon={faWindowClose}></FontAwesomeIcon>
+        </CloseBtn>
         <Info>
           {/* <div>{data ? data.name : ''}</div> */}
           <div>{isResting ? '휴식 시간' : taskIds[cur].name}</div>
-          <div>{taskIds ? `${set} / ${taskIds[cur].set_number} 세트` : ""}</div>
+          <div>{taskIds ? `${set} / ${taskIds[cur].set_number} 세트` : ''}</div>
         </Info>
 
         <Time>
@@ -198,10 +179,10 @@ function TimerModal({setTimerOpen, timerOpen, taskIds}) {
         </ButtonContainer>
       </Body>
     </ModalContainer>
-  )
+  );
 }
 
-export default TimerModal
+export default TimerModal;
 
 const ModalContainer = styled.div`
   width: 100%;
@@ -212,11 +193,11 @@ const ModalContainer = styled.div`
   justify-content: center;
   align-items: center;
   position: fixed;
-  background: rgba( 0, 0, 0, 0.60 );
+  background: rgba(0, 0, 0, 0.6);
   /* background-color: #0b0b0b; */
-  opacity: ${(props) => (props.timerOpen ? "100%" : "0%")};
-  top: ${(props) => (props.timerOpen ? "0" : "-100%")};
-  `;
+  opacity: ${(props) => (props.timerOpen ? '100%' : '0%')};
+  top: ${(props) => (props.timerOpen ? '0' : '-100%')};
+`;
 
 let Body = styled.div`
   z-index: 999;
@@ -230,8 +211,8 @@ let Body = styled.div`
   border-radius: 20px;
   background-color: #ffffff;
   opacity: 0.95;
-  box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
-  backdrop-filter: blur( 12.0px );
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  backdrop-filter: blur(12px);
 
   @media (max-width: 1280px) {
     max-width: 100%;
