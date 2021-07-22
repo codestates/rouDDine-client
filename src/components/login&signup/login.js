@@ -64,7 +64,7 @@ export default function login({ modalLogin, setModalLogin }) {
     <>
       <LoginContainer>
         <div className='login_form'>
-          {/* <div>로그인</div> */}
+          <div className='login_title'>rouDDine</div>
           <form className='login_input'>
             <span>아이디</span>
             <LoginInput name='email' onChange={(e) => inputHandler(e)} />
@@ -105,6 +105,7 @@ const LoginContainer = styled.div`
     flex-direction: column;
     width: 22rem;
     height: 24rem;
+    padding: 25px;
     opacity: 1;
     border-radius: 5px;
     background-color: white;
@@ -112,16 +113,21 @@ const LoginContainer = styled.div`
     justify-content: center;
     z-index: 100;
     > div:nth-child(1) {
-      font-size: 1.5rem;
-      padding-bottom: 2rem;
+      font-size: 1.8rem;
+      font-family: ELAND-choice-B;
+      /* padding-bottom: 2rem; */
     }
     .login_input {
       display: flex;
       flex-direction: column;
+      justify-content: center;
       padding: 1rem;
       span {
         font-size: 0.8rem;
         color: grey;
+      }
+      input {
+        margin-bottom: 10px;
       }
     }
     .login_button {
