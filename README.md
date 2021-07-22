@@ -9,8 +9,10 @@
   
 ------------------------------------------------------------------------------------------------------------------------
 # rouDDine에서 사용한 기술
+백엔드
 <img src="https://i.imgur.com/EPSj4Ca.jpg"/></a> &nbsp;
-<img src="https://i.imgur.com/EPSj4Ca.jpg"/></a> &nbsp;
+
+프론트 엔드
 <img src="https://i.imgur.com/oXEx8si.jpg"/></a> &nbsp;
 
 # rouDDine엿보기
