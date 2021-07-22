@@ -110,6 +110,7 @@ export default function Nav() {
 
 const NavContainer = styled.div`
   display: flex;
+  font-family: ELAND-choice-B;
   opacity: 0.9;
   background-color: white;
   justify-content: space-between;

@@ -100,6 +100,7 @@ const LoginContainer = styled.div`
   opacity: 0.9;
   z-index: 103;
   .login_form {
+    font-family: ELAND-choice-B;
     position: absolute;
     display: flex;
     flex-direction: column;
