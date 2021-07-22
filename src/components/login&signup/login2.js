@@ -4,86 +4,53 @@ import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 
-export default function login({ modalLogin, setModalLogin }) {
+export default function login2({ modalLogin2, setModalLogin2 }) {
+  // const [modalLogin, setModalLogin] = useState(false);
   const router = useRouter();
   //input value 핸들링 state
-  const [values, setValues] = useState({ email: '', password: '' });
+  const [values, setValues] = useState('');
   const inputHandler = (e) => {
     //input value 핸들링 함수
-    const { name, value } = e.target;
-    setValues({ ...values, [name]: value });
+    const { value } = e.target;
+    setValues(value);
   };
+  console.log(values);
 
   const loginHandler = (values) => {
-    const { email, password } = values;
-    if (email && password) {
+    if (values) {
       axios
         .post(
-          `${process.env.NEXT_PUBLIC_url}/login`,
+          `${process.env.NEXT_PUBLIC_url}/tempuser`,
           {
-            email,
-            password,
-            social: null,
+            username: values,
+            social: 'temp',
           },
           { withCredentials: true }
         )
         .then((res) => {
           console.log('로그인 성공 : ', res.data.data);
-          setModalLogin(false);
-          router.push('/routine');
+          //setModalLogin2(!modalLogin2);
+          setModalLogin(!modalLogin);
+          router.push('/');
         })
         .catch((e) => console.log('로그인 실패', e));
     }
   };
 
-  const handlegoogleLogin = (result) => {
-    axios
-      .post(
-        `${process.env.NEXT_PUBLIC_url}/login`,
-        {
-          email: result.profileObj.email,
-          username: result.profileObj.name,
-          social: 'google',
-          socialid: result.profileObj.googleId,
-          profileimage: result.profileObj.imageUrl,
-        },
-        {
-          withCredentials: true,
-        }
-      )
-      .then((res) => {
-        if (res.status === 200) {
-          alert('로그인에 성공했습니다.');
-          setModalLogin(false);
-        } else if (res.status === 201) {
-          alert('회원가입에 성공했습니다.');
-        }
-      })
-      .catch(() => alert('이메일 또는 비밀번호를 잘못 입력하셨습니다.\n 다시 시도해주세요'));
-  };
-
   return (
     <>
       <LoginContainer>
+        {modalLogin2 ? <Overlay_modal onClick={() => setModalLogin2(false)} /> : null}
         <div className='login_form'>
-          <div className='login_title'>rouDDine</div>
+          <div>사용할 닉네임을 입력하세요</div>
           <form className='login_input'>
-            <span>아이디</span>
-            <LoginInput name='email' onChange={(e) => inputHandler(e)} />
-            <span>비밀번호</span>
-            <LoginInput name='password' input type='password' onChange={(e) => inputHandler(e)} />
+            <span>닉네임</span>
+            <LoginInput onChange={(e) => inputHandler(e)} />
           </form>
-
           <div className='login_button'>
             <LoginButton className='login_button button' onClick={() => loginHandler(values)}>
               로그인
             </LoginButton>
-            <GoogleLogin
-              clientId={`982420892016-vr0bn99ieuuaoucnhc5e2qiarg50mh2e.apps.googleusercontent.com`}
-              onSuccess={(result) => handlegoogleLogin(result)}
-              onFailure={(result) => console.log(result)}
-              cookiePolicy='single_host_origin'
-            />
           </div>
         </div>
       </LoginContainer>
@@ -97,39 +64,34 @@ const LoginContainer = styled.div`
   align-items: center;
   flex-direction: column;
   padding-top: 200px;
+  position: fixed;
+  top: 15%;
+  left: 50%;
   margin-top: 100px;
-  opacity: 0.9;
+  box-sizing: border-box;
   z-index: 103;
   .login_form {
-    font-family: ELAND-choice-B;
     position: absolute;
     display: flex;
     flex-direction: column;
     width: 22rem;
-    height: 24rem;
-    padding: 25px;
-    opacity: 1;
+    height: 30rem;
     border-radius: 5px;
     background-color: white;
     align-items: center;
     justify-content: center;
     z-index: 100;
     > div:nth-child(1) {
-      font-size: 1.8rem;
-      font-family: ELAND-choice-B;
-      /* padding-bottom: 2rem; */
+      font-size: 1.5rem;
+      padding-bottom: 2rem;
     }
     .login_input {
       display: flex;
       flex-direction: column;
-      justify-content: center;
       padding: 1rem;
       span {
         font-size: 0.8rem;
         color: grey;
-      }
-      input {
-        margin-bottom: 10px;
       }
     }
     .login_button {
@@ -166,4 +128,15 @@ const LoginButton = styled.div`
   :hover {
     cursor: pointer;
   }
+`;
+const Overlay_modal = styled.div`
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.495);
+  z-index: 99;
 `;
