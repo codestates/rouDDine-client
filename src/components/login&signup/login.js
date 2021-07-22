@@ -30,7 +30,7 @@ export default function login({ modalLogin, setModalLogin }) {
         .then((res) => {
           console.log('로그인 성공 : ', res.data.data);
           setModalLogin(false);
-          router.push('/');
+          router.push('/routine');
         })
         .catch((e) => console.log('로그인 실패', e));
     }
@@ -38,16 +38,23 @@ export default function login({ modalLogin, setModalLogin }) {
 
   const handlegoogleLogin = (result) => {
     axios
-      .post(`${process.env.NEXT_PUBLIC_url}/login`, {
-        email: result.profileObj.email,
-        username: result.profileObj.name,
-        social: 'google',
-        socialid: result.profileObj.googleId,
-        profileimage: result.profileObj.imageUrl,
-      })
+      .post(
+        `${process.env.NEXT_PUBLIC_url}/login`,
+        {
+          email: result.profileObj.email,
+          username: result.profileObj.name,
+          social: 'google',
+          socialid: result.profileObj.googleId,
+          profileimage: result.profileObj.imageUrl,
+        },
+        {
+          withCredentials: true,
+        }
+      )
       .then((res) => {
         if (res.status === 200) {
           alert('로그인에 성공했습니다.');
+          setModalLogin(false);
         } else if (res.status === 201) {
           alert('회원가입에 성공했습니다.');
         }
@@ -59,7 +66,7 @@ export default function login({ modalLogin, setModalLogin }) {
     <>
       <LoginContainer>
         <div className='login_form'>
-          <div>로그인</div>
+          {/* <div>로그인</div> */}
           <form className='login_input'>
             <span>아이디</span>
             <LoginInput name='email' onChange={(e) => inputHandler(e)} />
@@ -91,13 +98,15 @@ const LoginContainer = styled.div`
   flex-direction: column;
   padding-top: 200px;
   margin-top: 100px;
+  opacity: 0.9;
   z-index: 103;
   .login_form {
     position: absolute;
     display: flex;
     flex-direction: column;
     width: 22rem;
-    height: 30rem;
+    height: 24rem;
+    opacity: 1;
     border-radius: 5px;
     background-color: white;
     align-items: center;
