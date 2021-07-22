@@ -1,7 +1,6 @@
-import styled from 'styled-components';
-import GoogleLogin from 'react-google-login';
 import axios from 'axios';
-import React, { useState, useEffect } from 'react';
+import styled from 'styled-components';
+import React, { useState } from 'react';
 import { useRouter } from 'next/router';
 
 export default function login2({ modalLogin2, setModalLogin2 }) {
@@ -14,7 +13,6 @@ export default function login2({ modalLogin2, setModalLogin2 }) {
     const { value } = e.target;
     setValues(value);
   };
-  console.log(values);
 
   const loginHandler = (values) => {
     if (values) {
@@ -27,11 +25,10 @@ export default function login2({ modalLogin2, setModalLogin2 }) {
           },
           { withCredentials: true }
         )
-        .then((res) => {
-          console.log('로그인 성공 : ', res.data.data);
-          //setModalLogin2(!modalLogin2);
+        .then(() => {
           setModalLogin(!modalLogin);
           router.push('/');
+          document.cookie = 'accessToken=login;expires=12h;';
         })
         .catch((e) => console.log('로그인 실패', e));
     }

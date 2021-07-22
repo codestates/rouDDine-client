@@ -1,17 +1,15 @@
 import React from 'react';
-import styled from 'styled-components';
 import Link from 'next/link';
+import styled from 'styled-components';
 
 const FooterSection = styled.footer`
   display: flex;
   flex-direction: column;
-  /* background-color: #000035; */
 `;
 
 const Copyright = styled.p`
   text-align: center;
   font-family: GmarketSansTTFLight;
-  /* font-family: OpenSans-Regular; */
   font-size: 10px;
   font-weight: 700;
   text-shadow: 5px;
@@ -52,8 +50,6 @@ const ContactTitle = styled.strong`
 `;
 
 const Linked = styled(Link)``;
-
-const RoutineLogo = styled.div``;
 
 const Name = styled.span`
   font-size: 1.2rem;

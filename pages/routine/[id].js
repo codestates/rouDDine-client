@@ -1,6 +1,6 @@
-import styled from 'styled-components';
 import axios from 'axios';
 import { useState } from 'react';
+import styled from 'styled-components';
 import TodayRoutine from '../../src/components/workout';
 import Tabmenu from '../../src/components/newTabMenu';
 import TimerModal from '../../src/components/TimerModal';
@@ -53,7 +53,6 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  /* padding-top: 5%; */
   height: 100vh;
   width: 100vw;
 `;
@@ -76,21 +75,6 @@ const SectionContainer = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
-
-  @media (max-width: 1280px) {
-    /* flex-direction: column; */
-    /* max-width: 100%;
-    height: 80%;
-    margin-top: 15px;
-    padding: 30px; */
-  }
-
-  @media (max-width: 768px) {
-    /* max-width: 100%;
-    height: 80%;
-    margin-top: 15px;
-    padding: 30px; */
-  }
 `;
 
 const FirstSection = styled.div`
@@ -101,10 +85,6 @@ const FirstSection = styled.div`
 
   @media (max-width: 1280px) {
     display: none;
-    /* max-width: 100%;
-    height: 80%;
-    margin-top: 15px;
-    padding: 30px; */
   }
 `;
 
@@ -112,13 +92,10 @@ const SecondSection = styled.div`
   max-height: 85vh;
   display: flex;
   flex-direction: column;
-  /* width:30%; */
-  /* background-color: pink; */
   border-radius: 30px;
 
   @media (max-width: 1280px) {
     max-width: 450px;
     flex-direction: column-reverse;
-    /* min-width: 280px; */
   }
 `;

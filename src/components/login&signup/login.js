@@ -1,10 +1,10 @@
-import styled from 'styled-components';
-import GoogleLogin from 'react-google-login';
 import axios from 'axios';
-import React, { useState, useEffect } from 'react';
+import styled from 'styled-components';
+import React, { useState } from 'react';
 import { useRouter } from 'next/router';
+import GoogleLogin from 'react-google-login';
 
-export default function login({ modalLogin, setModalLogin }) {
+export default function login({ setModalLogin }) {
   const router = useRouter();
   //input value 핸들링 state
   const [values, setValues] = useState({ email: '', password: '' });
@@ -27,10 +27,10 @@ export default function login({ modalLogin, setModalLogin }) {
           },
           { withCredentials: true }
         )
-        .then((res) => {
-          console.log('로그인 성공 : ', res.data.data);
+        .then(() => {
           setModalLogin(false);
           router.push('/routine');
+          document.cookie = 'accessToken=login;expires=12h;';
         })
         .catch((e) => console.log('로그인 실패', e));
     }
@@ -98,7 +98,6 @@ const LoginContainer = styled.div`
   flex-direction: column;
   padding-top: 200px;
   margin-top: 100px;
-  opacity: 0.9;
   z-index: 103;
   .login_form {
     font-family: ELAND-choice-B;

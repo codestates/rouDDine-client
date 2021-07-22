@@ -1,11 +1,9 @@
-import styled from 'styled-components';
-import React, { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { routineInfo } from '../../../redux/reducers/routineInfo';
 import axios from 'axios';
-import { faBorderStyle } from '@fortawesome/free-solid-svg-icons';
+import styled from 'styled-components';
+import React, { useState } from 'react';
 
 function Modal({ setCurrentWorkouts, setModalOpen, modalOpen, workoutId }) {
+  console.log('src/componenets/ex_upsdate_Modal의 콘솔로그');
   const [values, setValues] = useState({ name: '', set_number: '', minutes: '', seconds: '', rest_minutes: '', rest_seconds: '', memo: '' });
   const inputHandler = (e) => {
     //input value 핸들링 함수
@@ -54,7 +52,7 @@ function Modal({ setCurrentWorkouts, setModalOpen, modalOpen, workoutId }) {
           <div>운동이름</div>
           <input
             name='name'
-            defaultValue={"ㅋㅋㅋ"}
+            defaultValue={'ㅋㅋㅋ'}
             onChange={(e) => {
               inputHandler(e);
             }}
@@ -138,22 +136,9 @@ function Modal({ setCurrentWorkouts, setModalOpen, modalOpen, workoutId }) {
 
 export default Modal;
 
-// export const ModalContainer = styled.section`
-//   height: 40vh;
-//   width: 20vw;
-//   top: 0;
-//   display: flex;
-//   justify-content: center;
-//   padding: 50%;
-//   align-items: center;
-//   position: fixed;
-//   z-index: 101;
-// `;
-
 export const ModalSection = styled.section`
   background-color: white;
   box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-  /* -webkit-backdrop-filter: blur(12px); */
   border-radius: 10px;
   margin: 10% 30%;
   border: 1px solid rgba(255, 255, 255, 0.18);
@@ -237,14 +222,6 @@ export const ModalSection = styled.section`
       }
     }
   }
-  /* 
-  @media screen and (max-width: 768px) {
-    min-width: 80%;
-  }
-
-  @media screen and (min-width: 768px) and (max-width: 1280px) {
-    width: 50%;
-  } */
 `;
 
 export const ModalSaveBtn = styled.span`

@@ -67,6 +67,8 @@ export default function Nav() {
           <BugerModal className={modalBuger ? 'active' : 'notActive'}>
             <div className='buger logo'>rouDDine</div>
             <div className='buger buttons'>
+              <div onClick={() => router.push(`/routine`)}>Main</div>
+
               {/* ---------------------------- */}
               {accessToken ? (
                 <Link href='/Mypage'>
@@ -79,7 +81,6 @@ export default function Nav() {
               )}
 
               {/* ---------버튼추가 이 아래로---------- */}
-              <div onClick={() => router.push(`/routine`)}>Main</div>
 
               {/* ---------버튼추가 이 위로------------ */}
 

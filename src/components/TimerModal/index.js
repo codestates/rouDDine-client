@@ -1,10 +1,9 @@
 import styled from 'styled-components';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { timerSet, timerRunning, timerReset, timerWorkoutSet, timerCurWorkout, timerIsResting, totalTime } from '../../../redux/reducers/timer';
-import axios from 'axios';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { timerSet, timerRunning, timerReset, timerWorkoutSet, timerCurWorkout, timerIsResting } from '../../../redux/reducers/timer';
 import { faPause, faPlay, faStop, faBackward, faForward, faWindowClose } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useRouter } from 'next/router';
 
 function TimerModal({ setTimerOpen, timerOpen, taskIds }) {
@@ -33,15 +32,12 @@ function TimerModal({ setTimerOpen, timerOpen, taskIds }) {
     //초로만 받은걸 분, 초 로
     const min = taskIds[cur].set_time_min;
     const sec = taskIds[cur].set_time_sec;
-
-    console.log(taskIds[cur].name, min, '분', sec, '초');
     dispatch(timerSet(sec, min));
     dispatch(timerReset(sec, min));
   };
 
   //0시0분0초시 아래에서 운동변경, 휴식시간으로 변경 등등
   const afterTheEnd = (taskIds) => {
-    //workout_cur - cur , taskIds - 받아올 요청 데이터 , set
     //인덱스(현재운동), 루틴데이터
     if (cur + 1 > taskIds.length - 1) {
       //더이상 할 운동이 없는경우
@@ -54,8 +50,6 @@ function TimerModal({ setTimerOpen, timerOpen, taskIds }) {
         if (cur < taskIds.length - 1) {
           dispatch(timerCurWorkout(cur + 1));
           dispatch(timerWorkoutSet(1));
-          // dispatch(timerSet(0, taskIds[cur].set_time));
-          // dispatch(timerReset(0, taskIds[cur].set_time));
           return;
         }
       }
@@ -132,8 +126,6 @@ function TimerModal({ setTimerOpen, timerOpen, taskIds }) {
       dispatch(timerCurWorkout(cur + 1));
       dispatch(timerWorkoutSet(1));
       convertTime(taskIds);
-      // dispatch(timerSet(0, taskIds[cur].set_time));
-      // dispatch(timerReset(0, taskIds[cur].set_time));
     } else {
       return;
     }
@@ -160,7 +152,6 @@ function TimerModal({ setTimerOpen, timerOpen, taskIds }) {
           <FontAwesomeIcon icon={faWindowClose}></FontAwesomeIcon>
         </CloseBtn>
         <Info>
-          {/* <div>{data ? data.name : ''}</div> */}
           <div>{isResting ? '휴식 시간' : taskIds[cur].name}</div>
           <div>{taskIds ? `${set} / ${taskIds[cur].set_number} 세트` : ''}</div>
           <div>{taskIds[cur].memo}</div>
@@ -190,12 +181,10 @@ const ModalContainer = styled.div`
   height: 100%;
   display: flex;
   z-index: 999;
-
   justify-content: center;
   align-items: center;
   position: fixed;
   background: rgba(0, 0, 0, 0.6);
-  /* background-color: #0b0b0b; */
   opacity: ${(props) => (props.timerOpen ? '100%' : '0%')};
   top: ${(props) => (props.timerOpen ? '0' : '-100%')};
 `;
@@ -270,7 +259,6 @@ let Info = styled.div`
     flex-direction: column;
     padding: 0;
   }
-  /* border: 3px solid blue; */
 `;
 
 let Time = styled.div`
@@ -288,13 +276,11 @@ let Time = styled.div`
   text-align: center;
 
   @media (max-width: 1280px) {
-    /* max-width: 80%; */
     width: 100%;
     font-size: 6rem;
   }
 
   @media (max-width: 768px) {
-    /* max-width: 80%; */
     width: 100%;
     font-size: 6rem;
   }

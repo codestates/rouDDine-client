@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/router';
 
@@ -26,8 +26,6 @@ export default function SignUp() {
       if (password !== pwdConfirm) {
         return setMsg('두 비밀번호가 일치하는지 확인하세요');
       }
-      console.log(userInfo);
-      console.log(username, email, password);
       axios
         .post(
           `${process.env.NEXT_PUBLIC_url}/user`,
@@ -37,7 +35,7 @@ export default function SignUp() {
         .then(() => router.push('/login'))
         .catch(() => setMsg('이미 존재하는 이메일입니다'));
     } else {
-      console.log('안됨');
+      console.log('로그인 실패');
     }
   };
 
@@ -69,10 +67,7 @@ export default function SignUp() {
 const SignUpContainer = styled.div`
   display: flex;
   justify-content: center;
-  /* align-items: center; */
-  /* flex-direction: column; */
   padding-top: 5%;
-  /* margin-top: 10%; */
   z-index: 103;
   .signup_title {
     padding: 20px;

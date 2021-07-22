@@ -1,12 +1,8 @@
 import axios from 'axios';
+import styled from 'styled-components';
 import React, { useState, useEffect } from 'react';
 import { resetServerContext, DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrashAlt, faEdit } from '@fortawesome/free-solid-svg-icons';
-import styled from 'styled-components';
 import Modal from '../ex_update_Modal';
-import { useDispatch, useSelector } from 'react-redux';
-import { routineInfo } from '../../../redux/reducers/routineInfo';
 resetServerContext();
 
 function TodayRoutine({ currentWorkouts, routineId, setCurrentWorkouts, timerOpen, setTimerOpen }) {
@@ -20,8 +16,7 @@ function TodayRoutine({ currentWorkouts, routineId, setCurrentWorkouts, timerOpe
       routine_id: routineId,
       exercise_array: currentWorkouts,
     };
-    const res = await axios.patch(url, body, { withCredentials: true });
-    console.log(res.data);
+    await axios.patch(url, body, { withCredentials: true });
   };
 
   const getListStyle = (isDraggingOver) => ({
@@ -38,7 +33,6 @@ function TodayRoutine({ currentWorkouts, routineId, setCurrentWorkouts, timerOpe
       const result = Array.from(list);
       const [removed] = result.splice(startIndex, 1);
       result.splice(endIndex, 0, removed);
-      console.log(result);
 
       return result;
     };
@@ -47,7 +41,6 @@ function TodayRoutine({ currentWorkouts, routineId, setCurrentWorkouts, timerOpe
 
   const triggerEditMode = () => {
     setEditMode(true);
-    // console.log("editMode: ",editMode);
   };
 
   const endEditMode = () => {
@@ -58,17 +51,13 @@ function TodayRoutine({ currentWorkouts, routineId, setCurrentWorkouts, timerOpe
   const workoutDeleteHandler = async (e, id) => {
     const url = `${process.env.NEXT_PUBLIC_url}/testexercise?workoutid=${id}`;
     const res = await axios.delete(url, { withCredentials: true });
-    console.log(res);
     setCurrentWorkouts(res.data.result);
   };
 
   const updateHandler = async (e) => {
-    console.log(e);
     setModalOpen(!modalOpen);
     setWorkoutId(e.target.id);
   };
-
-  const workoutIds = currentWorkouts && currentWorkouts.map((workout) => workout.id);
 
   const [btnStatus, setBtnStatus] = useState(false);
   const [scrollY, setScrollY] = useState(0);
@@ -156,11 +145,6 @@ function TodayRoutine({ currentWorkouts, routineId, setCurrentWorkouts, timerOpe
 
 export default TodayRoutine;
 
-const ImageContainer = styled.img`
-  height: 100%;
-  width: 100%;
-`;
-
 const DndContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -179,7 +163,6 @@ const ItemContainer = styled.div`
   max-height: 100%;
   width: 450px;
   min-height: 100%;
-  /* height: 100%; */
   background-color: ${(props) => (props.isDraggingOver ? 'lightblue' : '#4665d9')};
   background-color: ${(props) => (props.editMode ? '#000' : 'white')};
   border: ${(props) => (props.editMode ? '1px solid #000' : 'none')};
@@ -187,12 +170,10 @@ const ItemContainer = styled.div`
 
   @media (max-width: 1280px) {
     max-width: 500px;
-    /* min-width: 280px; */
   }
 
   div {
     padding: 5px;
-    /* background-color: #ffffff; */
   }
 `;
 
@@ -205,7 +186,6 @@ const Item = styled.ul`
   user-select: none;
   margin: 5px 5px;
   font-family: esamanru_Light;
-  /* background: #fff8fd; */
   color: #000036;
   opacity: 0.8;
   box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.22);
@@ -214,7 +194,6 @@ const Item = styled.ul`
 
   @media (max-width: 1280px) {
     max-width: 450px;
-    /* min-width: 280px; */
   }
 
   div {
@@ -248,7 +227,6 @@ const ButtonContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  /* position: relative; */
 `;
 
 const ItemName = styled.div`
@@ -257,18 +235,12 @@ const ItemName = styled.div`
   text-align: left;
 `;
 
-const ItemMemo = styled.li`
-  list-style: none;
-`;
-
 const UpdateButton = styled.a`
-  /* margin-right: 10px; */
   box-sizing: border-box;
   max-height: 18px;
   padding: 0 10px;
   cursor: pointer;
   font-family: NanumGothic-Bold;
-  /* font-weight: 800; */
 `;
 
 const ButtonContainer2 = styled.div`
@@ -277,13 +249,6 @@ const ButtonContainer2 = styled.div`
   position: fixed;
   right: 120px;
   bottom: 40px;
-
-  /* @media (max-width: 1280px) {
-    max-width: 100%;
-    height: 80%;
-    margin-top: 15px;
-    padding: 30px;
-  } */
 
   @media (max-width: 768px) {
     flex-direction: row;
@@ -303,7 +268,6 @@ const RotateButton = styled.div`
   text-align: center;
   margin: 10px;
   font-size: 1.5rem;
-  /* vertical-align: middle; */
   padding: 25px 0;
   cursor: pointer;
 
@@ -329,7 +293,6 @@ const StartButton = styled.div`
   text-align: center;
   margin: 10px;
   font-size: 1.5rem;
-  /* vertical-align: middle; */
   padding: 25px 0;
   cursor: pointer;
 

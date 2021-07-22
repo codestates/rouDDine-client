@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import styled from 'styled-components';
 import axios from 'axios';
-import Link from 'next/link';
+import styled from 'styled-components';
 import { useRouter } from 'next/router';
+import React, { useState, useEffect } from 'react';
 
 function Routine({ data }) {
   const router = useRouter();
@@ -40,12 +39,17 @@ function Routine({ data }) {
             <>
               <RoutineContainer key={index}>
                 <img src={`${process.env.NEXT_PUBLIC_url}/${routine.routineimage}`}></img>
-                <RoutineItem id={routine.id} onClick={() => router.push(`/routine/${routine.id}`)}>
+                <RoutineItem id={routine.id}>
                   <RoutineTitle>{routine.name}</RoutineTitle>
                 </RoutineItem>
-                <DeleteButton id={routine.id} className='delete_btn' onClick={(e) => deleteRoutine(e)}>
-                  -
-                </DeleteButton>
+                <ButtonContainer>
+                  <Button id={routine.id} className='delete_btn' onClick={() => router.push(`/routine/${routine.id}`)}>
+                    선택
+                  </Button>
+                  <Button id={routine.id} className='delete_btn' onClick={(e) => deleteRoutine(e)}>
+                    삭제
+                  </Button>
+                </ButtonContainer>
               </RoutineContainer>
             </>
           ))}
@@ -78,15 +82,6 @@ const RoutineSection = styled.section`
   justify-content: center;
   flex-direction: row;
   flex-wrap: wrap;
-  /*     
-  @media ( max-width: 768px ) {
-  display: flex;
-  flex-direction: column;
-  flex-wrap: wrap;
-  max-width: 300px;
-  justify-content: start;
-  align-items: center; 
-  } */
 `;
 
 const AddRoutineButton = styled.button`
@@ -96,11 +91,10 @@ const AddRoutineButton = styled.button`
   background-color: #000036;
   color: #ffffff;
   font-size: 2rem;
-  position: absolute;
+  position: fixed;
   right: 2%;
   bottom: 5%;
   cursor: pointer;
-
   :hover {
     font-size: 2.4rem;
     text-shadow: 1rem;
@@ -114,8 +108,7 @@ const RoutinePageHeader = styled.div`
 const RoutineContainer = styled.ul`
   display: flex;
   padding: 20px;
-  flex-direction: row;
-  /* margin-left: 40px; */
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   box-sizing: border-box;
@@ -128,9 +121,6 @@ const RoutineContainer = styled.ul`
     height: 150px;
     width: 150px;
   }
-  /* :hover {
-    border: 7px solid #ffffff;
-  } */
 `;
 
 const RoutineItem = styled.div`
@@ -155,21 +145,28 @@ const RoutineTitle = styled.h2`
   text-align: center;
 `;
 
-const DeleteButton = styled.span`
-  height: 30px;
-  width: 30px;
-  border-radius: 15px;
-  /* position: relative; */
-  width: 20px;
-  height: 20px;
+const ButtonContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+`;
+
+const Button = styled.div`
+  width: 120px;
+  height: 45px;
+  text-align: center;
+  font-size: 1.2rem;
+  padding: 10px 0;
+  margin: 0 3px;
+  font-family: GmarketSansTTFBold;
+  background-color: #000035;
+  border: none;
   color: #ffffff;
   cursor: pointer;
-  background-color: #b00000;
-  text-align: center;
-  margin-right: 10px;
   :hover {
-    height: 22px;
-    width: 22px;
-    font-size: 1.3rem;
+    background-color: #d5d5d5;
+    color: #464646;
+    opacity: 0.7;
   }
 `;

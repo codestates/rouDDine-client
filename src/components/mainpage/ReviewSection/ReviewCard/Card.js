@@ -22,8 +22,6 @@ const ReviewCardContainer = styled.li`
     padding: 20px 0;
     margin: 10px 0;
   }
-  /* margin: 0; */
-  /* box-shadow: 2px 1px 5px #343a40; */
 
   @media (max-width: 768px) {
     box-sizing: auto;
@@ -33,7 +31,6 @@ const ReviewCardContainer = styled.li`
     margin: 10px 30px;
     box-sizing: border-box;
   }
-  /* 🎖🎖🎖🎖🎖 */
 `;
 
 const ReviewCardHeader = styled.div`
